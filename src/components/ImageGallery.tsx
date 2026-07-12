@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 type Image = {
   src: string;
@@ -66,13 +65,11 @@ export default function ImageGallery({ images, columns = "grid gap-6 sm:grid-col
             className="group overflow-hidden rounded-[32px] border border-white/10 bg-white/5 transition hover:border-white/20"
           >
             <div className="relative aspect-[4/5] overflow-hidden">
-              <Image
+              <img
                 src={image.src}
                 alt={image.alt}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                quality={92}
-                className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/30" />
               <div className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
@@ -105,14 +102,11 @@ export default function ImageGallery({ images, columns = "grid gap-6 sm:grid-col
             ‹
           </button>
 
-          <div className="relative h-[80vh] w-[90vw] max-w-[1200px]">
-            <Image
+          <div className="relative max-h-[90vh] max-w-[90vw]">
+            <img
               src={images[selectedIndex].src}
               alt={images[selectedIndex].alt}
-              fill
-              sizes="90vw"
-              quality={95}
-              className="object-contain object-center"
+              className="max-h-[90vh] max-w-[90vw] object-contain"
             />
           </div>
 

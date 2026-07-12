@@ -14,7 +14,7 @@ export default function Hero() {
         src="/images/image7.jpg"
         alt="Hero background"
         style={{ y: bgY, scale: bgScale }}
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-center brightness-75"
+        className="absolute inset-0 -z-10 h-full w-full object-cover brightness-75"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/55 to-black/80" />
 
