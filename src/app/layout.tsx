@@ -1,18 +1,6 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
-
-const bodyFont = Manrope({
-  subsets: ["latin"],
-  variable: "--font-body",
-});
-
-const displayFont = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "RAW ARCHIVE PHOTOS",
@@ -26,7 +14,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${bodyFont.variable} ${displayFont.variable}`}>
+      <body
+        style={
+          {
+            "--font-body": '"Avenir Next", "Segoe UI", sans-serif',
+            "--font-display": '"Times New Roman", serif',
+          } as React.CSSProperties
+        }
+      >
         <Navbar />
         {children}
       </body>

@@ -135,7 +135,7 @@ export default function Upload() {
         </div>
 
         {checkoutStatus === "success" && (
-          <div className="mb-10 rounded-[32px] border border-emerald-300/30 bg-emerald-300/10 p-6 text-center text-white sm:rounded-[40px] sm:p-8">
+          <div className="mb-10 rounded-4xl border border-emerald-300/30 bg-emerald-300/10 p-6 text-center text-white sm:rounded-[40px] sm:p-8">
             <p className="text-xs uppercase tracking-[0.28em] text-emerald-200 sm:text-sm sm:tracking-[0.4em]">Order Confirmed</p>
             <h2 className="mt-4 text-2xl font-bold sm:text-3xl">Thanks — your upload order is being processed.</h2>
             <p className="mt-3 text-gray-100">
@@ -145,7 +145,7 @@ export default function Upload() {
         )}
 
         {checkoutStatus === "canceled" && (
-          <div className="mb-10 rounded-[32px] border border-white/15 bg-white/[0.08] p-6 text-center text-white sm:rounded-[40px] sm:p-8">
+          <div className="mb-10 rounded-4xl border border-white/15 bg-white/8 p-6 text-center text-white sm:rounded-[40px] sm:p-8">
             <p className="text-xs uppercase tracking-[0.28em] text-gray-200 sm:text-sm sm:tracking-[0.4em]">Payment Canceled</p>
             <h2 className="mt-4 text-2xl font-bold sm:text-3xl">Your order was not completed.</h2>
             <p className="mt-3 text-gray-200">
@@ -161,14 +161,14 @@ export default function Upload() {
           }}
           onDragLeave={() => setIsDragActive(false)}
           onDrop={handleDrop}
-          className={`rounded-[32px] border border-white/15 bg-white/[0.07] p-6 text-center transition sm:rounded-[40px] sm:p-12 ${
-            isDragActive ? "border-[color:var(--accent)] bg-white/[0.12]" : "border-white/15 bg-white/[0.07]"
+          className={`rounded-4xl border border-white/15 bg-white/[0.07] p-6 text-center transition sm:rounded-[40px] sm:p-12 ${
+            isDragActive ? "border-(--accent) bg-white/12" : "border-white/15 bg-white/[0.07]"
           }`}
         >
           <p className="text-xl font-semibold sm:text-2xl">Drag & Drop Photos Here</p>
           <p className="mt-4 text-gray-200">Or click below to select files from your computer</p>
 
-          <label className="mt-8 inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-8 py-4 text-[#0b111a] transition hover:scale-105 hover:bg-[color:var(--accent)] sm:w-auto">
+          <label className="mt-8 inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-white/20 bg-(--accent-strong) px-8 py-4 text-[#0b111a] transition hover:scale-105 hover:bg-(--accent) sm:w-auto">
             <input
               type="file"
               accept="image/*"
@@ -182,7 +182,7 @@ export default function Upload() {
 
         <div className="mt-10 grid gap-6 sm:mt-12 sm:gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div>
-            <div className="rounded-[32px] border border-white/15 bg-white/[0.07] p-6 sm:rounded-[40px] sm:p-8">
+            <div className="rounded-4xl border border-white/15 bg-white/[0.07] p-6 sm:rounded-[40px] sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">Order Summary</p>
@@ -201,14 +201,14 @@ export default function Upload() {
                 type="button"
                 disabled={files.length === 0}
                 onClick={() => setIsCheckoutOpen(true)}
-                className="mt-10 w-full rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-8 py-4 font-semibold text-[#0b111a] transition hover:scale-105 hover:bg-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-10 w-full rounded-full border border-white/20 bg-(--accent-strong) px-8 py-4 font-semibold text-[#0b111a] transition hover:scale-105 hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Continue to Payment
               </button>
             </div>
 
             {isCheckoutOpen && (
-              <div className="mt-8 rounded-[32px] border border-white/15 bg-white/[0.07] p-6 sm:rounded-[40px] sm:p-8">
+              <div className="mt-8 rounded-4xl border border-white/15 bg-white/[0.07] p-6 sm:rounded-[40px] sm:p-8">
                 <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">Checkout</p>
                 <h3 className="mt-4 text-2xl font-bold sm:text-3xl">Review Your Order</h3>
                 <p className="mt-3 text-gray-200">Confirm your photo count and total before continuing to payment.</p>
@@ -238,7 +238,7 @@ export default function Upload() {
                     onChange={(event) => setEditNotes(event.target.value)}
                     placeholder="Describe your preferred look: tone, warmth, contrast, skin retouch, cleanup, crop, and any priority shots."
                     rows={5}
-                    className="mt-3 w-full rounded-2xl border border-white/15 bg-black/35 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-400 focus:border-[color:var(--accent)]"
+                    className="mt-3 w-full rounded-2xl border border-white/15 bg-black/35 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-400 focus:border-(--accent)"
                   />
                 </div>
 
@@ -253,7 +253,7 @@ export default function Upload() {
                       type="button"
                       disabled={checkoutLoading || files.length === 0}
                       onClick={handleCheckout}
-                      className="flex-1 rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-8 py-4 font-semibold text-[#0b111a] transition hover:scale-105 hover:bg-[color:var(--accent)] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex-1 rounded-full border border-white/20 bg-(--accent-strong) px-8 py-4 font-semibold text-[#0b111a] transition hover:scale-105 hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {checkoutLoading ? "Redirecting…" : `Pay $${totalPrice}`}
                     </button>
@@ -271,7 +271,7 @@ export default function Upload() {
           </div>
 
           <div>
-            <div className="rounded-[32px] border border-white/15 bg-white/[0.07] p-6 sm:rounded-[40px] sm:p-8">
+            <div className="rounded-4xl border border-white/15 bg-white/[0.07] p-6 sm:rounded-[40px] sm:p-8">
               <h3 className="text-xl font-semibold sm:text-2xl">Selected Photos</h3>
               {files.length === 0 ? (
                 <p className="mt-6 text-gray-200">No photos selected yet.</p>

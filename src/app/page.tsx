@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 function SoftDivider() {
   return (
-    <div className="mx-auto h-px w-[min(92%,78rem)] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+    <div className="mx-auto h-px w-[min(92%,78rem)] bg-linear-to-r from-transparent via-white/20 to-transparent" />
   );
 }
 

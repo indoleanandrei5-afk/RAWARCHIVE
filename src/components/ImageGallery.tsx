@@ -62,16 +62,16 @@ export default function ImageGallery({ images, columns = "grid gap-6 sm:grid-col
             key={image.src}
             type="button"
             onClick={() => openImage(index)}
-            className="group overflow-hidden rounded-[32px] border border-white/10 bg-white/5 transition hover:border-white/20"
+            className="group overflow-hidden rounded-4xl border border-white/10 bg-white/6 shadow-[0_20px_70px_-55px_rgba(197,210,227,0.8)] transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/9"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <img
                 src={image.src}
                 alt={image.alt}
                 loading="lazy"
                 className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/30" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/35 via-black/5 to-transparent opacity-75 transition duration-300 group-hover:opacity-90" />
               <div className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
                 <span className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm uppercase tracking-[0.25em] text-white backdrop-blur-sm">
                   View larger

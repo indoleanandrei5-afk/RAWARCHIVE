@@ -11,12 +11,12 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-[calc(100vh-88px)] items-center justify-center overflow-hidden bg-black py-14 text-white sm:py-20">
       <motion.img
-        src="/images/image7.jpg"
+        src="/images/image1.jpg"
         alt="Hero background"
         style={{ y: bgY, scale: bgScale }}
         className="absolute inset-0 -z-10 h-full w-full object-cover brightness-75"
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/55 to-black/80" />
+      <div className="absolute inset-0 bg-linear-to-br from-black/30 via-black/55 to-black/80" />
 
       <motion.div
         initial={{ opacity: 0, y: 32 }}
@@ -42,11 +42,11 @@ export default function Hero() {
         </p>
 
         <div className="mx-auto mt-6 flex max-w-xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-gray-500 sm:text-sm sm:tracking-[0.35em]">
-          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
+          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
           <span>Speedy edits</span>
-          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
+          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
           <span>Calm aesthetics</span>
-          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
+          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
           <span>Real impact</span>
         </div>
 
@@ -54,13 +54,13 @@ export default function Hero() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <Link
               href="/upload"
-              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-7 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#0b111a] transition hover:scale-[1.02] hover:bg-[color:var(--accent)] sm:w-auto"
+              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-(--accent-strong) px-7 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#0b111a] transition hover:scale-[1.02] hover:bg-(--accent) sm:w-auto"
             >
               Upload Photos
             </Link>
             <Link
               href="/portfolio"
-              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/[0.08] px-7 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/35 hover:bg-white/[0.14] sm:w-auto"
+              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/8 px-7 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/35 hover:bg-white/14 sm:w-auto"
             >
               View Portfolio
             </Link>

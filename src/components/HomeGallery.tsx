@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [
-  "/images/image7.jpg",
-  "/images/image8.jpg",
+  "/images/image1.jpg",
   "/images/image2.jpg",
   "/images/image3.jpg",
+  "/images/image4.jpg",
 ];
 
 export default function HomeGallery() {
@@ -59,7 +59,7 @@ export default function HomeGallery() {
                 setLightIndex(index);
                 setIsOpen(true);
               }}
-              className="h-[520px] w-full object-cover transition duration-700 cursor-zoom-in"
+              className="h-130 w-full cursor-zoom-in object-cover transition duration-700"
             />
           </div>
 

@@ -9,7 +9,7 @@ const featuredImages = [
   { src: "/images/image3.jpg", alt: "Featured photo 3" },
   { src: "/images/image4.jpg", alt: "Featured photo 4" },
   { src: "/images/image5.jpg", alt: "Featured photo 5" },
-  { src: "/images/image7.jpg", alt: "Featured photo 7" },
+  { src: "/images/image6.jpg", alt: "Featured photo 6" },
 ];
 
 export default function FeaturedWork() {
@@ -23,7 +23,7 @@ export default function FeaturedWork() {
           transition={{ duration: 0.65, ease: "easeOut" }}
           className="mb-14 text-center sm:mb-16"
         >
-          <p className="inline-flex rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs uppercase tracking-[0.28em] text-gray-300 sm:text-sm sm:tracking-[0.4em]">Selected Work</p>
+          <p className="inline-flex rounded-full border border-white/15 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.28em] text-gray-300 sm:text-sm sm:tracking-[0.4em]">Selected Work</p>
 
           <h2 className="mt-5 text-4xl font-semibold md:text-6xl">A quiet edit suite.</h2>
 

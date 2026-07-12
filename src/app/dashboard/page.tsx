@@ -25,13 +25,13 @@ export default function Dashboard() {
         </div>
 
         {orders.length === 0 ? (
-          <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 text-center text-gray-300 sm:rounded-[40px] sm:p-12">
+          <div className="rounded-4xl border border-white/10 bg-white/5 p-8 text-center text-gray-300 sm:rounded-[40px] sm:p-12">
             No orders yet. Completed payments will appear here after checkout.
           </div>
         ) : (
           <div className="space-y-6">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-[32px] border border-white/10 bg-white/5 p-6 sm:rounded-[40px] sm:p-8">
+              <div key={order.id} className="rounded-4xl border border-white/10 bg-white/5 p-6 sm:rounded-[40px] sm:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">Order ID</p>

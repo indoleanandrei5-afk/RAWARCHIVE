@@ -25,7 +25,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/10 bg-black/30 p-8">
+          <div className="rounded-4xl border border-white/10 bg-black/30 p-8">
             <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Need something fast?</p>
             <p className="mt-4 text-lg text-gray-300">
               Upload your photos, complete payment, and include clear notes for how you want each image edited.
