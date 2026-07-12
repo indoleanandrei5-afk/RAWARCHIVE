@@ -50,13 +50,21 @@ export default function PricingSection() {
           </div>
         </div>
 
-        <div className="mt-12 text-center">
-          <Link
-            href="/upload"
-            className="inline-flex w-full justify-center rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-10 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#0b111a] transition hover:bg-[color:var(--accent)] sm:w-auto sm:tracking-[0.25em]"
-          >
-            Upload Photos
-          </Link>
+        <div className="mx-auto mt-12 w-full max-w-2xl rounded-[28px] border border-white/15 bg-black/35 p-3 shadow-[0_28px_90px_-60px_rgba(197,210,227,0.65)] backdrop-blur-xl sm:p-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Link
+              href="/upload"
+              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-7 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#0b111a] transition hover:bg-[color:var(--accent)] sm:w-auto"
+            >
+              Upload Photos
+            </Link>
+            <Link
+              href="/portfolio"
+              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/[0.08] px-7 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/35 hover:bg-white/[0.14] sm:w-auto"
+            >
+              View Portfolio
+            </Link>
+          </div>
         </div>
       </div>
     </section>
