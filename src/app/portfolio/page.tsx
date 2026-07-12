@@ -16,20 +16,20 @@ const portfolioImages = Array.from({ length: 13 }, (_, i) => ({
 
 export default function Portfolio() {
   return (
-    <main className="relative overflow-hidden bg-black px-6 py-24 text-white">
+    <main className="relative overflow-hidden bg-black px-4 py-20 text-white sm:px-6 sm:py-24">
       <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-white/5 via-transparent to-transparent" />
 
       <div className="relative mx-auto max-w-7xl">
-        <div className="mb-14 rounded-4xl border border-white/10 bg-white/5 px-6 py-10 text-center shadow-[0_28px_90px_-70px_rgba(197,210,227,0.8)] backdrop-blur-sm sm:mb-16 sm:px-8">
-          <p className="text-xs uppercase tracking-[0.45em] text-gray-400 sm:text-sm">Portfolio</p>
-          <h1 className="mt-4 text-4xl font-semibold sm:text-5xl md:text-6xl">Complete Gallery</h1>
+        <div className="mb-12 rounded-4xl border border-white/10 bg-white/5 px-5 py-8 text-center shadow-[0_28px_90px_-70px_rgba(197,210,227,0.8)] backdrop-blur-sm sm:mb-16 sm:px-8 sm:py-10">
+          <p className="text-xs uppercase tracking-[0.24em] text-gray-400 max-[390px]:text-[10px] max-[390px]:tracking-[0.14em] sm:text-sm sm:tracking-[0.45em]">Portfolio</p>
+          <h1 className="mt-4 text-3xl font-semibold sm:text-5xl md:text-6xl">Complete Gallery</h1>
           <p className="mx-auto mt-5 max-w-3xl text-base text-gray-300 sm:text-lg">
             Every uploaded image in one curated presentation, arranged with spacious framing for cleaner viewing.
           </p>
-          <p className="mt-4 text-xs uppercase tracking-[0.35em] text-gray-500 sm:text-sm">13 images</p>
+          <p className="mt-4 text-xs uppercase tracking-[0.22em] text-gray-500 max-[390px]:tracking-[0.12em] sm:text-sm sm:tracking-[0.35em]">13 images</p>
         </div>
 
-        <ImageGallery images={portfolioImages} columns="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" />
+        <ImageGallery images={portfolioImages} columns="grid gap-4 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3" />
       </div>
     </main>
   );

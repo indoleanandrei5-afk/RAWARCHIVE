@@ -22,13 +22,13 @@ export default function Hero() {
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center sm:px-6"
+        className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center max-[390px]:px-3 sm:px-6"
       >
         <p className="mb-6 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] uppercase tracking-[0.26em] text-gray-300 max-[390px]:px-3 max-[390px]:text-[10px] max-[390px]:tracking-[0.18em] sm:text-xs sm:tracking-[0.45em]">
           Professional photo editing
         </p>
 
-        <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white max-[390px]:text-[1.9rem] sm:text-5xl md:text-7xl">
+        <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white max-[390px]:text-[1.78rem] sm:text-5xl md:text-7xl">
           Transform raw photos
           <span className="block text-white">into clean, elevated visuals.</span>
         </h1>
@@ -41,7 +41,7 @@ export default function Hero() {
           No AI editing. Every image is refined by hand.
         </p>
 
-        <div className="mx-auto mt-5 flex max-w-xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.18em] text-gray-500 max-[390px]:text-[10px] max-[390px]:tracking-[0.1em] sm:text-sm sm:tracking-[0.35em]">
+        <div className="mx-auto mt-5 flex max-w-xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.18em] text-gray-500 max-[390px]:gap-x-2 max-[390px]:text-[10px] max-[390px]:tracking-[0.06em] sm:text-sm sm:tracking-[0.35em]">
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
           <span>Speedy edits</span>
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />

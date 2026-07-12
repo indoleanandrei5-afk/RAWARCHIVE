@@ -3,11 +3,11 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 py-10 text-sm text-gray-500">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 text-center sm:px-6 md:flex-row md:items-center md:justify-between md:text-left">
         <div>
           <p className="font-semibold tracking-[0.2em] text-white">RAW ARCHIVE PHOTOS</p>
           <p className="mt-2 text-gray-300">Refined photo finishing for creators seeking cinematic clarity and timeless tone.</p>
-          <div className="mt-4 flex items-center justify-center gap-4 text-xs uppercase tracking-[0.22em] md:justify-start">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.16em] max-[390px]:tracking-widest md:justify-start">
             <Link href="/portfolio" className="text-gray-300 transition hover:text-white">
               Portfolio
             </Link>

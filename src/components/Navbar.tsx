@@ -33,9 +33,10 @@ export default function Navbar() {
       <div className={`mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 ${isScrolled ? "py-3" : "py-4"}`}>
         <Link
           href="/"
-          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white max-[390px]:text-[10px] max-[390px]:tracking-[0.14em] sm:text-sm sm:tracking-[0.32em]"
+          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white max-[390px]:text-[10px] max-[390px]:tracking-[0.08em] sm:text-sm sm:tracking-[0.32em]"
         >
-          RAW ARCHIVE PHOTOS
+          <span className="max-[390px]:hidden">RAW ARCHIVE PHOTOS</span>
+          <span className="hidden max-[390px]:inline">RAW ARCHIVE</span>
         </Link>
 
         <button

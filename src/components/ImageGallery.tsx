@@ -90,11 +90,11 @@ export default function ImageGallery({
       </div>
 
       {selectedIndex !== null ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 px-6 py-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 px-3 py-6 sm:px-6 sm:py-8">
           <button
             type="button"
             onClick={closeGallery}
-            className="absolute right-6 top-6 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-white/30 hover:bg-black/90"
+            className="absolute right-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-white/30 hover:bg-black/90 sm:right-6 sm:top-6 sm:h-12 sm:w-12"
             aria-label="Close gallery"
           >
             ×
@@ -103,24 +103,24 @@ export default function ImageGallery({
           <button
             type="button"
             onClick={showPrevious}
-            className="absolute left-6 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-white/30 hover:bg-black/90"
+            className="absolute bottom-4 left-1/2 inline-flex h-10 w-10 translate-x-[-120%] items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-white/30 hover:bg-black/90 sm:bottom-auto sm:left-6 sm:top-1/2 sm:h-12 sm:w-12 sm:translate-x-0 sm:-translate-y-1/2"
             aria-label="Previous image"
           >
             ‹
           </button>
 
-          <div className="relative max-h-[90vh] max-w-[90vw]">
+          <div className="relative max-h-[84vh] max-w-[94vw] sm:max-h-[90vh] sm:max-w-[90vw]">
             <img
               src={images[selectedIndex].src}
               alt={images[selectedIndex].alt}
-              className="max-h-[90vh] max-w-[90vw] object-contain"
+              className="max-h-[84vh] max-w-[94vw] object-contain sm:max-h-[90vh] sm:max-w-[90vw]"
             />
           </div>
 
           <button
             type="button"
             onClick={showNext}
-            className="absolute right-6 top-1/2 -translate-y-1/2 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-white/30 hover:bg-black/90"
+            className="absolute bottom-4 left-1/2 inline-flex h-10 w-10 translate-x-[20%] items-center justify-center rounded-full border border-white/15 bg-black/70 text-white transition hover:border-white/30 hover:bg-black/90 sm:bottom-auto sm:right-6 sm:left-auto sm:top-1/2 sm:h-12 sm:w-12 sm:translate-x-0 sm:-translate-y-1/2"
             aria-label="Next image"
           >
             ›
