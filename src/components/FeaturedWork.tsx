@@ -4,6 +4,7 @@ import ImageGallery from "@/components/ImageGallery";
 import { motion } from "framer-motion";
 
 const featuredImages = [
+  { src: "/images/image13.jpg", alt: "Featured photo 13" },
   { src: "/images/image6.jpg", alt: "Featured photo 6" },
   { src: "/images/image11.jpg", alt: "Featured photo 11" },
   { src: "/images/image8.jpg", alt: "Featured photo 8" },

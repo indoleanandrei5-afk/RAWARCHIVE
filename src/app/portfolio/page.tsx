@@ -1,6 +1,6 @@
 import ImageGallery from "@/components/ImageGallery";
 
-const portfolioImages = Array.from({ length: 12 }, (_, i) => ({
+const portfolioImages = Array.from({ length: 13 }, (_, i) => ({
   src: `/images/image${i + 1}.jpg`,
   alt: `Portfolio photo ${i + 1}`,
 }));
@@ -17,7 +17,7 @@ export default function Portfolio() {
           <p className="mx-auto mt-5 max-w-3xl text-base text-gray-300 sm:text-lg">
             Every uploaded image in one curated presentation, arranged with spacious framing for cleaner viewing.
           </p>
-          <p className="mt-4 text-xs uppercase tracking-[0.35em] text-gray-500 sm:text-sm">12 images</p>
+          <p className="mt-4 text-xs uppercase tracking-[0.35em] text-gray-500 sm:text-sm">13 images</p>
         </div>
 
         <ImageGallery images={portfolioImages} columns="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" />
