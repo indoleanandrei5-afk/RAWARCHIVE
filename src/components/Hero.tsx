@@ -9,14 +9,14 @@ export default function Hero() {
   const bgScale = useTransform(scrollY, [0, 500], [1, 1.04]);
 
   return (
-    <section className="relative flex min-h-[calc(100vh-88px)] items-center justify-center overflow-hidden bg-black py-14 text-white sm:py-20">
+    <section className="relative flex min-h-[calc(100vh-88px)] items-center justify-center overflow-hidden bg-black py-16 text-white sm:py-24">
       <motion.img
         src="/images/image1.jpg"
         alt="Hero background"
         style={{ y: bgY, scale: bgScale }}
         className="absolute inset-0 -z-10 h-full w-full object-cover brightness-75"
       />
-      <div className="absolute inset-0 bg-linear-to-br from-black/30 via-black/55 to-black/80" />
+      <div className="absolute inset-0 bg-linear-to-br from-black/28 via-black/56 to-black/82" />
 
       <motion.div
         initial={{ opacity: 0, y: 32 }}
@@ -24,7 +24,7 @@ export default function Hero() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative z-10 mx-auto w-full max-w-5xl px-5 text-center sm:px-6"
       >
-        <p className="mb-6 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-gray-400 sm:text-xs sm:tracking-[0.45em]">
+        <p className="mb-7 inline-flex rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] uppercase tracking-[0.28em] text-gray-300 sm:text-xs sm:tracking-[0.45em]">
           Professional photo editing
         </p>
 
@@ -33,7 +33,7 @@ export default function Hero() {
           <span className="block text-white">into clean, elevated visuals.</span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-base text-gray-300 sm:mt-8 sm:text-lg md:text-xl">
+        <p className="mx-auto mt-7 max-w-2xl text-base text-gray-200 sm:mt-8 sm:text-lg md:text-xl">
           Quiet, refined edits with balanced tone, crisp contrast, and intentional mood.
         </p>
 
@@ -50,7 +50,7 @@ export default function Hero() {
           <span>Real impact</span>
         </div>
 
-        <div className="mx-auto mt-12 w-full max-w-2xl rounded-[28px] border border-white/15 bg-black/35 p-3 shadow-[0_28px_90px_-60px_rgba(197,210,227,0.65)] backdrop-blur-xl sm:p-4">
+        <div className="mx-auto mt-14 w-full max-w-2xl rounded-[28px] border border-white/15 bg-black/38 p-3 shadow-[0_30px_95px_-62px_rgba(197,210,227,0.68)] backdrop-blur-xl sm:p-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <Link
               href="/upload"
@@ -60,7 +60,7 @@ export default function Hero() {
             </Link>
             <Link
               href="/portfolio"
-              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/8 px-7 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/35 hover:bg-white/14 sm:w-auto"
+              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/7 px-7 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/35 hover:bg-white/12 sm:w-auto"
             >
               View Portfolio
             </Link>

@@ -1,10 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -15,8 +23,14 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/75 backdrop-blur-xl shadow-black/20">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-6">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl transition-all duration-300 ${
+        isScrolled
+          ? "border-white/15 bg-black/82 shadow-[0_14px_45px_-32px_rgba(0,0,0,0.95)]"
+          : "border-white/8 bg-black/62 shadow-black/20"
+      }`}
+    >
+      <div className={`mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 ${isScrolled ? "py-3" : "py-4"}`}>
         <Link
           href="/"
           className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white sm:text-sm sm:tracking-[0.32em]"

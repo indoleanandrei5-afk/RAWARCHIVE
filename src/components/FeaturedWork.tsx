@@ -13,14 +13,15 @@ const featuredImages = [
 
 export default function FeaturedWork() {
   return (
-    <section className="bg-black px-5 py-20 text-white sm:px-6 sm:py-24">
+    <section className="relative bg-black px-5 py-24 text-white sm:px-6 sm:py-28">
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-white/4 via-transparent to-transparent" />
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.65, ease: "easeOut" }}
-          className="mb-14 text-center sm:mb-16"
+          className="mb-14 rounded-4xl border border-white/10 bg-white/5 px-6 py-10 text-center shadow-[0_26px_88px_-70px_rgba(197,210,227,0.85)] backdrop-blur-sm sm:mb-16 sm:px-8"
         >
           <p className="inline-flex rounded-full border border-white/15 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.28em] text-gray-300 sm:text-sm sm:tracking-[0.4em]">Selected Work</p>
 
