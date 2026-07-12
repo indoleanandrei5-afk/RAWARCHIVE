@@ -28,10 +28,10 @@ export default function Contact() {
           <div className="rounded-[32px] border border-white/10 bg-black/30 p-8">
             <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Need something fast?</p>
             <p className="mt-4 text-lg text-gray-300">
-              Tell me how many photos you have and what style you want, and I’ll take care of the rest.
+              Upload your photos, complete payment, and include clear notes for how you want each image edited.
             </p>
             <p className="mt-6 text-sm text-gray-500">
-              Need a sample edit first? Send one photo to see the look before you commit.
+              Use the notes field during payment to share style, tone, retouch level, and delivery priorities.
             </p>
             <a
               href="/upload"

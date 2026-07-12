@@ -1,14 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Hero() {
+  const { scrollY } = useScroll();
+  const bgY = useTransform(scrollY, [0, 500], [0, 36]);
+  const bgScale = useTransform(scrollY, [0, 500], [1, 1.04]);
+
   return (
     <section className="relative flex min-h-[calc(100vh-88px)] items-center justify-center overflow-hidden bg-black py-14 text-white sm:py-20">
-      <img
+      <motion.img
         src="/images/image7.jpg"
         alt="Hero background"
+        style={{ y: bgY, scale: bgScale }}
         className="absolute inset-0 -z-10 h-full w-full object-cover brightness-75"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/55 to-black/80" />
