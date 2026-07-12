@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import ImageGallery from "@/components/ImageGallery";
+
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description: "Browse the complete RAW ARCHIVE PHOTOS portfolio of hand-edited portraits and landscapes.",
+  alternates: {
+    canonical: "/portfolio",
+  },
+};
 
 const portfolioImages = Array.from({ length: 13 }, (_, i) => ({
   src: `/images/image${i + 1}.jpg`,

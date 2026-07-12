@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Contact RAW ARCHIVE PHOTOS for professional hand-edited photo retouching and fast turnaround.",
+  alternates: {
+    canonical: "/contact",
+  },
+};
+
 export default function Contact() {
   return (
     <main className="min-h-screen bg-black px-6 py-24 text-white">

@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "Learn about RAW ARCHIVE PHOTOS and the hand-refined editing approach behind every delivered image.",
+  alternates: {
+    canonical: "/about",
+  },
+};
+
 export default function About() {
   return (
     <main className="min-h-screen bg-black px-4 py-16 text-white sm:p-10">
