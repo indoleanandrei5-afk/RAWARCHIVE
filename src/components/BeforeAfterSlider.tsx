@@ -41,14 +41,17 @@ export default function BeforeAfterSlider({
       window.addEventListener("mousemove", handleGlobalMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
       document.body.style.userSelect = "none";
+      document.body.style.cursor = "grabbing";
     } else {
       document.body.style.userSelect = "auto";
+      document.body.style.cursor = "auto";
     }
 
     return () => {
       window.removeEventListener("mousemove", handleGlobalMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
       document.body.style.userSelect = "auto";
+      document.body.style.cursor = "auto";
     };
   }, [isDragging]);
 
@@ -61,23 +64,23 @@ export default function BeforeAfterSlider({
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-black overflow-hidden rounded-xl group"
-      style={{ aspectRatio: "4/3" }}
+      className="relative w-full bg-black overflow-hidden rounded-xl group cursor-grab active:cursor-grabbing"
+      style={{ aspectRatio: "3/2" }}
       onMouseMove={handleMouseMove}
       onMouseDown={() => setIsDragging(true)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={() => setIsDragging(false)}
     >
-      {/* After Image - Full Background */}
+      {/* After Image - Full Background (Original) */}
       <img
         src={afterSrc}
         alt={afterAlt}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover select-none"
         draggable={false}
       />
 
-      {/* Before Image - Clipped */}
+      {/* Before Image - Overlay with reveal */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${sliderPosition}%` }}
@@ -85,24 +88,28 @@ export default function BeforeAfterSlider({
         <img
           src={beforeSrc}
           alt={beforeAlt}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover select-none"
           draggable={false}
         />
       </div>
 
-      {/* Slider Handle - Thin elegant line */}
+      {/* Divider Line - Thin and elegant */}
       <div
-        className="absolute top-0 h-full w-0.5 bg-white/40 group-hover:bg-white/70 transition-colors duration-300"
+        className="absolute top-0 h-full w-0.5 bg-white/50 group-hover:bg-white transition-colors duration-200"
         style={{
           left: `${sliderPosition}%`,
           transform: "translateX(-50%)",
-          cursor: isDragging ? "grabbing" : "grab",
         }}
+      />
+
+      {/* Handle - Subtle icon */}
+      <div
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+        style={{ left: `${sliderPosition}%` }}
       >
-        {/* Handle icon */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="flex flex-col items-center gap-1">
           <svg
-            className="w-8 h-8 text-white"
+            className="w-5 h-5 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -110,20 +117,34 @@ export default function BeforeAfterSlider({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M9 6l6 6m0 0l6 6m-6-6l-6 6m6-6l6-6"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          <div className="w-1 h-6 bg-white/40" />
+          <svg
+            className="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
             />
           </svg>
         </div>
       </div>
 
-      {/* Labels - Appear on hover */}
-      <div className="absolute bottom-4 left-4 opacity-40 group-hover:opacity-80 transition-opacity duration-300">
+      {/* Labels - Subtle, appear on hover */}
+      <div className="absolute bottom-3 left-3 opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none">
         <p className="text-xs font-light tracking-widest text-white uppercase">
           Before
         </p>
       </div>
-      <div className="absolute bottom-4 right-4 opacity-40 group-hover:opacity-80 transition-opacity duration-300">
+      <div className="absolute bottom-3 right-3 opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none">
         <p className="text-xs font-light tracking-widest text-white uppercase">
           After
         </p>
