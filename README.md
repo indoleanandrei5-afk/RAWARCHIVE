@@ -33,4 +33,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
+### Quick setup
+
+1. Connect this GitHub repo to Vercel.
+2. Select the `raw-archive` project.
+3. Deploy the default settings.
+
+### Custom domain
+
+If you own a domain like `rawarchive.com`, add it in the Vercel Dashboard under `Domains`.
+
+1. Go to the Vercel project settings.
+2. Click `Domains` and add `rawarchive.com` (or another domain with `rawarchive`).
+3. Follow the DNS instructions to point the domain to Vercel.
+
+Once the domain is verified, your site will be live on that custom domain.
+
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

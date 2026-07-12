@@ -1,56 +1,43 @@
 export default function WhyChooseUs() {
   return (
-    <section className="bg-[#050505] py-32 px-6 text-white">
+    <section className="bg-[#050505] py-24 px-6 text-white">
       <div className="mx-auto max-w-7xl">
-
-        <p className="uppercase tracking-[0.4em] text-sm text-gray-500 text-center">
-          Why Raw Archive
-        </p>
-
-        <h2 className="mt-5 text-center text-5xl md:text-6xl font-bold">
-          Editing With Intention.
-        </h2>
-
-        <div className="mt-24 grid gap-8 md:grid-cols-3">
-
-          <div className="rounded-3xl border border-white/10 p-10 transition hover:border-white/30 hover:bg-white/5">
-            <p className="text-5xl font-light">01</p>
-
-            <h3 className="mt-8 text-2xl font-semibold">
-              Hand Edited
-            </h3>
-
-            <p className="mt-4 text-gray-400 leading-7">
-              Every photo is individually edited by hand. No presets, no AI-only shortcuts.
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-white/10 p-10 transition hover:border-white/30 hover:bg-white/5">
-            <p className="text-5xl font-light">02</p>
-
-            <h3 className="mt-8 text-2xl font-semibold">
-              Fast Delivery
-            </h3>
-
-            <p className="mt-4 text-gray-400 leading-7">
-              Most orders are completed within 24 hours while maintaining professional quality.
-            </p>
-          </div>
-
-          <div className="rounded-3xl border border-white/10 p-10 transition hover:border-white/30 hover:bg-white/5">
-            <p className="text-5xl font-light">03</p>
-
-            <h3 className="mt-8 text-2xl font-semibold">
-              €2 Per Photo
-            </h3>
-
-            <p className="mt-4 text-gray-400 leading-7">
-              Simple pricing with no subscriptions or hidden fees.
-            </p>
-          </div>
-
+        <div className="text-center">
+          <p className="text-sm uppercase tracking-[0.45em] text-gray-500">Why Raw Archive</p>
+          <h2 className="mt-5 text-4xl font-semibold md:text-5xl">Editing with intention.</h2>
         </div>
 
+        <div className="mt-16 grid gap-8 md:grid-cols-3">
+          {[
+            {
+              number: "01",
+              title: "Hand edited",
+              description: "Every photo is refined by hand for subtle, natural results.",
+            },
+            {
+              number: "02",
+              title: "Fast delivery",
+              description: "Swift turnaround without compromising quality or tone.",
+            },
+            {
+              number: "03",
+              title: "Transparent pricing",
+              description: "Straightforward rates, no subscriptions, no hidden fees.",
+            },
+          ].map((item) => (
+            <div key={item.number} className="group rounded-[32px] border border-white/10 bg-white/5 p-10 transition hover:border-white/20 hover:bg-white/10">
+              <div className="inline-flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/40 text-xl font-semibold text-white">
+                  {item.number}
+                </div>
+                <h3 className="text-2xl font-semibold">{item.title}</h3>
+              </div>
+              <p className="mt-6 text-gray-400 leading-8">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

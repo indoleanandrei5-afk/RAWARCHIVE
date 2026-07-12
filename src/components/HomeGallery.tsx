@@ -42,13 +42,6 @@ export default function HomeGallery() {
     touchStartX.current = null;
   };
 
-  const captions = [
-    "Late evening portrait",
-    "Golden hour architecture",
-    "Cinematic portrait",
-    "Cathedral detail",
-  ];
-
   return (
     <section className="bg-black px-6 py-20 text-white">
       <div className="mx-auto max-w-6xl">
@@ -112,8 +105,6 @@ export default function HomeGallery() {
               </button>
             ))}
           </div>
-
-          <div className="mt-4 text-center text-sm text-gray-300">{captions[index]}</div>
 
           {/* Lightbox */}
           {isOpen && (

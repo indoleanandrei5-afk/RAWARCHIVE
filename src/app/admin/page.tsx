@@ -61,7 +61,7 @@ export default function Admin() {
                   </div>
                   <div className="rounded-3xl bg-black/30 p-4">
                     <p className="text-sm uppercase tracking-[0.4em] text-gray-400">Total</p>
-                    <p className="mt-2 text-2xl font-semibold">€{order.total}</p>
+                    <p className="mt-2 text-2xl font-semibold">${order.total}</p>
                   </div>
                   <div className="rounded-3xl bg-black/30 p-4">
                     <p className="text-sm uppercase tracking-[0.4em] text-gray-400">Photos</p>

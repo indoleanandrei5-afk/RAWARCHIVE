@@ -1,8 +1,47 @@
 export default function Contact() {
   return (
-    <main className="min-h-screen bg-black p-10 text-white">
-      <h1 className="text-6xl font-bold">Contact</h1>
-      <p className="mt-5 text-gray-400">Have questions? Contact us.</p>
+    <main className="min-h-screen bg-black px-6 py-24 text-white">
+      <div className="mx-auto max-w-3xl">
+        <p className="text-sm uppercase tracking-[0.45em] text-gray-500">Contact</p>
+        <h1 className="mt-6 text-5xl font-semibold">Let’s talk about your next edit.</h1>
+        <p className="mt-6 text-lg text-gray-300">
+          Got a shoot, a brand refresh, or a batch of raw captures? Tell me what you need and I’ll make it look sharp.
+        </p>
+
+        <div className="mt-12 grid gap-8 rounded-[40px] border border-white/10 bg-white/5 p-10 lg:grid-cols-[1fr_0.9fr]">
+          <div className="space-y-6">
+            <div>
+              <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Email</p>
+              <a href="mailto:andreiindo@icloud.com" className="mt-3 block text-lg font-semibold text-white underline">
+                andreiindo@icloud.com
+              </a>
+            </div>
+
+            <div>
+              <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Instagram</p>
+              <a href="https://instagram.com/andrframes" target="_blank" rel="noreferrer" className="mt-3 block text-lg font-semibold text-white underline">
+                @andrframes
+              </a>
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-white/10 bg-black/30 p-8">
+            <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Need something fast?</p>
+            <p className="mt-4 text-lg text-gray-300">
+              Tell me how many photos you have and what style you want, and I’ll take care of the rest.
+            </p>
+            <p className="mt-6 text-sm text-gray-500">
+              Need a sample edit first? Send one photo to see the look before you commit.
+            </p>
+            <a
+              href="/upload"
+              className="mt-10 inline-flex rounded-full border border-white/10 bg-white/10 px-8 py-4 text-sm uppercase tracking-[0.25em] text-white transition hover:border-white/20 hover:bg-white/15"
+            >
+              Send photos over
+            </a>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, Order } from "@/lib/orders";
 
-const PRICE_PER_PHOTO = 2;
+const PRICE_PER_PHOTO = 1;
 
 export default function Upload() {
   const router = useRouter();
@@ -122,12 +122,12 @@ export default function Upload() {
     <main className="min-h-screen bg-black px-6 py-20 text-white">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14 text-center">
-          <p className="uppercase tracking-[0.4em] text-sm text-gray-500">
-            Upload Your Photos
+          <p className="uppercase tracking-[0.45em] text-sm text-gray-500">
+            Upload your photos
           </p>
-          <h1 className="mt-6 text-5xl font-bold">Start Your Order</h1>
+          <h1 className="mt-6 text-5xl font-semibold">Start your edit.</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-400">
-            Drag & drop your photos below to see the total count and automatically calculate the price at €2 per photo.
+            Drop your images below and review your total before payment. Pricing is $1 per photo.
           </p>
         </div>
 
@@ -185,11 +185,11 @@ export default function Upload() {
                   <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Order Summary</p>
                   <h2 className="mt-4 text-3xl font-bold">{files.length} Photos</h2>
                 </div>
-                <p className="text-3xl font-semibold">€{totalPrice}</p>
+                <p className="text-3xl font-semibold">${totalPrice}</p>
               </div>
 
               <div className="mt-8 space-y-3 text-gray-400">
-                <p>€{PRICE_PER_PHOTO} per photo</p>
+                <p>${PRICE_PER_PHOTO} per photo</p>
                 <p>Secure upload</p>
                 <p>High-resolution delivery</p>
               </div>
@@ -217,11 +217,11 @@ export default function Upload() {
                   </div>
                   <div className="flex items-center justify-between text-lg">
                     <span>Unit price</span>
-                    <span>€{PRICE_PER_PHOTO}</span>
+                    <span>${PRICE_PER_PHOTO}</span>
                   </div>
                   <div className="flex items-center justify-between text-lg font-semibold">
                     <span>Total</span>
-                    <span>€{totalPrice}</span>
+                    <span>${totalPrice}</span>
                   </div>
                 </div>
 
@@ -238,7 +238,7 @@ export default function Upload() {
                       onClick={handleCheckout}
                       className="flex-1 rounded-full bg-white px-8 py-4 text-black font-semibold transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      {checkoutLoading ? "Redirecting…" : `Pay €${totalPrice}`}
+                      {checkoutLoading ? "Redirecting…" : `Pay $${totalPrice}`}
                     </button>
                     <button
                       type="button"

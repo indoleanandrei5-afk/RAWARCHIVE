@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       mode: "payment",
       line_items: items.map((item: any) => ({
         price_data: {
-          currency: "eur",
+          currency: "usd",
           product_data: {
             name: item.name || "Photo order",
           },
