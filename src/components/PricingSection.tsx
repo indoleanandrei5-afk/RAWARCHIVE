@@ -5,7 +5,7 @@ export default function PricingSection() {
     <section className="bg-[#050505] px-5 py-20 text-white sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-14 space-y-6 text-center">
-          <p className="text-xs uppercase tracking-[0.35em] text-gray-500 sm:text-sm sm:tracking-[0.45em]">Pricing</p>
+          <p className="inline-flex rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs uppercase tracking-[0.28em] text-gray-300 sm:text-sm sm:tracking-[0.4em]">Pricing</p>
           <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl">Minimal pricing, polished results.</h2>
           <p className="mx-auto max-w-2xl text-base text-gray-200 sm:text-lg">
             Simple, elegant photo editing priced for independent photographers and small studios.
@@ -13,36 +13,36 @@ export default function PricingSection() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-[32px] border border-white/10 bg-black/40 p-10 text-left transition hover:border-white/20 hover:bg-white/5">
+          <div className="rounded-[32px] border border-white/15 bg-black/40 p-10 text-left transition hover:border-white/25 hover:bg-white/[0.08]">
             <p className="text-sm uppercase tracking-[0.35em] text-gray-500">1 Photo</p>
             <p className="mt-3 text-xs uppercase tracking-[0.35em] text-gray-500">Perfect for one standout image</p>
             <p className="mt-6 text-5xl font-semibold">$1</p>
-            <p className="mt-3 text-gray-400">Per edited image</p>
-            <div className="mt-8 space-y-3 text-gray-300">
+            <p className="mt-3 text-gray-200">Per edited image</p>
+            <div className="mt-8 space-y-3 text-gray-100">
               <p>Clean color grade</p>
               <p>Subtle retouch</p>
               <p>High-res export</p>
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/10 bg-white/5 p-10 text-left shadow-[0_30px_80px_-60px_rgba(255,255,255,0.3)] transition hover:border-white/20 hover:bg-white/10">
+          <div className="rounded-[32px] border border-white/15 bg-white/[0.08] p-10 text-left shadow-[0_30px_80px_-60px_rgba(197,210,227,0.5)] transition hover:border-white/25 hover:bg-white/[0.12]">
             <p className="text-sm uppercase tracking-[0.35em] text-gray-500">10 Photos</p>
             <p className="mt-3 text-xs uppercase tracking-[0.35em] text-gray-500">Best value for a cohesive set</p>
             <p className="mt-6 text-5xl font-semibold text-white">$7</p>
-            <p className="mt-3 text-gray-400">Total package price</p>
-            <div className="mt-8 space-y-3 text-gray-300">
+            <p className="mt-3 text-gray-200">Total package price</p>
+            <div className="mt-8 space-y-3 text-gray-100">
               <p>Cohesive batch finish</p>
               <p>Cinematic tone</p>
               <p>Ready to share</p>
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/10 bg-black/40 p-10 text-left transition hover:border-white/20 hover:bg-white/5">
+          <div className="rounded-[32px] border border-white/15 bg-black/40 p-10 text-left transition hover:border-white/25 hover:bg-white/[0.08]">
             <p className="text-sm uppercase tracking-[0.35em] text-gray-500">30+ Photos</p>
             <p className="mt-3 text-xs uppercase tracking-[0.35em] text-gray-500">Gallery polish at a strong rate</p>
             <p className="mt-6 text-5xl font-semibold">$18</p>
-            <p className="mt-3 text-gray-400">Total package price</p>
-            <div className="mt-8 space-y-3 text-gray-300">
+            <p className="mt-3 text-gray-200">Total package price</p>
+            <div className="mt-8 space-y-3 text-gray-100">
               <p>Full gallery polish</p>
               <p>Advanced detail work</p>
               <p>Priority delivery</p>

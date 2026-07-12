@@ -3,7 +3,7 @@ export default function WhyChooseUs() {
     <section className="bg-[#050505] px-5 py-20 text-white sm:px-6 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
-          <p className="text-xs uppercase tracking-[0.35em] text-gray-500 sm:text-sm sm:tracking-[0.45em]">Why Raw Archive</p>
+          <p className="inline-flex rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs uppercase tracking-[0.28em] text-gray-300 sm:text-sm sm:tracking-[0.4em]">Why Raw Archive</p>
           <h2 className="mt-5 text-3xl font-semibold sm:text-4xl md:text-5xl">Editing with intention.</h2>
         </div>
 
@@ -25,14 +25,14 @@ export default function WhyChooseUs() {
               description: "Straightforward rates, no subscriptions, no hidden fees.",
             },
           ].map((item) => (
-            <div key={item.number} className="group rounded-[32px] border border-white/10 bg-white/5 p-8 transition hover:border-white/20 hover:bg-white/10 sm:p-10">
+            <div key={item.number} className="group rounded-[32px] border border-white/15 bg-white/[0.07] p-8 transition hover:border-white/25 hover:bg-white/[0.11] sm:p-10">
               <div className="inline-flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/40 text-xl font-semibold text-white">
                   {item.number}
                 </div>
                 <h3 className="text-xl font-semibold sm:text-2xl">{item.title}</h3>
               </div>
-              <p className="mt-5 text-gray-400 leading-7 sm:mt-6 sm:leading-8">
+              <p className="mt-5 leading-7 text-gray-200 sm:mt-6 sm:leading-8">
                 {item.description}
               </p>
             </div>
