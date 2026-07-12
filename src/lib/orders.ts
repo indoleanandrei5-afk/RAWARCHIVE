@@ -10,6 +10,7 @@ export type Order = {
   uploadedUrls?: string[];
   clientEmail?: string;
   editedUrls?: string[];
+  editNotes?: string;
 };
 
 const ORDERS_STORAGE_KEY = "rawArchiveOrders";

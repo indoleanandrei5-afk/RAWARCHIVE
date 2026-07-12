@@ -15,6 +15,7 @@ export default function Admin() {
   const [editedUrlForOrder, setEditedUrlForOrder] = useState<string | null>(null);
   const [sendingEmail, setSendingEmail] = useState<string | null>(null);
   const [sendStatus, setSendStatus] = useState<{ orderId: string; message: string; type: "success" | "error" } | null>(null);
+  const [sendingDirectLink, setSendingDirectLink] = useState<string | null>(null);
 
   useEffect(() => {
     setOrders(getStoredOrders());
@@ -78,6 +79,41 @@ export default function Admin() {
     }
   };
 
+  const handleSendDirectLink = async (order: Order, url: string) => {
+    if (!order.clientEmail) {
+      setSendStatus({ orderId: order.id, message: "Client email not available", type: "error" });
+      return;
+    }
+
+    setSendingDirectLink(`${order.id}-${url}`);
+    setSendStatus(null);
+
+    try {
+      const response = await fetch("/api/send-edited-photos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: order.id,
+          clientEmail: order.clientEmail,
+          editedUrls: [url],
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send email");
+      }
+
+      setSendStatus({ orderId: order.id, message: "Photo sent to client!", type: "success" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Failed to send email";
+      setSendStatus({ orderId: order.id, message, type: "error" });
+    } finally {
+      setSendingDirectLink(null);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-black p-10 text-white">
       <div className="mx-auto max-w-6xl">
@@ -133,6 +169,13 @@ export default function Admin() {
                   </div>
                 )}
 
+                {order.editNotes && (
+                  <div className="mt-6 rounded-3xl border border-blue-500/20 bg-blue-500/10 p-4">
+                    <p className="text-sm uppercase tracking-[0.4em] text-blue-400">Client Notes</p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm text-blue-100">{order.editNotes}</p>
+                  </div>
+                )}
+
                 {order.uploadedUrls && order.uploadedUrls.length > 0 ? (
                   <div className="mt-6 rounded-3xl border border-white/10 bg-black/30 p-4">
                     <p className="text-sm uppercase tracking-[0.4em] text-gray-400">Uploaded files</p>
@@ -155,17 +198,26 @@ export default function Admin() {
                 {order.editedUrls && order.editedUrls.length > 0 ? (
                   <div className="mt-6 rounded-3xl border border-emerald-500/20 bg-emerald-500/10 p-4">
                     <p className="text-sm uppercase tracking-[0.4em] text-emerald-400">Edited files</p>
-                    <div className="mt-3 grid gap-2">
+                    <div className="mt-3 space-y-3">
                       {order.editedUrls.map((url, index) => (
-                        <a
-                          key={`${order.id}-edited-${index}`}
-                          href={url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="truncate text-sm text-emerald-300 underline"
-                        >
-                          {url}
-                        </a>
+                        <div key={`${order.id}-edited-${index}`} className="flex items-center justify-between gap-3">
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex-1 truncate text-sm text-emerald-300 underline"
+                          >
+                            {url}
+                          </a>
+                          <button
+                            type="button"
+                            disabled={sendingDirectLink === `${order.id}-${url}`}
+                            onClick={() => handleSendDirectLink(order, url)}
+                            className="whitespace-nowrap rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-100 transition hover:bg-emerald-500/30 disabled:opacity-50"
+                          >
+                            {sendingDirectLink === `${order.id}-${url}` ? "Sending..." : "Send"}
+                          </button>
+                        </div>
                       ))}
                     </div>
                   </div>

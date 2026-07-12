@@ -146,6 +146,7 @@ export default function Upload() {
         photoNames: files.map((file) => file.name).join(", "),
         uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl),
         clientEmail,
+        editNotes,
       };
 
       addOrder(pendingOrder);
