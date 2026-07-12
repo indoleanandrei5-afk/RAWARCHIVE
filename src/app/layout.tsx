@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     images: ["/images/image1.jpg"],
   },
   other: {
-    "instagram:site": "@andrframes",
+    "instagram:site": "@rawarchivephotos",
   },
   robots: {
     index: true,

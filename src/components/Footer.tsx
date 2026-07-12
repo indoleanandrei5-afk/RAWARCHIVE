@@ -17,7 +17,7 @@ export default function Footer() {
             <Link href="/upload" className="text-gray-300 transition hover:text-white">
               Upload
             </Link>
-            <a href="https://instagram.com/andrframes" target="_blank" rel="noreferrer me" className="text-gray-300 transition hover:text-white">
+            <a href="https://instagram.com/rawarchivephotos" target="_blank" rel="noreferrer me" className="text-gray-300 transition hover:text-white">
               Instagram
             </a>
             <a href="mailto:andreiindo@icloud.com" className="text-gray-300 transition hover:text-white">

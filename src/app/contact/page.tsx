@@ -18,7 +18,7 @@ export default function Contact() {
       "@type": "ProfessionalService",
       name: "RAW ARCHIVE PHOTOS",
       email: "andreiindo@icloud.com",
-      sameAs: ["https://instagram.com/andrframes"],
+      sameAs: ["https://instagram.com/rawarchivephotos"],
     },
   };
 
@@ -43,8 +43,8 @@ export default function Contact() {
 
             <div>
               <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Instagram</p>
-              <a href="https://instagram.com/andrframes" target="_blank" rel="noreferrer" className="mt-3 block text-lg font-semibold text-white underline">
-                @andrframes
+              <a href="https://instagram.com/rawarchivephotos" target="_blank" rel="noreferrer" className="mt-3 block text-lg font-semibold text-white underline">
+                @rawarchivephotos
               </a>
             </div>
           </div>
