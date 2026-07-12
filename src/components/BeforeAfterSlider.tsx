@@ -60,23 +60,23 @@ export default function BeforeAfterSlider({
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-black overflow-hidden rounded-lg group cursor-grab active:cursor-grabbing select-none"
-      style={{ aspectRatio: "4/3" }}
+      className="relative w-full overflow-hidden rounded-lg group cursor-grab active:cursor-grabbing select-none"
+      style={{ aspectRatio: "4/3", backgroundColor: "#000" }}
       onMouseMove={handleMouseMove}
       onMouseDown={() => setIsDragging(true)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={() => setIsDragging(false)}
     >
-      {/* Before Image - Full background (original, low quality) */}
+      {/* After Image - Full background (refined) */}
       <img
-        src={beforeSrc}
-        alt={beforeAlt}
+        src={afterSrc}
+        alt={afterAlt}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
       />
 
-      {/* After Image - Clipped reveal (effect/color graded) */}
+      {/* Before Image - Perfectly overlaid and clipped (original) */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{
@@ -85,23 +85,23 @@ export default function BeforeAfterSlider({
         }}
       >
         <img
-          src={afterSrc}
-          alt={afterAlt}
+          src={beforeSrc}
+          alt={beforeAlt}
           className="absolute inset-0 w-full h-full object-cover"
           draggable={false}
         />
       </div>
 
-      {/* Divider - Single line */}
+      {/* Divider Line */}
       <div
-        className="absolute top-0 h-full w-px bg-white/40 group-hover:bg-white/70 transition-colors duration-200"
+        className="absolute top-0 h-full w-px bg-white/40 group-hover:bg-white/70 transition-colors duration-200 pointer-events-none"
         style={{
           left: `${sliderPosition}%`,
           transform: "translateX(-50%)",
         }}
       />
 
-      {/* Handle - Drag indicator */}
+      {/* Handle - Drag Indicator */}
       <div
         className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
         style={{
