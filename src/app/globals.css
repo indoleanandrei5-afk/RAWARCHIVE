@@ -34,6 +34,12 @@ body {
   scroll-behavior: smooth;
 }
 
+@media (max-width: 390px) {
+  body {
+    padding-top: 80px;
+  }
+}
+
 h1,
 h2,
 h3,

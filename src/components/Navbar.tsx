@@ -30,10 +30,10 @@ export default function Navbar() {
           : "border-white/8 bg-black/62 shadow-black/20"
       }`}
     >
-      <div className={`mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 ${isScrolled ? "py-3" : "py-4"}`}>
+      <div className={`mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 ${isScrolled ? "py-3" : "py-4"}`}>
         <Link
           href="/"
-          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white sm:text-sm sm:tracking-[0.32em]"
+          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white max-[390px]:text-[10px] max-[390px]:tracking-[0.14em] sm:text-sm sm:tracking-[0.32em]"
         >
           RAW ARCHIVE PHOTOS
         </Link>
@@ -41,7 +41,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setIsOpen((open) => !open)}
-          className="inline-flex items-center rounded-full border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.2em] text-gray-200 md:hidden"
+          className="inline-flex items-center rounded-full border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.18em] text-gray-200 max-[390px]:px-3 max-[390px]:tracking-[0.12em] md:hidden"
           aria-expanded={isOpen}
           aria-label="Toggle navigation menu"
         >
@@ -58,8 +58,8 @@ export default function Navbar() {
       </div>
 
       {isOpen ? (
-        <nav className="border-t border-white/10 bg-black/95 px-5 py-4 md:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm uppercase tracking-[0.25em] text-gray-300">
+        <nav className="border-t border-white/10 bg-black/95 px-4 py-4 md:hidden">
+          <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm uppercase tracking-[0.2em] text-gray-300 max-[390px]:text-[13px] max-[390px]:tracking-[0.14em]">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
