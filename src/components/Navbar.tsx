@@ -19,9 +19,9 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-6">
         <Link
           href="/"
-          className="text-xs font-semibold uppercase tracking-[0.28em] text-white sm:text-sm sm:tracking-[0.45em]"
+          className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white sm:text-sm sm:tracking-[0.32em]"
         >
-          RAW ARCHIVE
+          RAW ARCHIVE PHOTOS
         </Link>
 
         <button
