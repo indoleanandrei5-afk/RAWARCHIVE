@@ -40,6 +40,7 @@ export default function Upload() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [editNotes, setEditNotes] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function Upload() {
       setCheckoutStatus("success");
       setFiles([]);
       setEditNotes("");
+      setClientEmail("");
       setIsCheckoutOpen(false);
       setCheckoutError(null);
       router.replace("/upload", { scroll: false });
@@ -113,6 +115,18 @@ export default function Upload() {
 
   const handleCheckout = async () => {
     if (files.length === 0) return;
+    
+    if (!clientEmail.trim()) {
+      setCheckoutError("Please enter your email address");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(clientEmail)) {
+      setCheckoutError("Please enter a valid email address");
+      return;
+    }
+
     setCheckoutLoading(true);
     setCheckoutError(null);
     setUploadStatus(null);
@@ -130,6 +144,7 @@ export default function Upload() {
         status: "pending",
         photoNames: files.map((file) => file.name).join(", "),
         uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl),
+        clientEmail,
       };
 
       addOrder(pendingOrder);
@@ -275,6 +290,22 @@ export default function Upload() {
                     <span>Total</span>
                     <span>${totalPrice}</span>
                   </div>
+                </div>
+
+                <div className="mt-6">
+                  <label htmlFor="client-email" className="text-xs uppercase tracking-[0.22em] text-gray-300">
+                    Your Email
+                  </label>
+                  <input
+                    id="client-email"
+                    type="email"
+                    value={clientEmail}
+                    onChange={(event) => setClientEmail(event.target.value)}
+                    placeholder="your@email.com"
+                    className="mt-3 w-full rounded-2xl border border-white/15 bg-black/35 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-400 focus:border-(--accent)"
+                    required
+                  />
+                  <p className="mt-2 text-xs text-gray-400">We'll send your edited photos to this email.</p>
                 </div>
 
                 <div className="mt-6">

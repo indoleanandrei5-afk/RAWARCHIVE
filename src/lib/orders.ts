@@ -8,6 +8,8 @@ export type Order = {
   status: OrderStatus;
   photoNames: string;
   uploadedUrls?: string[];
+  clientEmail?: string;
+  editedUrls?: string[];
 };
 
 const ORDERS_STORAGE_KEY = "rawArchiveOrders";
