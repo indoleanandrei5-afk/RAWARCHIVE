@@ -7,7 +7,7 @@ const featuredImages = [
   { src: "/images/image6.jpg", alt: "Featured photo 6" },
   { src: "/images/image8.jpg", alt: "Featured photo 8" },
   { src: "/images/image3.jpg", alt: "Featured photo 3" },
-  { src: "/images/image11.jpg", alt: "Featured photo 11" },
+  { src: "/images/image14.png", alt: "Featured photo 14" },
   { src: "/images/image13.jpg", alt: "Featured photo 13" },
 ];
 

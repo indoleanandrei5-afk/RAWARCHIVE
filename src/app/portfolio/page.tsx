@@ -9,10 +9,14 @@ export const metadata: Metadata = {
   },
 };
 
-const portfolioImages = Array.from({ length: 13 }, (_, i) => ({
-  src: `/images/image${i + 1}.jpg`,
-  alt: `Portfolio photo ${i + 1}`,
-}));
+const portfolioImages = Array.from({ length: 16 }, (_, i) => {
+  const num = i + 1;
+  const ext = num === 14 ? '.png' : '.jpg';
+  return {
+    src: `/images/image${num}${ext}`,
+    alt: `Portfolio photo ${num}`,
+  };
+});
 
 export default function Portfolio() {
   return (
@@ -26,7 +30,7 @@ export default function Portfolio() {
           <p className="mx-auto mt-5 max-w-3xl text-base text-gray-300 sm:text-lg">
             Every uploaded image in one curated presentation, arranged with spacious framing for cleaner viewing.
           </p>
-          <p className="mt-4 text-xs uppercase tracking-[0.22em] text-gray-500 max-[390px]:tracking-[0.12em] sm:text-sm sm:tracking-[0.35em]">13 images</p>
+          <p className="mt-4 text-xs uppercase tracking-[0.22em] text-gray-500 max-[390px]:tracking-[0.12em] sm:text-sm sm:tracking-[0.35em]">16 images</p>
         </div>
 
         <ImageGallery images={portfolioImages} columns="grid gap-4 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3" />
