@@ -37,6 +37,10 @@ export default function Hero() {
           Quiet, refined edits with balanced tone, crisp contrast, and intentional mood.
         </p>
 
+        <p className="mx-auto mt-4 max-w-2xl text-sm uppercase tracking-[0.2em] text-gray-300 sm:text-base">
+          No AI editing. Every image is refined by hand.
+        </p>
+
         <div className="mx-auto mt-6 flex max-w-xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-gray-500 sm:text-sm sm:tracking-[0.35em]">
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]" />
           <span>Speedy edits</span>
