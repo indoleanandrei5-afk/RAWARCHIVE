@@ -10,9 +10,14 @@ type Image = {
 type ImageGalleryProps = {
   images: Image[];
   columns?: string;
+  itemClassName?: (index: number, total: number) => string;
 };
 
-export default function ImageGallery({ images, columns = "grid gap-6 sm:grid-cols-2 lg:grid-cols-3" }: ImageGalleryProps) {
+export default function ImageGallery({
+  images,
+  columns = "grid gap-6 sm:grid-cols-2 lg:grid-cols-3",
+  itemClassName,
+}: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -62,7 +67,9 @@ export default function ImageGallery({ images, columns = "grid gap-6 sm:grid-col
             key={image.src}
             type="button"
             onClick={() => openImage(index)}
-            className="group overflow-hidden rounded-4xl border border-white/10 bg-white/6 shadow-[0_20px_70px_-55px_rgba(197,210,227,0.8)] transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/9"
+            className={`group overflow-hidden rounded-4xl border border-white/10 bg-white/6 shadow-[0_20px_70px_-55px_rgba(197,210,227,0.8)] transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/9 ${
+              itemClassName ? itemClassName(index, images.length) : ""
+            }`}
           >
             <div className="relative aspect-4/5 overflow-hidden">
               <img

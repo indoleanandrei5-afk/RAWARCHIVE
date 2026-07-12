@@ -31,7 +31,16 @@ export default function FeaturedWork() {
           </p>
         </motion.div>
 
-        <ImageGallery images={featuredImages} />
+        <ImageGallery
+          images={featuredImages}
+          columns="grid gap-6 sm:grid-cols-2 lg:grid-cols-6"
+          itemClassName={(index, total) => {
+            const base = "lg:col-span-2";
+            if (total === 5 && index === 3) return `${base} lg:col-start-2`;
+            if (total === 5 && index === 4) return `${base} lg:col-start-4`;
+            return base;
+          }}
+        />
       </div>
     </section>
   );
