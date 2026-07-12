@@ -4,6 +4,17 @@ import Stripe from "stripe";
 const PRICE_PER_PHOTO_CENTS = 100;
 const MAX_PHOTOS_PER_ORDER = 100;
 
+// Tiered pricing: 1-9 = $1 each, 10-29 = $18 flat, 30+ = $25 flat
+function calculateTieredPrice(photoCount: number): number {
+  if (photoCount <= 9) {
+    return photoCount * 100; // $1 per photo in cents
+  } else if (photoCount <= 29) {
+    return 1800; // $18 flat in cents
+  } else {
+    return 2500; // $25 flat in cents
+  }
+}
+
 type CheckoutItem = {
   name?: unknown;
 };
@@ -86,6 +97,7 @@ export async function POST(request: Request) {
   }
 
   const origin = request.headers.get("origin") || "http://localhost:3000";
+  const tieredPrice = calculateTieredPrice(photoCount);
 
   try {
     const stripe = getStripe();
@@ -99,9 +111,9 @@ export async function POST(request: Request) {
             product_data: {
               name: "Photo editing service",
             },
-            unit_amount: PRICE_PER_PHOTO_CENTS,
+            unit_amount: tieredPrice,
           },
-          quantity: photoCount,
+          quantity: 1,
         },
       ],
       metadata: {
