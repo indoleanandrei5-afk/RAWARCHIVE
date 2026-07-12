@@ -136,8 +136,10 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
   let priceDescription = "";
   if (photoCount <= 9) {
     priceDescription = `${photoCount} photo(s) @ $1.00 each: $${photoCount.toFixed(2)}`;
+  } else if (photoCount <= 19) {
+    priceDescription = `${photoCount} photos (tier: 10-19 photos): $7.00 flat rate`;
   } else if (photoCount <= 29) {
-    priceDescription = `${photoCount} photos (tier: 10-29 photos): $18.00 flat rate`;
+    priceDescription = `${photoCount} photos (tier: 20-29 photos): $18.00 flat rate`;
   } else {
     priceDescription = `${photoCount} photos (tier: 30+ photos): $25.00 flat rate`;
   }

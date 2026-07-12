@@ -4,10 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, updateOrderUploadedUrls, Order } from "@/lib/orders";
 
-// Tiered pricing: 1-9 = $1 each, 10-29 = $18 flat, 30+ = $25 flat
+// Tiered pricing: 1-9 = $1 each, 10-19 = $7 flat, 20-29 = $18 flat, 30+ = $25 flat
 function calculateTieredPrice(photoCount: number): number {
   if (photoCount <= 9) {
     return photoCount; // $1 per photo
+  } else if (photoCount <= 19) {
+    return 7; // $7 flat
   } else if (photoCount <= 29) {
     return 18; // $18 flat
   } else {
@@ -219,7 +221,7 @@ export default function Upload() {
           </p>
           <h1 className="mt-5 text-4xl font-semibold sm:mt-6 sm:text-5xl">Start your edit.</h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-gray-200 sm:text-lg">
-            Drop your images below and review your total before payment. Tiered pricing: $1 per photo for 1-9 photos, $18 flat for 10-29, $25 flat for 30+.
+            Drop your images below and review your total before payment. Tiered pricing: $1 per photo for 1-9, $7 flat for 10-19, $18 flat for 20-29, $25 flat for 30+.
           </p>
         </div>
 
@@ -281,7 +283,7 @@ export default function Upload() {
               </div>
 
               <div className="mt-8 space-y-3 text-gray-200">
-                <p>{files.length <= 9 ? `$1 per photo` : files.length <= 29 ? `Flat rate $18` : `Flat rate $25`}</p>
+                <p>{files.length <= 9 ? `$1 per photo` : files.length <= 19 ? `Flat rate $7` : files.length <= 29 ? `Flat rate $18` : `Flat rate $25`}</p>
                 <p>Secure upload</p>
                 <p>High-resolution delivery</p>
               </div>
@@ -309,7 +311,7 @@ export default function Upload() {
                   </div>
                   <div className="flex items-center justify-between text-lg">
                     <span>Pricing</span>
-                    <span>{files.length <= 9 ? `$1 per photo` : files.length <= 29 ? `Flat $18` : `Flat $25`}</span>
+                    <span>{files.length <= 9 ? `$1 per photo` : files.length <= 19 ? `Flat $7` : files.length <= 29 ? `Flat $18` : `Flat $25`}</span>
                   </div>
                   <div className="flex items-center justify-between text-lg font-semibold">
                     <span>Total</span>

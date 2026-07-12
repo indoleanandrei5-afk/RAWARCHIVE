@@ -4,10 +4,12 @@ import Stripe from "stripe";
 const PRICE_PER_PHOTO_CENTS = 100;
 const MAX_PHOTOS_PER_ORDER = 100;
 
-// Tiered pricing: 1-9 = $1 each, 10-29 = $18 flat, 30+ = $25 flat
+// Tiered pricing: 1-9 = $1 each, 10-19 = $7 flat, 20-29 = $18 flat, 30+ = $25 flat
 function calculateTieredPrice(photoCount: number): number {
   if (photoCount <= 9) {
     return photoCount * 100; // $1 per photo in cents
+  } else if (photoCount <= 19) {
+    return 700; // $7 flat in cents
   } else if (photoCount <= 29) {
     return 1800; // $18 flat in cents
   } else {
