@@ -110,6 +110,121 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
   }
 }
 
+async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const notifyFrom = process.env.NOTIFY_FROM_EMAIL || "onboarding@resend.dev";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rawarchive.vercel.app";
+
+  const clientEmail = session.customer_details?.email;
+  if (!resendApiKey || !clientEmail) {
+    console.warn("Skipping client invoice: RESEND_API_KEY or client email missing.");
+    return;
+  }
+
+  const metadata = (session.metadata ?? {}) as SessionMetadata;
+  const orderId = metadata.orderId || "unknown";
+  const photoCount = parseInt(metadata.photoCount || "0", 10);
+  const amountTotal = session.amount_total || 0;
+  const amountFormatted = `$${(amountTotal / 100).toFixed(2)}`;
+  const orderDate = new Date(session.created * 1000).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const subject = `Order Confirmation & Invoice - RAW ARCHIVE #${orderId}`;
+
+  const textBody = [
+    "Order Confirmation",
+    "",
+    `Order ID: ${orderId}`,
+    `Date: ${orderDate}`,
+    "",
+    "Items:",
+    `Photo Editing Service - ${photoCount} photo(s) @ $1.00 each: $${photoCount.toFixed(2)}`,
+    "",
+    `Total Amount Paid: ${amountFormatted}`,
+    "",
+    metadata.editNotes ? `Your notes for editing:\n${metadata.editNotes}\n` : "",
+    "Thank you for your order!",
+    "We'll get your photos edited and send them to you soon.",
+    "",
+    `Questions? Email us at indoleanandrei5@gmail.com or visit ${siteUrl}/contact`,
+  ].join("\n");
+
+  const htmlBody = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
+      <div style="background: #050507; color: white; padding: 30px; text-align: center; border-radius: 10px; margin-bottom: 30px;">
+        <h1 style="margin: 0; font-size: 28px;">Order Confirmation</h1>
+        <p style="margin: 10px 0 0 0; color: #999;">RAW ARCHIVE PHOTOS</p>
+      </div>
+
+      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <p><strong>Order ID:</strong> #${orderId}</p>
+        <p><strong>Date:</strong> ${orderDate}</p>
+        <p><strong>Email:</strong> ${clientEmail}</p>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="margin-top: 0; color: #050507;">Invoice Details</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 2px solid #eee;">
+            <td style="padding: 12px 0;"><strong>Description</strong></td>
+            <td style="padding: 12px 0; text-align: right;"><strong>Amount</strong></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 12px 0;">Photo Editing Service - ${photoCount} photo(s) @ $1.00 each</td>
+            <td style="padding: 12px 0; text-align: right;">$${photoCount.toFixed(2)}</td>
+          </tr>
+          <tr style="background: #050507; color: white;">
+            <td style="padding: 12px 0;"><strong>Total</strong></td>
+            <td style="padding: 12px 0; text-align: right;"><strong>${amountFormatted}</strong></td>
+          </tr>
+        </table>
+      </div>
+
+      ${metadata.editNotes ? `
+      <div style="background: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin-bottom: 20px; border-radius: 4px;">
+        <p style="margin: 0 0 10px 0;"><strong style="color: #0066cc;">Your Editing Notes:</strong></p>
+        <p style="margin: 0; white-space: pre-wrap; color: #333;">${metadata.editNotes}</p>
+      </div>
+      ` : ""}
+
+      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0; color: #050507;">What's Next?</h3>
+        <p>Your payment has been received and confirmed. We're now working on editing your photos with care and precision. You'll receive your edited photos via email as soon as they're ready.</p>
+        <p style="color: #666; font-size: 14px;">Typical turnaround time is 2-3 business days depending on the volume and complexity of your edits.</p>
+      </div>
+
+      <div style="border-top: 2px solid #eee; padding-top: 20px; margin-top: 30px; color: #666; font-size: 12px;">
+        <p style="margin: 0;">© 2026 RAW ARCHIVE PHOTOS. All rights reserved.</p>
+        <p style="margin: 10px 0 0 0;">Questions? <a href="mailto:indoleanandrei5@gmail.com" style="color: #0066cc; text-decoration: none;">Email us</a> or visit <a href="${siteUrl}/contact" style="color: #0066cc; text-decoration: none;">our contact page</a></p>
+        <p style="margin: 10px 0 0 0;">Follow us on <a href="https://instagram.com/rawarchivephotos" style="color: #0066cc; text-decoration: none;">Instagram @rawarchivephotos</a></p>
+      </div>
+    </div>
+  `;
+
+  const emailResponse = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${resendApiKey}`,
+    },
+    body: JSON.stringify({
+      from: notifyFrom,
+      to: [clientEmail],
+      subject,
+      text: textBody,
+      html: htmlBody,
+    }),
+  });
+
+  if (!emailResponse.ok) {
+    const errorText = await emailResponse.text();
+    throw new Error(`Failed to send invoice email: ${errorText}`);
+  }
+}
+
 async function sendSmsNotification(orderId: string, amount: number) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -170,9 +285,12 @@ export async function POST(request: Request) {
       const orderId = session.metadata?.orderId || "unknown";
       const amountTotal = session.amount_total || 0;
       
-      // Send notifications
+      // Send notifications to admin
       await sendOrderNotificationEmail(session);
       await sendSmsNotification(orderId, amountTotal);
+      
+      // Send invoice to client
+      await sendOrderConfirmationInvoice(session);
     }
   } catch (error) {
     console.error("Stripe webhook handler failed", error);
