@@ -119,22 +119,22 @@ export default function Upload() {
   };
 
   return (
-    <main className="min-h-screen bg-black px-6 py-20 text-white">
+    <main className="min-h-screen bg-black px-4 py-16 text-white sm:px-6 sm:py-20">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-14 text-center">
-          <p className="uppercase tracking-[0.45em] text-sm text-gray-500">
+        <div className="mb-12 text-center sm:mb-14">
+          <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.45em]">
             Upload your photos
           </p>
-          <h1 className="mt-6 text-5xl font-semibold">Start your edit.</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-400">
+          <h1 className="mt-5 text-4xl font-semibold sm:mt-6 sm:text-5xl">Start your edit.</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-base text-gray-400 sm:text-lg">
             Drop your images below and review your total before payment. Pricing is $1 per photo.
           </p>
         </div>
 
         {checkoutStatus === "success" && (
-          <div className="mb-10 rounded-[40px] border border-emerald-500/20 bg-emerald-500/10 p-8 text-center text-white">
-            <p className="text-sm uppercase tracking-[0.4em] text-emerald-200">Order Confirmed</p>
-            <h2 className="mt-4 text-3xl font-bold">Thanks — your upload order is being processed.</h2>
+          <div className="mb-10 rounded-[32px] border border-emerald-500/20 bg-emerald-500/10 p-6 text-center text-white sm:rounded-[40px] sm:p-8">
+            <p className="text-xs uppercase tracking-[0.28em] text-emerald-200 sm:text-sm sm:tracking-[0.4em]">Order Confirmed</p>
+            <h2 className="mt-4 text-2xl font-bold sm:text-3xl">Thanks — your upload order is being processed.</h2>
             <p className="mt-3 text-gray-100">
               Payment completed successfully. We’ll handle your files and send you a confirmation email soon.
             </p>
@@ -142,9 +142,9 @@ export default function Upload() {
         )}
 
         {checkoutStatus === "canceled" && (
-          <div className="mb-10 rounded-[40px] border border-amber-500/20 bg-amber-500/10 p-8 text-center text-white">
-            <p className="text-sm uppercase tracking-[0.4em] text-amber-200">Payment Canceled</p>
-            <h2 className="mt-4 text-3xl font-bold">Your order was not completed.</h2>
+          <div className="mb-10 rounded-[32px] border border-amber-500/20 bg-amber-500/10 p-6 text-center text-white sm:rounded-[40px] sm:p-8">
+            <p className="text-xs uppercase tracking-[0.28em] text-amber-200 sm:text-sm sm:tracking-[0.4em]">Payment Canceled</p>
+            <h2 className="mt-4 text-2xl font-bold sm:text-3xl">Your order was not completed.</h2>
             <p className="mt-3 text-gray-100">
               You can return to your cart and continue to payment whenever you are ready.
             </p>
@@ -158,14 +158,14 @@ export default function Upload() {
           }}
           onDragLeave={() => setIsDragActive(false)}
           onDrop={handleDrop}
-          className={`rounded-[40px] border border-white/10 bg-white/5 p-12 text-center transition ${
+          className={`rounded-[32px] border border-white/10 bg-white/5 p-6 text-center transition sm:rounded-[40px] sm:p-12 ${
             isDragActive ? "border-white/30 bg-white/10" : "border-white/10 bg-white/5"
           }`}
         >
-          <p className="text-2xl font-semibold">Drag & Drop Photos Here</p>
+          <p className="text-xl font-semibold sm:text-2xl">Drag & Drop Photos Here</p>
           <p className="mt-4 text-gray-400">Or click below to select files from your computer</p>
 
-          <label className="mt-8 inline-flex cursor-pointer items-center justify-center rounded-full bg-white px-8 py-4 text-black transition hover:scale-105">
+          <label className="mt-8 inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-white px-8 py-4 text-black transition hover:scale-105 sm:w-auto">
             <input
               type="file"
               accept="image/*"
@@ -177,15 +177,15 @@ export default function Upload() {
           </label>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.5fr_1fr]">
+        <div className="mt-10 grid gap-6 sm:mt-12 sm:gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div>
-            <div className="rounded-[40px] border border-white/10 bg-white/5 p-8">
-              <div className="flex items-center justify-between">
+            <div className="rounded-[32px] border border-white/10 bg-white/5 p-6 sm:rounded-[40px] sm:p-8">
+              <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Order Summary</p>
-                  <h2 className="mt-4 text-3xl font-bold">{files.length} Photos</h2>
+                  <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">Order Summary</p>
+                  <h2 className="mt-4 text-2xl font-bold sm:text-3xl">{files.length} Photos</h2>
                 </div>
-                <p className="text-3xl font-semibold">${totalPrice}</p>
+                <p className="text-2xl font-semibold sm:text-3xl">${totalPrice}</p>
               </div>
 
               <div className="mt-8 space-y-3 text-gray-400">
@@ -205,9 +205,9 @@ export default function Upload() {
             </div>
 
             {isCheckoutOpen && (
-              <div className="mt-8 rounded-[40px] border border-white/10 bg-white/5 p-8">
-                <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Checkout</p>
-                <h3 className="mt-4 text-3xl font-bold">Review Your Order</h3>
+              <div className="mt-8 rounded-[32px] border border-white/10 bg-white/5 p-6 sm:rounded-[40px] sm:p-8">
+                <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">Checkout</p>
+                <h3 className="mt-4 text-2xl font-bold sm:text-3xl">Review Your Order</h3>
                 <p className="mt-3 text-gray-400">Confirm your photo count and total before continuing to payment.</p>
 
                 <div className="mt-8 grid gap-4 rounded-3xl bg-black/30 p-6">
@@ -254,8 +254,8 @@ export default function Upload() {
           </div>
 
           <div>
-            <div className="rounded-[40px] border border-white/10 bg-white/5 p-8">
-              <h3 className="text-2xl font-semibold">Selected Photos</h3>
+            <div className="rounded-[32px] border border-white/10 bg-white/5 p-6 sm:rounded-[40px] sm:p-8">
+              <h3 className="text-xl font-semibold sm:text-2xl">Selected Photos</h3>
               {files.length === 0 ? (
                 <p className="mt-6 text-gray-400">No photos selected yet.</p>
               ) : (
