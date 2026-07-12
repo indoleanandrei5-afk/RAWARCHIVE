@@ -132,6 +132,16 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
     day: "numeric",
   });
 
+  // Determine pricing tier description
+  let priceDescription = "";
+  if (photoCount <= 9) {
+    priceDescription = `${photoCount} photo(s) @ $1.00 each: $${photoCount.toFixed(2)}`;
+  } else if (photoCount <= 29) {
+    priceDescription = `${photoCount} photos (tier: 10-29 photos): $18.00 flat rate`;
+  } else {
+    priceDescription = `${photoCount} photos (tier: 30+ photos): $25.00 flat rate`;
+  }
+
   const subject = `Order Confirmation & Invoice - RAW ARCHIVE #${orderId}`;
 
   const textBody = [
@@ -141,7 +151,7 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
     `Date: ${orderDate}`,
     "",
     "Items:",
-    `Photo Editing Service - ${photoCount} photo(s) @ $1.00 each: $${photoCount.toFixed(2)}`,
+    `Photo Editing Service - ${priceDescription}`,
     "",
     `Total Amount Paid: ${amountFormatted}`,
     "",
@@ -173,8 +183,8 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
             <td style="padding: 12px 0; text-align: right;"><strong>Amount</strong></td>
           </tr>
           <tr style="border-bottom: 1px solid #eee;">
-            <td style="padding: 12px 0;">Photo Editing Service - ${photoCount} photo(s) @ $1.00 each</td>
-            <td style="padding: 12px 0; text-align: right;">$${photoCount.toFixed(2)}</td>
+            <td style="padding: 12px 0;">Photo Editing Service - ${priceDescription}</td>
+            <td style="padding: 12px 0; text-align: right;">${amountFormatted}</td>
           </tr>
           <tr style="background: #050507; color: white;">
             <td style="padding: 12px 0;"><strong>Total</strong></td>
