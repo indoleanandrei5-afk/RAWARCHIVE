@@ -15,10 +15,9 @@ export default function BeforeAfterSlider({
   beforeAlt,
   afterAlt,
 }: BeforeAfterSliderProps) {
-  const [sliderPosition, setSliderPosition] = useState(50);
+  const [sliderPosition, setSliderPosition] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
@@ -69,16 +68,15 @@ export default function BeforeAfterSlider({
       onTouchMove={handleTouchMove}
       onTouchEnd={() => setIsDragging(false)}
     >
-      {/* After Image - Full size background (no scaling) */}
+      {/* Before Image - Full background (original, low quality) */}
       <img
-        src={afterSrc}
-        alt={afterAlt}
+        src={beforeSrc}
+        alt={beforeAlt}
         className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
-        onLoad={() => setIsLoaded(true)}
       />
 
-      {/* Before Image - Pure clip reveal (no scaling) */}
+      {/* After Image - Clipped reveal (effect/color graded) */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{
@@ -87,14 +85,14 @@ export default function BeforeAfterSlider({
         }}
       >
         <img
-          src={beforeSrc}
-          alt={beforeAlt}
+          src={afterSrc}
+          alt={afterAlt}
           className="absolute inset-0 w-full h-full object-cover"
           draggable={false}
         />
       </div>
 
-      {/* Divider - Clean line */}
+      {/* Divider - Single line */}
       <div
         className="absolute top-0 h-full w-px bg-white/40 group-hover:bg-white/70 transition-colors duration-200"
         style={{
@@ -103,15 +101,14 @@ export default function BeforeAfterSlider({
         }}
       />
 
-      {/* Handle - Arrows showing direction */}
+      {/* Handle - Drag indicator */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-50 group-hover:opacity-100 transition-opacity duration-200"
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
         style={{
           left: `${sliderPosition}%`,
-          pointerEvents: "none",
         }}
       >
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
           </svg>
@@ -123,11 +120,11 @@ export default function BeforeAfterSlider({
       </div>
 
       {/* Labels */}
-      <div className="absolute bottom-3 left-3 opacity-40 group-hover:opacity-80 transition-opacity duration-300">
-        <p className="text-xs font-light tracking-widest text-white/80 uppercase">Before</p>
+      <div className="absolute bottom-3 left-3 opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none">
+        <p className="text-xs font-light tracking-widest text-white/80 uppercase">Original</p>
       </div>
-      <div className="absolute bottom-3 right-3 opacity-40 group-hover:opacity-80 transition-opacity duration-300">
-        <p className="text-xs font-light tracking-widest text-white/80 uppercase">After</p>
+      <div className="absolute bottom-3 right-3 opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none">
+        <p className="text-xs font-light tracking-widest text-white/80 uppercase">Refined</p>
       </div>
     </div>
   );
