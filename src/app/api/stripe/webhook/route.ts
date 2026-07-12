@@ -110,6 +110,38 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
   }
 }
 
+async function sendSmsNotification(orderId: string, amount: number) {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const fromPhone = process.env.TWILIO_PHONE_NUMBER;
+  const toPhone = process.env.NOTIFY_TO_PHONE;
+
+  if (!accountSid || !authToken || !fromPhone || !toPhone) {
+    console.warn("Skipping SMS notification: Twilio credentials missing.");
+    return;
+  }
+
+  const message = `RAW ARCHIVE: New payment received! Order #${orderId} - $${(amount / 100).toFixed(2)} 📸`;
+
+  const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Basic ${Buffer.from(`${accountSid}:${authToken}`).toString("base64")}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      From: fromPhone,
+      To: toPhone,
+      Body: message,
+    }).toString(),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to send SMS: ${errorText}`);
+  }
+}
+
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -135,7 +167,12 @@ export async function POST(request: Request) {
   try {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
+      const orderId = session.metadata?.orderId || "unknown";
+      const amountTotal = session.amount_total || 0;
+      
+      // Send notifications
       await sendOrderNotificationEmail(session);
+      await sendSmsNotification(orderId, amountTotal);
     }
   } catch (error) {
     console.error("Stripe webhook handler failed", error);

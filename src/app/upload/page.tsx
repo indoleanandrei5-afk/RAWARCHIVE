@@ -72,7 +72,7 @@ export default function Upload() {
     }
   }, [router]);
 
-  const uploadFilesToCloudinary = async (orderId: string, filesToUpload: File[]): Promise<UploadedAsset[]> => {
+  const uploadFilesToCloudinary = async (orderId: string, filesToUpload: File[], isTemporary: boolean = false): Promise<UploadedAsset[]> => {
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
@@ -81,6 +81,7 @@ export default function Upload() {
     }
 
     const uploadedAssets: UploadedAsset[] = [];
+    const folderPath = isTemporary ? `raw-archive-orders/${orderId}/temp` : `raw-archive-orders/${orderId}`;
 
     for (let index = 0; index < filesToUpload.length; index += 1) {
       const file = filesToUpload[index];
@@ -89,8 +90,8 @@ export default function Upload() {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", uploadPreset);
-      formData.append("folder", `raw-archive-orders/${orderId}`);
-      formData.append("tags", "raw-archive,client-upload");
+      formData.append("folder", folderPath);
+      formData.append("tags", isTemporary ? "raw-archive,temp-upload" : "raw-archive,paid-upload");
 
       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: "POST",
@@ -134,7 +135,7 @@ export default function Upload() {
     const orderId = `${Date.now()}`;
 
     try {
-      const uploadedAssets = await uploadFilesToCloudinary(orderId, files);
+      const uploadedAssets = await uploadFilesToCloudinary(orderId, files, true);
 
       const pendingOrder: Order = {
         id: orderId,
