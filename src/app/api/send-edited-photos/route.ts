@@ -37,7 +37,7 @@ async function sendEditedPhotosEmail(clientEmail: string, editedUrls: string[], 
     ...editedUrls.map((url) => `- ${url}`),
     "",
     "Thank you for using RAW ARCHIVE!",
-    "Follow us on Instagram: @rawarchivephotos",
+    "Follow us on Instagram: @rawarchivephotos or TikTok: @rawarchivephotos",
   ].join("\n");
 
   const htmlBody = `
@@ -53,7 +53,7 @@ async function sendEditedPhotosEmail(clientEmail: string, editedUrls: string[], 
       
       <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666;">
         Thank you for choosing RAW ARCHIVE for your photo editing needs!<br>
-        Follow us on Instagram: <strong>@rawarchivephotos</strong>
+        Follow us on Instagram: <strong>@rawarchivephotos</strong> or TikTok: <strong>@rawarchivephotos</strong>
       </p>
     </div>
   `;

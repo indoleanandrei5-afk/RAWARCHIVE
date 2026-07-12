@@ -59,6 +59,7 @@ export const metadata: Metadata = {
   },
   other: {
     "instagram:site": "@rawarchivephotos",
+    "tiktok:site": "@rawarchivephotos",
   },
   robots: {
     index: true,

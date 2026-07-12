@@ -18,7 +18,7 @@ export default function Contact() {
       "@type": "ProfessionalService",
       name: "RAW ARCHIVE PHOTOS",
       email: "indoleanandrei5@gmail.com",
-      sameAs: ["https://instagram.com/rawarchivephotos"],
+      sameAs: ["https://instagram.com/rawarchivephotos", "https://tiktok.com/@rawarchivephotos"],
     },
   };
 

@@ -199,7 +199,7 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
       <div style="border-top: 2px solid #eee; padding-top: 20px; margin-top: 30px; color: #666; font-size: 12px;">
         <p style="margin: 0;">© 2026 RAW ARCHIVE PHOTOS. All rights reserved.</p>
         <p style="margin: 10px 0 0 0;">Questions? <a href="mailto:indoleanandrei5@gmail.com" style="color: #0066cc; text-decoration: none;">Email us</a> or visit <a href="${siteUrl}/contact" style="color: #0066cc; text-decoration: none;">our contact page</a></p>
-        <p style="margin: 10px 0 0 0;">Follow us on <a href="https://instagram.com/rawarchivephotos" style="color: #0066cc; text-decoration: none;">Instagram @rawarchivephotos</a></p>
+        <p style="margin: 10px 0 0 0;">Follow us on <a href="https://instagram.com/rawarchivephotos" style="color: #0066cc; text-decoration: none;">Instagram @rawarchivephotos</a> or <a href="https://tiktok.com/@rawarchivephotos" style="color: #0066cc; text-decoration: none;">TikTok @rawarchivephotos</a></p>
       </div>
     </div>
   `;

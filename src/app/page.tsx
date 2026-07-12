@@ -44,7 +44,7 @@ export default function Home() {
       email: "andreiindo@icloud.com",
       availableLanguage: ["English"],
     },
-    sameAs: ["https://instagram.com/rawarchivephotos"],
+    sameAs: ["https://instagram.com/rawarchivephotos", "https://tiktok.com/@rawarchivephotos"],
   };
 
   return (
