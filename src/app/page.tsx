@@ -21,6 +21,18 @@ function SoftDivider() {
 }
 
 export default function Home() {
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "RAW ARCHIVE PHOTOS",
+    url: "https://rawarchive.vercel.app",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://rawarchive.vercel.app/portfolio",
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -31,11 +43,18 @@ export default function Home() {
       "Professional hand-edited photo retouching for photographers and brands with cinematic, refined results.",
     areaServed: "Worldwide",
     serviceType: "Photo Editing Service",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "andreiindo@icloud.com",
+      availableLanguage: ["English"],
+    },
     sameAs: ["https://instagram.com/andrframes"],
   };
 
   return (
     <main className="bg-black text-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
       <Hero />
       <SoftDivider />

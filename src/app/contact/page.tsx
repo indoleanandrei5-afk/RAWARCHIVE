@@ -9,8 +9,22 @@ export const metadata: Metadata = {
 };
 
 export default function Contact() {
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact RAW ARCHIVE PHOTOS",
+    url: "https://rawarchive.vercel.app/contact",
+    mainEntity: {
+      "@type": "ProfessionalService",
+      name: "RAW ARCHIVE PHOTOS",
+      email: "andreiindo@icloud.com",
+      sameAs: ["https://instagram.com/andrframes"],
+    },
+  };
+
   return (
     <main className="min-h-screen bg-black px-6 py-24 text-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }} />
       <div className="mx-auto max-w-3xl">
         <p className="text-sm uppercase tracking-[0.45em] text-gray-500">Contact</p>
         <h1 className="mt-6 text-5xl font-semibold">Let’s talk about your next edit.</h1>

@@ -5,6 +5,14 @@ export default function Footer() {
         <div>
           <p className="font-semibold tracking-[0.2em] text-white">RAW ARCHIVE PHOTOS</p>
           <p className="mt-2 text-gray-300">Refined photo finishing for creators seeking cinematic clarity and timeless tone.</p>
+          <div className="mt-4 flex items-center justify-center gap-4 text-xs uppercase tracking-[0.22em] md:justify-start">
+            <a href="https://instagram.com/andrframes" target="_blank" rel="noreferrer me" className="text-gray-300 transition hover:text-white">
+              Instagram
+            </a>
+            <a href="mailto:andreiindo@icloud.com" className="text-gray-300 transition hover:text-white">
+              Email
+            </a>
+          </div>
         </div>
         <p>© 2026 RAW ARCHIVE PHOTOS</p>
       </div>

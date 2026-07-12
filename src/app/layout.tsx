@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     template: "%s | RAW ARCHIVE PHOTOS",
   },
   description: "Professional photo editing with hand-refined, cinematic results for photographers and brands.",
+  applicationName: "RAW ARCHIVE PHOTOS",
+  category: "photography",
+  creator: "RAW ARCHIVE PHOTOS",
+  publisher: "RAW ARCHIVE PHOTOS",
+  manifest: "/manifest.webmanifest",
   keywords: [
     "photo editing",
     "professional photo retouching",
@@ -21,6 +26,13 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: "/",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ?? "",
+    },
   },
   openGraph: {
     type: "website",
@@ -42,6 +54,9 @@ export const metadata: Metadata = {
     title: "RAW ARCHIVE PHOTOS",
     description: "Professional photo editing with hand-refined, cinematic results for photographers and brands.",
     images: ["/images/image1.jpg"],
+  },
+  other: {
+    "instagram:site": "@andrframes",
   },
   robots: {
     index: true,
