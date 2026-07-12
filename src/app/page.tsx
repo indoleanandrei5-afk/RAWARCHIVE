@@ -26,11 +26,6 @@ export default function Home() {
     "@type": "WebSite",
     name: "RAW ARCHIVE PHOTOS",
     url: "https://rawarchive.vercel.app",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://rawarchive.vercel.app/portfolio",
-      "query-input": "required name=search_term_string",
-    },
   };
 
   const organizationSchema = {
