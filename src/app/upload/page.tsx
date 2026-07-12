@@ -184,8 +184,6 @@ export default function Upload() {
           cloudinaryFolder: `raw-archive-orders/${orderId}`,
           items: files.map((file) => ({
             name: file.name,
-            quantity: 1,
-            unit_amount: PRICE_PER_PHOTO * 100,
           })),
           uploadedPreviewUrls: [],
           editNotes,
