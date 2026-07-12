@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function PricingSection() {
   return (
-    <section className="bg-[#050505] py-24 px-6 text-white">
+    <section className="bg-[#050505] px-5 py-20 text-white sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="mb-14 space-y-6 text-center">
-          <p className="text-sm uppercase tracking-[0.45em] text-gray-500">Pricing</p>
-          <h2 className="text-4xl font-semibold md:text-5xl">Minimal pricing, polished results.</h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-400">
+          <p className="text-xs uppercase tracking-[0.35em] text-gray-500 sm:text-sm sm:tracking-[0.45em]">Pricing</p>
+          <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl">Minimal pricing, polished results.</h2>
+          <p className="mx-auto max-w-2xl text-base text-gray-200 sm:text-lg">
             Simple, elegant photo editing priced for independent photographers and small studios.
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function PricingSection() {
         <div className="mt-12 text-center">
           <Link
             href="/upload"
-            className="inline-flex rounded-full border border-white/10 bg-white/10 px-10 py-4 text-sm uppercase tracking-[0.25em] text-white transition hover:border-white/20 hover:bg-white/15"
+            className="inline-flex w-full justify-center rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-10 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#0b111a] transition hover:bg-[color:var(--accent)] sm:w-auto sm:tracking-[0.25em]"
           >
             Upload Photos
           </Link>

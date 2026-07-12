@@ -44,13 +44,13 @@ export default function Hero() {
         <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/upload"
-            className="inline-flex w-full justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.25em] text-black transition hover:scale-[1.02] hover:bg-white/90 sm:w-auto"
+            className="inline-flex w-full justify-center rounded-full border border-white/20 bg-[color:var(--accent-strong)] px-8 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#0b111a] transition hover:scale-[1.02] hover:bg-[color:var(--accent)] sm:w-auto sm:tracking-[0.25em]"
           >
             Upload Photos
           </Link>
           <Link
             href="/portfolio"
-            className="inline-flex w-full justify-center rounded-full border border-white/10 bg-white/5 px-8 py-4 text-sm uppercase tracking-[0.25em] text-white transition hover:border-white/20 hover:bg-white/10 sm:w-auto"
+            className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/[0.08] px-8 py-4 text-sm uppercase tracking-[0.2em] text-white transition hover:border-white/35 hover:bg-white/[0.12] sm:w-auto sm:tracking-[0.25em]"
           >
             View portfolio
           </Link>
