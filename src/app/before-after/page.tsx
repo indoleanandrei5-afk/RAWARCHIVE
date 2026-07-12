@@ -1,14 +1,7 @@
-import type { Metadata } from "next";
+"use client";
+
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import { motion } from "framer-motion";
-
-export const metadata: Metadata = {
-  title: "Before & After",
-  description: "See the transformation: Before and after editing for all RAW ARCHIVE PHOTOS. Slide to compare the original captures with professional edits.",
-  alternates: {
-    canonical: "/before-after",
-  },
-};
 
 const beforeAfterImages = Array.from({ length: 16 }, (_, i) => {
   const num = i + 1;
