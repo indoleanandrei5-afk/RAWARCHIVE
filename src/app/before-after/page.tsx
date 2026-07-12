@@ -15,38 +15,40 @@ const beforeAfterImages = Array.from({ length: 16 }, (_, i) => {
 
 export default function BeforeAfter() {
   return (
-    <main className="relative bg-black text-white overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative px-4 py-32 sm:px-6 md:px-8 md:py-40 lg:py-48">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mx-auto max-w-4xl text-center"
-        >
-          <p className="text-xs sm:text-sm font-light tracking-[0.35em] text-gray-600 uppercase mb-8">
-            Editing Process
-          </p>
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-light tracking-tight mb-6">
-            Before & After
-          </h1>
-          <p className="text-base sm:text-lg text-gray-500 font-light leading-relaxed max-w-3xl mx-auto">
-            Explore our editing process. Drag the slider to see how professional color grading and refinement transforms raw captures into polished imagery.
-          </p>
-        </motion.div>
+    <main className="relative bg-black text-white min-h-screen">
+      {/* Hero Section - Minimal and refined */}
+      <section className="relative px-6 py-24 sm:px-8 md:py-32">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center"
+          >
+            <p className="text-xs font-light tracking-[0.4em] text-gray-600 uppercase mb-6">
+              Photography
+            </p>
+            <h1 className="text-7xl sm:text-8xl lg:text-9xl font-light tracking-tighter mb-8 leading-none">
+              Before & After
+            </h1>
+            <p className="text-base sm:text-lg text-gray-500 font-light max-w-2xl mx-auto leading-relaxed">
+              Professional color grading and refinement. Drag to compare.
+            </p>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="relative px-4 pb-40 sm:px-6 md:px-8">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid gap-16 md:gap-20">
+      {/* Gallery - 2 Column Grid */}
+      <section className="px-6 pb-32 sm:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 lg:gap-20">
             {beforeAfterImages.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: index * 0.05 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, delay: index * 0.03 }}
               >
                 <BeforeAfterSlider
                   beforeSrc={item.before}
@@ -60,19 +62,13 @@ export default function BeforeAfter() {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <section className="relative px-4 py-24 sm:px-6 md:px-8 border-t border-white/5">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto max-w-4xl text-center"
-        >
-          <p className="text-sm text-gray-600 font-light tracking-wide leading-relaxed">
-            Each image is carefully edited with attention to color temperature, highlights, shadows, and overall tone. The goal is to preserve natural beauty while enhancing clarity and impact.
+      {/* Footer - Subtle information */}
+      <section className="border-t border-white/5 px-6 py-20 sm:px-8">
+        <div className="mx-auto max-w-6xl text-center">
+          <p className="text-sm text-gray-600 font-light tracking-wide leading-relaxed max-w-2xl mx-auto">
+            Each image is refined with precise control over exposure, color temperature, contrast, and tone to achieve a polished, professional result.
           </p>
-        </motion.div>
+        </div>
       </section>
     </main>
   );

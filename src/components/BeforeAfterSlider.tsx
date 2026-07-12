@@ -18,6 +18,7 @@ export default function BeforeAfterSlider({
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
@@ -42,9 +43,6 @@ export default function BeforeAfterSlider({
       window.addEventListener("mouseup", handleMouseUp);
       document.body.style.userSelect = "none";
       document.body.style.cursor = "grabbing";
-    } else {
-      document.body.style.userSelect = "auto";
-      document.body.style.cursor = "auto";
     }
 
     return () => {
@@ -56,7 +54,6 @@ export default function BeforeAfterSlider({
   }, [isDragging]);
 
   const handleTouchStart = () => setIsDragging(true);
-
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (isDragging) handleMove(e.touches[0].clientX);
   };
@@ -64,90 +61,73 @@ export default function BeforeAfterSlider({
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-black overflow-hidden rounded-xl group cursor-grab active:cursor-grabbing"
-      style={{ aspectRatio: "3/2" }}
+      className="relative w-full bg-black overflow-hidden rounded-lg group cursor-grab active:cursor-grabbing select-none"
+      style={{ aspectRatio: "4/3" }}
       onMouseMove={handleMouseMove}
       onMouseDown={() => setIsDragging(true)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={() => setIsDragging(false)}
     >
-      {/* After Image - Full Background (Original) */}
+      {/* After Image - Full size background (no scaling) */}
       <img
         src={afterSrc}
         alt={afterAlt}
-        className="absolute inset-0 w-full h-full object-cover select-none"
+        className="absolute inset-0 w-full h-full object-cover"
         draggable={false}
+        onLoad={() => setIsLoaded(true)}
       />
 
-      {/* Before Image - Overlay with reveal */}
+      {/* Before Image - Pure clip reveal (no scaling) */}
       <div
         className="absolute inset-0 overflow-hidden"
-        style={{ width: `${sliderPosition}%` }}
+        style={{
+          width: `${sliderPosition}%`,
+          transition: isDragging ? "none" : "width 0.1s ease-out",
+        }}
       >
         <img
           src={beforeSrc}
           alt={beforeAlt}
-          className="absolute inset-0 w-full h-full object-cover select-none"
+          className="absolute inset-0 w-full h-full object-cover"
           draggable={false}
         />
       </div>
 
-      {/* Divider Line - Thin and elegant */}
+      {/* Divider - Clean line */}
       <div
-        className="absolute top-0 h-full w-0.5 bg-white/50 group-hover:bg-white transition-colors duration-200"
+        className="absolute top-0 h-full w-px bg-white/40 group-hover:bg-white/70 transition-colors duration-200"
         style={{
           left: `${sliderPosition}%`,
           transform: "translateX(-50%)",
         }}
       />
 
-      {/* Handle - Subtle icon */}
+      {/* Handle - Arrows showing direction */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-        style={{ left: `${sliderPosition}%` }}
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 opacity-50 group-hover:opacity-100 transition-opacity duration-200"
+        style={{
+          left: `${sliderPosition}%`,
+          pointerEvents: "none",
+        }}
       >
-        <div className="flex flex-col items-center gap-1">
-          <svg
-            className="w-5 h-5 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+        <div className="flex items-center gap-1">
+          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
           </svg>
-          <div className="w-1 h-6 bg-white/40" />
-          <svg
-            className="w-5 h-5 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
+          <div className="w-0.5 h-6 bg-white/60" />
+          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
           </svg>
         </div>
       </div>
 
-      {/* Labels - Subtle, appear on hover */}
-      <div className="absolute bottom-3 left-3 opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none">
-        <p className="text-xs font-light tracking-widest text-white uppercase">
-          Before
-        </p>
+      {/* Labels */}
+      <div className="absolute bottom-3 left-3 opacity-40 group-hover:opacity-80 transition-opacity duration-300">
+        <p className="text-xs font-light tracking-widest text-white/80 uppercase">Before</p>
       </div>
-      <div className="absolute bottom-3 right-3 opacity-40 group-hover:opacity-70 transition-opacity duration-300 pointer-events-none">
-        <p className="text-xs font-light tracking-widest text-white uppercase">
-          After
-        </p>
+      <div className="absolute bottom-3 right-3 opacity-40 group-hover:opacity-80 transition-opacity duration-300">
+        <p className="text-xs font-light tracking-widest text-white/80 uppercase">After</p>
       </div>
     </div>
   );
