@@ -65,3 +65,27 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
 After setup, uploaded files can be found in your Cloudinary Media Library under folders:
 
 `raw-archive-orders/<order-id>`
+
+## Payment success email notifications
+
+When Stripe checkout completes, the app can send you an email with order details and upload folder info.
+
+Add these environment variables:
+
+```bash
+STRIPE_WEBHOOK_SECRET=whsec_...
+RESEND_API_KEY=re_...
+NOTIFY_TO_EMAIL=you@yourdomain.com
+NOTIFY_FROM_EMAIL=orders@yourdomain.com
+NEXT_PUBLIC_SITE_URL=https://rawarchive.vercel.app
+```
+
+Configure Stripe webhook endpoint:
+
+- Endpoint URL: `https://rawarchive.vercel.app/api/stripe/webhook`
+- Event to send: `checkout.session.completed`
+
+Notes:
+
+- `NOTIFY_FROM_EMAIL` should be a verified sender for your Resend account.
+- If email vars are missing, checkout still works and uploads are still stored.

@@ -8,6 +8,21 @@ type CheckoutItem = {
   name?: unknown;
 };
 
+function sanitizeMetadataValue(value: unknown, maxLength = 500) {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, maxLength);
+}
+
+function sanitizeUrlList(value: unknown) {
+  if (!Array.isArray(value)) return "";
+  return value
+    .filter((item) => typeof item === "string" && item.startsWith("http"))
+    .map((item) => String(item).trim())
+    .filter(Boolean)
+    .join("\n")
+    .slice(0, 500);
+}
+
 function sanitizeEditNotes(value: unknown) {
   if (typeof value !== "string") return "";
   return value.trim().slice(0, 450);
@@ -35,7 +50,13 @@ function getStripe() {
 }
 
 export async function POST(request: Request) {
-  let body: { items?: unknown; editNotes?: unknown };
+  let body: {
+    items?: unknown;
+    editNotes?: unknown;
+    orderId?: unknown;
+    cloudinaryFolder?: unknown;
+    uploadedPreviewUrls?: unknown;
+  };
   try {
     body = await request.json();
   } catch {
@@ -49,6 +70,9 @@ export async function POST(request: Request) {
   const photoNames = getPhotoNames(body.items);
   const photoCount = photoNames.length;
   const editNotes = sanitizeEditNotes(body.editNotes);
+  const orderId = sanitizeMetadataValue(body.orderId, 80);
+  const cloudinaryFolder = sanitizeMetadataValue(body.cloudinaryFolder, 180);
+  const uploadedPreviewUrls = sanitizeUrlList(body.uploadedPreviewUrls);
 
   if (photoCount === 0) {
     return NextResponse.json({ message: "No items provided for checkout." }, { status: 400 });
@@ -81,8 +105,11 @@ export async function POST(request: Request) {
         },
       ],
       metadata: {
+        ...(orderId ? { orderId } : {}),
         photoCount: String(photoCount),
         photoNames: photoNames.join(", ").slice(0, 500),
+        ...(cloudinaryFolder ? { cloudinaryFolder } : {}),
+        ...(uploadedPreviewUrls ? { uploadedPreviewUrls } : {}),
         ...(editNotes ? { editNotes } : {}),
       },
       success_url: `${origin}/upload?success=true`,

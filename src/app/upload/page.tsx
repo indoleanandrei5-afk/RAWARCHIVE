@@ -138,16 +138,14 @@ export default function Upload() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          orderId,
+          cloudinaryFolder: `raw-archive-orders/${orderId}`,
           items: files.map((file) => ({
             name: file.name,
             quantity: 1,
             unit_amount: PRICE_PER_PHOTO * 100,
           })),
-          metadata: {
-            photoCount: files.length.toString(),
-            photoNames: files.map((file) => file.name).join(", "),
-            uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl).join(", ").slice(0, 500),
-          },
+          uploadedPreviewUrls: uploadedAssets.map((asset) => asset.secureUrl).slice(0, 5),
           editNotes,
         }),
       });
