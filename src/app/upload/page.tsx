@@ -6,6 +6,12 @@ import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, Or
 
 const PRICE_PER_PHOTO = 1;
 
+type UploadedAsset = {
+  secureUrl: string;
+  publicId: string;
+  originalFilename: string;
+};
+
 export default function Upload() {
   const router = useRouter();
   const [checkoutStatus, setCheckoutStatus] = useState<"success" | "canceled" | null>(null);
@@ -34,6 +40,7 @@ export default function Upload() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [editNotes, setEditNotes] = useState("");
+  const [uploadStatus, setUploadStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -63,27 +70,70 @@ export default function Upload() {
     }
   }, [router]);
 
-  const [pendingOrderId, setPendingOrderId] = useState<string | null>(null);
+  const uploadFilesToCloudinary = async (orderId: string, filesToUpload: File[]): Promise<UploadedAsset[]> => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
+    if (!cloudName || !uploadPreset) {
+      throw new Error("Upload storage is not configured. Add Cloudinary environment variables.");
+    }
+
+    const uploadedAssets: UploadedAsset[] = [];
+
+    for (let index = 0; index < filesToUpload.length; index += 1) {
+      const file = filesToUpload[index];
+      setUploadStatus(`Uploading ${index + 1} of ${filesToUpload.length}...`);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("folder", `raw-archive-orders/${orderId}`);
+      formData.append("tags", "raw-archive,client-upload");
+
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.secure_url || !data.public_id) {
+        throw new Error(data?.error?.message || "Unable to upload one or more files.");
+      }
+
+      uploadedAssets.push({
+        secureUrl: data.secure_url,
+        publicId: data.public_id,
+        originalFilename: file.name,
+      });
+    }
+
+    return uploadedAssets;
+  };
 
   const handleCheckout = async () => {
     if (files.length === 0) return;
     setCheckoutLoading(true);
     setCheckoutError(null);
+    setUploadStatus(null);
 
     const orderId = `${Date.now()}`;
-    const pendingOrder: Order = {
-      id: orderId,
-      createdAt: new Date().toISOString(),
-      photoCount: files.length,
-      total: totalPrice,
-      status: "pending",
-      photoNames: files.map((file) => file.name).join(", "),
-    };
-
-    addOrder(pendingOrder);
-    setPendingOrderId(orderId);
 
     try {
+      const uploadedAssets = await uploadFilesToCloudinary(orderId, files);
+
+      const pendingOrder: Order = {
+        id: orderId,
+        createdAt: new Date().toISOString(),
+        photoCount: files.length,
+        total: totalPrice,
+        status: "pending",
+        photoNames: files.map((file) => file.name).join(", "),
+        uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl),
+      };
+
+      addOrder(pendingOrder);
+
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -96,6 +146,7 @@ export default function Upload() {
           metadata: {
             photoCount: files.length.toString(),
             photoNames: files.map((file) => file.name).join(", "),
+            uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl).join(", ").slice(0, 500),
           },
           editNotes,
         }),
@@ -104,18 +155,18 @@ export default function Upload() {
       const data = await response.json();
       if (!response.ok) {
         removeOrderById(orderId);
+        setUploadStatus(null);
         throw new Error(data.message || "Unable to create checkout session");
       }
       if (data.url) {
+        setUploadStatus("Upload complete. Redirecting to secure payment...");
         window.location.href = data.url;
       }
     } catch (error) {
-      if (pendingOrderId === orderId) {
-        removeOrderById(orderId);
-        setPendingOrderId(null);
-      }
+      removeOrderById(orderId);
       const message = error instanceof Error ? error.message : "Payment failed. Please try again.";
       setCheckoutError(message);
+      setUploadStatus(null);
     } finally {
       setCheckoutLoading(false);
     }
@@ -243,6 +294,11 @@ export default function Upload() {
                 </div>
 
                 <div className="mt-8 grid gap-4">
+                  {uploadStatus && (
+                    <p className="rounded-3xl border border-white/15 bg-white/8 p-4 text-sm text-gray-100">
+                      {uploadStatus}
+                    </p>
+                  )}
                   {checkoutError && (
                     <p className="rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
                       {checkoutError}

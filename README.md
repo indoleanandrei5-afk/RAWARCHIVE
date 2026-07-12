@@ -50,3 +50,18 @@ If you own a domain like `rawarchive.com`, add it in the Vercel Dashboard under 
 Once the domain is verified, your site will be live on that custom domain.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Client upload storage setup
+
+Client photos are uploaded directly to Cloudinary from the upload page before Stripe checkout.
+
+Add these environment variables in Vercel and locally in `.env.local`:
+
+```bash
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
+```
+
+After setup, uploaded files can be found in your Cloudinary Media Library under folders:
+
+`raw-archive-orders/<order-id>`

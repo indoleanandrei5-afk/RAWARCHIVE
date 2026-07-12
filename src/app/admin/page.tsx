@@ -69,6 +69,25 @@ export default function Admin() {
                   </div>
                 </div>
 
+                {order.uploadedUrls && order.uploadedUrls.length > 0 ? (
+                  <div className="mt-6 rounded-3xl border border-white/10 bg-black/30 p-4">
+                    <p className="text-sm uppercase tracking-[0.4em] text-gray-400">Uploaded files</p>
+                    <div className="mt-3 grid gap-2">
+                      {order.uploadedUrls.map((url, index) => (
+                        <a
+                          key={`${order.id}-upload-${index}`}
+                          href={url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="truncate text-sm text-(--accent-strong) underline"
+                        >
+                          {url}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <button
                     type="button"

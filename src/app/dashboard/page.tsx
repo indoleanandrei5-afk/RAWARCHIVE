@@ -67,6 +67,25 @@ export default function Dashboard() {
                     <p className="mt-2 text-sm text-gray-200 truncate">{order.photoNames}</p>
                   </div>
                 </div>
+
+                {order.uploadedUrls && order.uploadedUrls.length > 0 ? (
+                  <div className="mt-6 rounded-3xl border border-white/10 bg-black/30 p-4">
+                    <p className="text-xs uppercase tracking-[0.28em] text-gray-400 sm:text-sm sm:tracking-[0.4em]">Uploaded files</p>
+                    <div className="mt-3 grid gap-2">
+                      {order.uploadedUrls.map((url, index) => (
+                        <a
+                          key={`${order.id}-upload-${index}`}
+                          href={url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="truncate text-sm text-(--accent-strong) underline"
+                        >
+                          {url}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

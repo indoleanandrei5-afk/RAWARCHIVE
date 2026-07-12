@@ -7,6 +7,7 @@ export type Order = {
   total: number;
   status: OrderStatus;
   photoNames: string;
+  uploadedUrls?: string[];
 };
 
 const ORDERS_STORAGE_KEY = "rawArchiveOrders";
