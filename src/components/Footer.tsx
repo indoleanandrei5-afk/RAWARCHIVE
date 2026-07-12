@@ -20,7 +20,7 @@ export default function Footer() {
             <a href="https://instagram.com/rawarchivephotos" target="_blank" rel="noreferrer me" className="text-gray-300 transition hover:text-white">
               Instagram
             </a>
-            <a href="mailto:andreiindo@icloud.com" className="text-gray-300 transition hover:text-white">
+            <a href="mailto:indoleanandrei5@gmail.com" className="text-gray-300 transition hover:text-white">
               Email
             </a>
           </div>

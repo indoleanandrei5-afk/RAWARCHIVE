@@ -17,7 +17,7 @@ export default function Contact() {
     mainEntity: {
       "@type": "ProfessionalService",
       name: "RAW ARCHIVE PHOTOS",
-      email: "andreiindo@icloud.com",
+      email: "indoleanandrei5@gmail.com",
       sameAs: ["https://instagram.com/rawarchivephotos"],
     },
   };
@@ -36,8 +36,8 @@ export default function Contact() {
           <div className="space-y-6">
             <div>
               <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Email</p>
-              <a href="mailto:andreiindo@icloud.com" className="mt-3 block text-lg font-semibold text-white underline">
-                andreiindo@icloud.com
+              <a href="mailto:indoleanandrei5@gmail.com" className="mt-3 block text-lg font-semibold text-white underline">
+                indoleanandrei5@gmail.com
               </a>
             </div>
 
