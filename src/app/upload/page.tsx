@@ -33,6 +33,7 @@ export default function Upload() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [editNotes, setEditNotes] = useState("");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -48,6 +49,7 @@ export default function Upload() {
       }
       setCheckoutStatus("success");
       setFiles([]);
+      setEditNotes("");
       setIsCheckoutOpen(false);
       setCheckoutError(null);
       router.replace("/upload", { scroll: false });
@@ -95,6 +97,7 @@ export default function Upload() {
             photoCount: files.length.toString(),
             photoNames: files.map((file) => file.name).join(", "),
           },
+          editNotes,
         }),
       });
 
@@ -225,6 +228,20 @@ export default function Upload() {
                   </div>
                 </div>
 
+                <div className="mt-6">
+                  <label htmlFor="edit-notes" className="text-xs uppercase tracking-[0.22em] text-gray-300">
+                    Edit Notes For Your Photos
+                  </label>
+                  <textarea
+                    id="edit-notes"
+                    value={editNotes}
+                    onChange={(event) => setEditNotes(event.target.value)}
+                    placeholder="Describe your preferred look: tone, warmth, contrast, skin retouch, cleanup, crop, and any priority shots."
+                    rows={5}
+                    className="mt-3 w-full rounded-2xl border border-white/15 bg-black/35 px-4 py-3 text-sm text-white outline-none placeholder:text-gray-400 focus:border-[color:var(--accent)]"
+                  />
+                </div>
+
                 <div className="mt-8 grid gap-4">
                   {checkoutError && (
                     <p className="rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
@@ -266,7 +283,7 @@ export default function Upload() {
                         <img
                           src={URL.createObjectURL(file)}
                           alt={file.name}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-cover object-center"
                         />
                       </div>
                       <div className="min-w-0 flex-1">

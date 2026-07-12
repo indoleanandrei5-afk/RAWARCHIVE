@@ -8,6 +8,11 @@ type CheckoutItem = {
   name?: unknown;
 };
 
+function sanitizeEditNotes(value: unknown) {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, 450);
+}
+
 function sanitizePhotoName(value: unknown, fallbackIndex: number) {
   if (typeof value !== "string") return `Photo ${fallbackIndex + 1}`;
   const trimmed = value.trim();
@@ -30,7 +35,7 @@ function getStripe() {
 }
 
 export async function POST(request: Request) {
-  let body: { items?: unknown };
+  let body: { items?: unknown; editNotes?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -43,6 +48,7 @@ export async function POST(request: Request) {
 
   const photoNames = getPhotoNames(body.items);
   const photoCount = photoNames.length;
+  const editNotes = sanitizeEditNotes(body.editNotes);
 
   if (photoCount === 0) {
     return NextResponse.json({ message: "No items provided for checkout." }, { status: 400 });
@@ -64,19 +70,20 @@ export async function POST(request: Request) {
       mode: "payment",
       line_items: [
         {
-        price_data: {
-          currency: "usd",
-          product_data: {
+          price_data: {
+            currency: "usd",
+            product_data: {
               name: "Photo editing service",
-          },
+            },
             unit_amount: PRICE_PER_PHOTO_CENTS,
-        },
+          },
           quantity: photoCount,
         },
       ],
       metadata: {
         photoCount: String(photoCount),
         photoNames: photoNames.join(", ").slice(0, 500),
+        ...(editNotes ? { editNotes } : {}),
       },
       success_url: `${origin}/upload?success=true`,
       cancel_url: `${origin}/upload?canceled=true`,
