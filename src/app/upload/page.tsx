@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, Order } from "@/lib/orders";
+import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, updateOrderUploadedUrls, Order } from "@/lib/orders";
 
 const PRICE_PER_PHOTO = 1;
 
@@ -42,6 +42,7 @@ export default function Upload() {
   const [editNotes, setEditNotes] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
+  const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -52,11 +53,25 @@ export default function Upload() {
 
     if (success) {
       const pending = getLatestPendingOrder();
-      if (pending) {
+      if (pending && filesToUpload.length > 0) {
+        // Upload files after payment confirmation
+        uploadFilesToCloudinary(pending.id, filesToUpload, false)
+          .then((uploadedAssets) => {
+            // Update order with uploaded URLs
+            updateOrderUploadedUrls(pending.id, uploadedAssets.map((a) => a.secureUrl));
+            updateOrderStatus(pending.id, "success");
+          })
+          .catch((error) => {
+            console.error("Failed to upload files after payment:", error);
+            updateOrderStatus(pending.id, "success");
+          });
+      } else if (pending) {
         updateOrderStatus(pending.id, "success");
       }
+      
       setCheckoutStatus("success");
       setFiles([]);
+      setFilesToUpload([]);
       setEditNotes("");
       setClientEmail("");
       setIsCheckoutOpen(false);
@@ -135,8 +150,10 @@ export default function Upload() {
     const orderId = `${Date.now()}`;
 
     try {
-      const uploadedAssets = await uploadFilesToCloudinary(orderId, files, true);
+      // Store files for upload after payment
+      setFilesToUpload(files);
 
+      // Create order WITHOUT uploading files yet
       const pendingOrder: Order = {
         id: orderId,
         createdAt: new Date().toISOString(),
@@ -144,7 +161,6 @@ export default function Upload() {
         total: totalPrice,
         status: "pending",
         photoNames: files.map((file) => file.name).join(", "),
-        uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl),
         clientEmail,
         editNotes,
       };
@@ -162,7 +178,7 @@ export default function Upload() {
             quantity: 1,
             unit_amount: PRICE_PER_PHOTO * 100,
           })),
-          uploadedPreviewUrls: uploadedAssets.map((asset) => asset.secureUrl).slice(0, 5),
+          uploadedPreviewUrls: [],
           editNotes,
         }),
       });
@@ -174,7 +190,7 @@ export default function Upload() {
         throw new Error(data.message || "Unable to create checkout session");
       }
       if (data.url) {
-        setUploadStatus("Upload complete. Redirecting to secure payment...");
+        setUploadStatus("Redirecting to secure payment...");
         window.location.href = data.url;
       }
     } catch (error) {

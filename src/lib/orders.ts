@@ -53,6 +53,14 @@ export function updateOrderStatus(orderId: string, status: OrderStatus) {
   saveStoredOrders(next);
 }
 
+export function updateOrderUploadedUrls(orderId: string, uploadedUrls: string[]) {
+  const orders = getStoredOrders();
+  const next = orders.map((order) =>
+    order.id === orderId ? { ...order, uploadedUrls } : order,
+  );
+  saveStoredOrders(next);
+}
+
 export function getLatestPendingOrder(): Order | undefined {
   return getStoredOrders().find((order) => order.status === "pending");
 }
