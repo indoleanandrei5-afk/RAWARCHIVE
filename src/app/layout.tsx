@@ -78,6 +78,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-WP4NN5MT" />
+
       <body
         style={
           {
@@ -89,8 +91,6 @@ export default function RootLayout({
         <Navbar />
         {children}
       </body>
-
-      <GoogleTagManager gtmId="GTM-WP4NN5MT" />
     </html>
   );
 }
