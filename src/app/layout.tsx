@@ -1,3 +1,4 @@
+import CookieConsent from "@/components/CookieConsent";
 import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
@@ -88,6 +89,7 @@ export default function RootLayout({
           } as React.CSSProperties
         }
       >
+        <CookieConsent />
         <Navbar />
         {children}
       </body>
