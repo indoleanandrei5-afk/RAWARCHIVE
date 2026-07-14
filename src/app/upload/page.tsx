@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, updateOrderUploadedUrls, Order } from "@/lib/orders";
+import { trackEvent } from "@/lib/analytics";
 
 // Pricing rule: total equals photo count, except every 10th photo threshold gets
 // a cumulative $3 discount (10 -> 7, 20 -> 14, 30 -> 21, ...).
