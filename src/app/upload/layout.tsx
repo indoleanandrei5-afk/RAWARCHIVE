@@ -1,70 +1,31 @@
 import type { Metadata } from "next";
-import { defaultOgImage } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Upload",
+  title: "Upload Photos",
   description:
-    "Upload your photos, choose a bundle tier, and start secure checkout for professional hand-edited retouching.",
-  keywords: [
-    "upload photos for editing",
-    "secure photo editing checkout",
-    "photo retouching order form",
-    "online photo editing service",
-  ],
+    "Upload your photos securely for professional hand-edited retouching, color grading, and cinematic photo editing.",
   alternates: {
     canonical: "/upload",
   },
   openGraph: {
-    title: "Upload Photos for Editing",
-    description: "Upload your photos and start secure checkout for hand-edited professional retouching.",
+    title: "Upload Photos | RAW ARCHIVE PHOTOS",
+    description:
+      "Securely upload your photos for professional hand-edited retouching and color refinement.",
     url: "/upload",
     type: "website",
-    images: [defaultOgImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Upload Photos for Editing",
-    description: "Upload your photos and start secure checkout for hand-edited professional retouching.",
-    images: [defaultOgImage],
+    title: "Upload Photos | RAW ARCHIVE PHOTOS",
+    description:
+      "Securely upload your photos for professional editing by RAW ARCHIVE PHOTOS.",
   },
 };
 
-export default function UploadLayout({ children }: { children: React.ReactNode }) {
-  const uploadFaqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How much does upload photo editing cost?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Pricing starts at $1 per photo. Bundle discounts apply every 10 photos: 10 = $7, 20 = $14, 30 = $21.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How do I submit photos for editing?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Choose your upload tier, add your files, include edit notes, and proceed through secure checkout.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Do you use AI retouching tools?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. Every photo is edited by hand to keep results natural, controlled, and consistent.",
-        },
-      },
-    ],
-  };
-
-  return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(uploadFaqSchema) }} />
-      {children}
-    </>
-  );
+export default function UploadLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return children;
 }
