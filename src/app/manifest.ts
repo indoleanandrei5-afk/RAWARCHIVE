@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "RAW ARCHIVE PHOTOS",
-    short_name: "RAW ARCHIVE",
+    short_name: "RAW ARCHIVE PHOTOS",
     description: "Professional hand-edited photo retouching and cinematic color refinement.",
     categories: ["photography", "business", "lifestyle"],
     lang: "en-US",
