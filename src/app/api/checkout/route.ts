@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         ...(editNotes ? { editNotes } : {}),
         ...(socialMediaConsent ? { socialMediaConsent } : {}),
       },
-      success_url: `${origin}/upload?success=true`,
+      success_url: `/success`,
       cancel_url: `${origin}/upload?canceled=true`,
     });
 
