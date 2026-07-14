@@ -1,3 +1,4 @@
+import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import { brandHandle, brandName, defaultKeywords, defaultOgImage, siteUrl } from "@/lib/seo";
@@ -70,7 +71,6 @@ export const metadata: Metadata = {
     },
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -89,6 +89,8 @@ export default function RootLayout({
         <Navbar />
         {children}
       </body>
+
+      <GoogleTagManager gtmId="GTM-WP4NN5MT" />
     </html>
   );
 }
