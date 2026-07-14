@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   description:
     "Professional hand-edited photo retouching and color refinement for portraits, brands, and creators. Fast delivery, consistent tone, and cinematic quality.",
   applicationName: brandName,
+  appleWebApp: {
+    capable: true,
+    title: "RAW ARCHIVE PHOTOS",
+    statusBarStyle: "default",
+  },
   category: "photography",
   creator: brandName,
   publisher: brandName,
