@@ -113,7 +113,7 @@ export default function BeforeAfter() {
             className="pro-shell rounded-3xl px-6 py-8 text-center sm:px-10 md:py-10"
             whileHover={{ scale: 1.006 }}
           >
-            <p className="mb-4 text-[11px] font-medium tracking-[0.35em] text-white/55 uppercase">
+            <p className="mb-4 text-[11px] font-medium tracking-[0.08em] sm:tracking-[0.35em] text-white/55 uppercase">
               Photography
             </p>
             <h1 className="mb-5 text-5xl font-light leading-none tracking-tight text-white sm:text-6xl lg:text-7xl">
@@ -122,14 +122,14 @@ export default function BeforeAfter() {
             <p className="pro-subtitle mx-auto mb-7 max-w-2xl text-base font-light sm:text-lg">
               Real edits, real restraint, real improvement. Drag the divider and see exactly what changed.
             </p>
-            <div className="tone-faint mx-auto flex max-w-md items-center justify-center gap-3 text-[11px] tracking-[0.22em] uppercase">
-              <span>Natural Tone</span>
+            <div className="tone-faint mx-auto flex max-w-md flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] tracking-[0.06em] sm:tracking-[0.22em] uppercase">
+              <span>Natural Tones</span>
               <span className="h-px w-8 bg-white/25" />
-              <span>Clean Contrast</span>
+              <span>Balanced Contrast</span>
               <span className="h-px w-8 bg-white/25" />
-              <span>Hand Retouch</span>
+              <span>Hand Retouching</span>
             </div>
-            <p className="tone-faint mx-auto mt-5 max-w-xl text-[11px] uppercase tracking-[0.2em]">
+            <p className="tone-faint mx-auto mt-5 max-w-xl text-[11px] uppercase tracking-[0.05em] sm:tracking-[0.2em]">
               Drag slowly, or use the arrow keys if you are in a meticulous mood
             </p>
           </motion.div>
@@ -147,7 +147,7 @@ export default function BeforeAfter() {
               whileHover={{ y: -4, scale: 1.004 }}
               className="pro-panel md:col-span-5 rounded-[20px] p-1.5 shadow-[0_20px_50px_-42px_rgba(0,0,0,0.85)]"
             >
-              <div className="px-3 pb-2 pt-2 text-[11px] uppercase tracking-[0.18em] text-white/44">Featured Comparison</div>
+              <div className="px-3 pb-2 pt-2 text-[11px] uppercase tracking-[0.04em] sm:tracking-[0.18em] text-white/44">Featured Comparison</div>
               <BeforeAfterSlider
                 src={featuredTall.src}
                 alt={`Photo ${featuredTall.num} - Before After Comparison`}
@@ -198,8 +198,8 @@ export default function BeforeAfter() {
       <section className="relative z-10 pb-24">
         <div className="page-container">
           <div className="section-shell mb-6 flex items-end justify-between rounded-3xl px-5 py-4">
-            <p className="tone-faint text-xs font-medium tracking-[0.24em] uppercase">Full Set</p>
-            <p className="tone-faint text-[11px] font-light tracking-[0.18em] uppercase">Drag To Compare</p>
+            <p className="tone-faint text-xs font-medium tracking-[0.06em] sm:tracking-[0.24em] uppercase">Full Set</p>
+            <p className="tone-faint text-[11px] font-light tracking-[0.04em] sm:tracking-[0.18em] uppercase">Drag To Compare</p>
           </div>
 
           <div className="columns-1 gap-5 md:columns-2 lg:columns-3 [column-fill:balance]">
