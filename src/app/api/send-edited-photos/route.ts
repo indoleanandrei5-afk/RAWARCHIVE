@@ -14,7 +14,6 @@ function getStripe() {
 async function sendEditedPhotosEmail(clientEmail: string, editedUrls: string[], orderId: string) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const notifyFrom = process.env.NOTIFY_FROM_EMAIL || "onboarding@resend.dev";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rawarchive.vercel.app";
 
   if (!resendApiKey) {
     throw new Error("RESEND_API_KEY not configured.");
@@ -37,6 +36,7 @@ async function sendEditedPhotosEmail(clientEmail: string, editedUrls: string[], 
     ...editedUrls.map((url) => `- ${url}`),
     "",
     "Thank you for using RAW ARCHIVE!",
+    "We do not use or support AI editing workflows. Every image is edited by hand.",
     "Follow us on Instagram: @rawarchivephotos or TikTok: @rawarchivephotos",
   ].join("\n");
 
@@ -53,6 +53,7 @@ async function sendEditedPhotosEmail(clientEmail: string, editedUrls: string[], 
       
       <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666;">
         Thank you for choosing RAW ARCHIVE for your photo editing needs!<br>
+        We do not use or support AI editing workflows. Every image is edited by hand.<br>
         Follow us on Instagram: <strong>@rawarchivephotos</strong> or TikTok: <strong>@rawarchivephotos</strong>
       </p>
     </div>
@@ -92,10 +93,10 @@ export async function POST(request: Request) {
     }
 
     // If clientEmail not provided, try to fetch from Stripe
-    let email = clientEmail;
+    const email = clientEmail;
     if (!email) {
       try {
-        const stripe = getStripe();
+        getStripe();
         // Try to find the session by searching metadata
         // This is a workaround - in production you'd store sessionId in Order
         console.warn("clientEmail not provided and Stripe lookup not fully implemented");
@@ -103,7 +104,7 @@ export async function POST(request: Request) {
           { message: "clientEmail required (Stripe lookup not implemented)" },
           { status: 400 }
         );
-      } catch (error) {
+      } catch {
         return NextResponse.json(
           { message: "Unable to determine client email" },
           { status: 400 }

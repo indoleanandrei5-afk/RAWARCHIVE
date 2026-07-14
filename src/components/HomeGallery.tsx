@@ -46,7 +46,7 @@ export default function HomeGallery() {
     <section className="bg-black px-6 py-20 text-white">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.4em] text-gray-500">More Work</p>
+          <p className="eyebrow">More Work</p>
           <h3 className="mt-3 text-4xl font-bold">Selected Frames</h3>
         </div>
 
@@ -70,7 +70,7 @@ export default function HomeGallery() {
                 prev();
                 if (timer.current) window.clearInterval(timer.current);
               }}
-              className="rounded-full bg-black/40 p-3 text-white hover:bg-black/60"
+              className="modal-button p-3"
             >
               ‹
             </button>
@@ -83,7 +83,7 @@ export default function HomeGallery() {
                 next();
                 if (timer.current) window.clearInterval(timer.current);
               }}
-              className="rounded-full bg-black/40 p-3 text-white hover:bg-black/60"
+              className="modal-button p-3"
             >
               ›
             </button>
@@ -108,18 +108,18 @@ export default function HomeGallery() {
 
           {/* Lightbox */}
           {isOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-[radial-gradient(circle_at_center,rgba(20,20,20,0.92),rgba(2,2,2,0.98))] p-6">
               <button
                 aria-label="Close"
                 onClick={() => setIsOpen(false)}
-                className="absolute right-6 top-6 rounded-full bg-white/10 px-3 py-2 text-white"
+                className="modal-button absolute right-6 top-6 px-3 py-2"
               >
                 ✕
               </button>
               <button
                 aria-label="Prev"
                 onClick={() => setLightIndex((i) => (i - 1 + length) % length)}
-                className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full bg-white/10 px-3 py-2 text-white"
+                className="modal-button absolute left-6 top-1/2 -translate-y-1/2 px-3 py-2"
               >
                 ‹
               </button>
@@ -127,7 +127,7 @@ export default function HomeGallery() {
               <button
                 aria-label="Next"
                 onClick={() => setLightIndex((i) => (i + 1) % length)}
-                className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full bg-white/10 px-3 py-2 text-white"
+                className="modal-button absolute right-6 top-1/2 -translate-y-1/2 px-3 py-2"
               >
                 ›
               </button>

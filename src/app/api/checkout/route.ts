@@ -4,17 +4,12 @@ import Stripe from "stripe";
 const PRICE_PER_PHOTO_CENTS = 100;
 const MAX_PHOTOS_PER_ORDER = 100;
 
-// Tiered pricing: 1-9 = $1 each, 10-19 = $7 flat, 20-29 = $18 flat, 30+ = $25 flat
+// Pricing rule: total equals photo count, except every 10th photo threshold gets
+// a cumulative $3 discount (10 -> 7, 20 -> 14, 30 -> 21, ...).
 function calculateTieredPrice(photoCount: number): number {
-  if (photoCount <= 9) {
-    return photoCount * 100; // $1 per photo in cents
-  } else if (photoCount <= 19) {
-    return 700; // $7 flat in cents
-  } else if (photoCount <= 29) {
-    return 1800; // $18 flat in cents
-  } else {
-    return 2500; // $25 flat in cents
-  }
+  if (photoCount <= 0) return 0;
+  const discountBlocks = Math.floor(photoCount / 10);
+  return (photoCount - discountBlocks * 3) * 100;
 }
 
 type CheckoutItem = {
@@ -69,6 +64,7 @@ export async function POST(request: Request) {
     orderId?: unknown;
     cloudinaryFolder?: unknown;
     uploadedPreviewUrls?: unknown;
+    socialMediaConsent?: unknown;
   };
   try {
     body = await request.json();
@@ -86,6 +82,10 @@ export async function POST(request: Request) {
   const orderId = sanitizeMetadataValue(body.orderId, 80);
   const cloudinaryFolder = sanitizeMetadataValue(body.cloudinaryFolder, 180);
   const uploadedPreviewUrls = sanitizeUrlList(body.uploadedPreviewUrls);
+  const socialMediaConsentRaw = sanitizeMetadataValue(body.socialMediaConsent, 20).toLowerCase();
+  const socialMediaConsent = socialMediaConsentRaw === "allow" || socialMediaConsentRaw === "deny"
+    ? socialMediaConsentRaw
+    : "";
 
   if (photoCount === 0) {
     return NextResponse.json({ message: "No items provided for checkout." }, { status: 400 });
@@ -125,6 +125,7 @@ export async function POST(request: Request) {
         ...(cloudinaryFolder ? { cloudinaryFolder } : {}),
         ...(uploadedPreviewUrls ? { uploadedPreviewUrls } : {}),
         ...(editNotes ? { editNotes } : {}),
+        ...(socialMediaConsent ? { socialMediaConsent } : {}),
       },
       success_url: `${origin}/upload?success=true`,
       cancel_url: `${origin}/upload?canceled=true`,

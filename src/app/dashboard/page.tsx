@@ -1,18 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getStoredOrders, Order } from "@/lib/orders";
 
-export default function Dashboard() {
-  const [orders, setOrders] = useState<Order[]>([]);
+function formatSocialMediaConsent(value: Order["socialMediaConsent"]) {
+  if (value === "allow") return "Approved for social media use";
+  if (value === "deny") return "Not approved (private only)";
+  return "Not specified";
+}
 
-  useEffect(() => {
-    setOrders(getStoredOrders());
-  }, []);
+export default function Dashboard() {
+  const [orders] = useState<Order[]>(() => getStoredOrders());
 
   return (
-    <main className="min-h-screen bg-black px-4 py-16 text-white sm:p-10">
-      <div className="mx-auto max-w-5xl">
+    <main className="page-wrap relative overflow-hidden px-4 py-16 text-white sm:p-10">
+      <div className="page-overlay" />
+      <div className="page-container max-w-5xl">
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-4xl font-bold sm:text-6xl">Dashboard</h1>
@@ -67,6 +70,18 @@ export default function Dashboard() {
                     <p className="mt-2 text-sm text-gray-200 truncate">{order.photoNames}</p>
                   </div>
                 </div>
+
+                <div className="mt-6 rounded-3xl border border-white/10 bg-black/30 p-4">
+                  <p className="text-xs uppercase tracking-[0.28em] text-gray-400 sm:text-sm sm:tracking-[0.4em]">Social Media Permission</p>
+                  <p className="mt-2 text-sm text-gray-200">{formatSocialMediaConsent(order.socialMediaConsent)}</p>
+                </div>
+
+                {order.editNotes ? (
+                  <div className="mt-6 rounded-3xl border border-blue-500/20 bg-blue-500/10 p-4">
+                    <p className="text-xs uppercase tracking-[0.28em] text-blue-400 sm:text-sm sm:tracking-[0.4em]">Client Notes</p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm text-blue-100">{order.editNotes}</p>
+                  </div>
+                ) : null}
 
                 {order.uploadedUrls && order.uploadedUrls.length > 0 ? (
                   <div className="mt-6 rounded-3xl border border-white/10 bg-black/30 p-4">

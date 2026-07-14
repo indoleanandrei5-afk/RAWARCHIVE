@@ -11,6 +11,7 @@ export type Order = {
   clientEmail?: string;
   editedUrls?: string[];
   editNotes?: string;
+  socialMediaConsent?: "allow" | "deny";
 };
 
 const ORDERS_STORAGE_KEY = "rawArchiveOrders";

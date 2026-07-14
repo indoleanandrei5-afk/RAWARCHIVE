@@ -4,20 +4,24 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function PricingSection() {
+  const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
+  const REVEAL_DURATION = 0.82;
+
   return (
-    <section className="bg-[#050505] px-4 py-18 text-white sm:px-6 sm:py-24">
+    <section className="bg-transparent px-4 py-16 text-white sm:px-6 sm:py-22">
       <div className="mx-auto max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.65, ease: "easeOut" }}
-          className="mb-14 space-y-6 text-center"
+          transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
+          className="section-shell mb-12 rounded-3xl px-5 py-8 text-center sm:mb-14 sm:px-8 sm:py-10"
+          whileHover={{ y: -2, scale: 1.006 }}
         >
-          <p className="inline-flex rounded-full border border-white/15 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.24em] text-gray-300 max-[390px]:text-[10px] max-[390px]:tracking-[0.14em] sm:text-sm sm:tracking-[0.4em]">Pricing</p>
-          <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl">Minimal pricing, polished results.</h2>
-          <p className="mx-auto max-w-2xl text-base text-gray-200 sm:text-lg">
-            Simple, elegant photo editing priced for independent photographers and small studios.
+          <p className="eyebrow max-[390px]:text-[10px] max-[390px]:tracking-[0.14em] sm:text-sm sm:tracking-[0.3em]">Pricing</p>
+          <h2 className="mt-4 text-3xl font-medium sm:text-4xl md:text-5xl">Simple pricing, good taste included.</h2>
+          <p className="pro-subtitle mx-auto mt-5 max-w-2xl text-base sm:text-lg">
+            $1 per photo to start, with automatic bundle discounts every 10 images. Clear numbers, no hidden acrobatics.
           </p>
         </motion.div>
 
@@ -29,22 +33,24 @@ export default function PricingSection() {
             hidden: {},
             show: {
               transition: {
-                staggerChildren: 0.1,
+                staggerChildren: 0.13,
+                delayChildren: 0.06,
               },
             },
           }}
-          className="grid gap-5 md:grid-cols-3"
+          className="grid gap-4 md:grid-cols-3"
         >
           <motion.div
-            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-            className="rounded-4xl border border-white/15 bg-black/40 p-6 text-left transition hover:border-white/25 hover:bg-white/8 sm:p-10"
+            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+            transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
+            whileHover={{ y: -5, scale: 1.008 }}
+            className="pro-panel p-6 text-left transition-all duration-550 ease-out hover:border-white/24 hover:bg-white/8 sm:p-8"
           >
-            <p className="text-sm uppercase tracking-[0.24em] text-gray-500 sm:tracking-[0.35em]">1 Photo</p>
-            <p className="mt-3 text-xs uppercase tracking-[0.2em] text-gray-500 sm:tracking-[0.35em]">Perfect for one standout image</p>
+            <p className="tone-faint text-sm uppercase tracking-[0.24em] sm:tracking-[0.35em]">1 Photo</p>
+            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">For one image worth getting right</p>
             <p className="mt-6 text-4xl font-semibold sm:text-5xl">$1</p>
-            <p className="mt-3 text-gray-200">Per edited image</p>
-            <div className="mt-8 space-y-3 text-gray-100">
+            <p className="tone-soft mt-3">Per edited image</p>
+            <div className="tone-soft mt-8 space-y-3">
               <p>Clean color grade</p>
               <p>Subtle retouch</p>
               <p>High-res export</p>
@@ -52,15 +58,19 @@ export default function PricingSection() {
           </motion.div>
 
           <motion.div
-            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-            className="rounded-4xl border border-white/15 bg-white/8 p-6 text-left shadow-[0_30px_80px_-60px_rgba(197,210,227,0.5)] transition hover:border-white/25 hover:bg-white/12 sm:p-10"
+            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+            transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
+            whileHover={{ y: -5, scale: 1.008 }}
+            className="section-shell relative p-6 text-left transition-all duration-550 ease-out hover:border-white/24 hover:bg-white/11 sm:p-8"
           >
-            <p className="text-sm uppercase tracking-[0.24em] text-gray-500 sm:tracking-[0.35em]">10 Photos</p>
-            <p className="mt-3 text-xs uppercase tracking-[0.2em] text-gray-500 sm:tracking-[0.35em]">Best value for a cohesive set</p>
+            <span className="absolute right-5 top-5 rounded-full border border-white/16 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/75">
+              Most Popular
+            </span>
+            <p className="tone-faint text-sm uppercase tracking-[0.24em] sm:tracking-[0.35em]">10 Photos</p>
+            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">Best place to start a proper set</p>
             <p className="mt-6 text-4xl font-semibold text-white sm:text-5xl">$7</p>
-            <p className="mt-3 text-gray-200">Total package price</p>
-            <div className="mt-8 space-y-3 text-gray-100">
+            <p className="tone-soft mt-3">Total package price</p>
+            <div className="tone-soft mt-8 space-y-3">
               <p>Cohesive batch finish</p>
               <p>Cinematic tone</p>
               <p>Ready to share</p>
@@ -68,15 +78,16 @@ export default function PricingSection() {
           </motion.div>
 
           <motion.div
-            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
-            className="rounded-4xl border border-white/15 bg-black/40 p-6 text-left transition hover:border-white/25 hover:bg-white/8 sm:p-10"
+            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+            transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
+            whileHover={{ y: -5, scale: 1.008 }}
+            className="pro-panel p-6 text-left transition-all duration-550 ease-out hover:border-white/24 hover:bg-white/8 sm:p-8"
           >
-            <p className="text-sm uppercase tracking-[0.24em] text-gray-500 sm:tracking-[0.35em]">30+ Photos</p>
-            <p className="mt-3 text-xs uppercase tracking-[0.2em] text-gray-500 sm:tracking-[0.35em]">Gallery polish at a strong rate</p>
-            <p className="mt-6 text-4xl font-semibold sm:text-5xl">$18</p>
-            <p className="mt-3 text-gray-200">Total package price</p>
-            <div className="mt-8 space-y-3 text-gray-100">
+            <p className="tone-faint text-sm uppercase tracking-[0.24em] sm:tracking-[0.35em]">30 Photos</p>
+            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">For larger galleries that need cohesion</p>
+            <p className="mt-6 text-4xl font-semibold sm:text-5xl">$21</p>
+            <p className="tone-soft mt-3">Total package price</p>
+            <div className="tone-soft mt-8 space-y-3">
               <p>Full gallery polish</p>
               <p>Advanced detail work</p>
               <p>Priority delivery</p>
@@ -84,20 +95,24 @@ export default function PricingSection() {
           </motion.div>
         </motion.div>
 
-        <div className="mx-auto mt-12 w-full max-w-2xl rounded-[28px] border border-white/15 bg-black/35 p-3 shadow-[0_28px_90px_-60px_rgba(197,210,227,0.65)] backdrop-blur-xl sm:p-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <Link
-              href="/upload"
-              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-(--accent-strong) px-6 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-[#0b111a] transition hover:bg-(--accent) max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.2em]"
-            >
-              Upload Photos
-            </Link>
-            <Link
-              href="/portfolio"
-              className="inline-flex w-full justify-center rounded-full border border-white/20 bg-white/8 px-6 py-3 text-sm uppercase tracking-[0.15em] text-white transition hover:border-white/35 hover:bg-white/14 max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.2em]"
-            >
-              View Portfolio
-            </Link>
+        <div className="pro-shell mx-auto mt-12 w-full max-w-2xl p-3 sm:p-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-3">
+            <motion.div whileTap={{ scale: 0.98 }}>
+              <Link
+                href="/upload"
+                className="btn-primary cta-sheen inline-flex w-full px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition-all duration-550 ease-out max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.15em]"
+              >
+                Upload Photos
+              </Link>
+            </motion.div>
+            <motion.div whileTap={{ scale: 0.98 }}>
+              <Link
+                href="/portfolio"
+                className="btn-secondary inline-flex w-full px-6 py-3 text-sm uppercase tracking-[0.12em] transition-all duration-550 ease-out max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.15em]"
+              >
+                View Portfolio
+              </Link>
+            </motion.div>
           </div>
         </div>
       </div>

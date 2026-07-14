@@ -18,7 +18,14 @@ type SessionMetadata = {
   editNotes?: string;
   cloudinaryFolder?: string;
   uploadedPreviewUrls?: string;
+  socialMediaConsent?: string;
 };
+
+function formatSocialConsent(value: string | undefined) {
+  if (value === "allow") return "Approved for social media and portfolio use";
+  if (value === "deny") return "Not approved (private delivery only)";
+  return "Not specified";
+}
 
 function formatMultiline(value: string | undefined) {
   if (!value) return "None";
@@ -44,6 +51,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
   const metadata = (session.metadata ?? {}) as SessionMetadata;
   const customerEmail = session.customer_details?.email || "Not provided";
   const amountPaid = typeof session.amount_total === "number" ? `$${(session.amount_total / 100).toFixed(2)}` : "Unknown";
+  const socialConsent = formatSocialConsent(metadata.socialMediaConsent);
 
   const uploadedPreview = metadata.uploadedPreviewUrls
     ? metadata.uploadedPreviewUrls
@@ -65,6 +73,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
     `Photo count: ${metadata.photoCount || "Unknown"}`,
     `Photo names: ${metadata.photoNames || "Unknown"}`,
     `Cloudinary folder: ${metadata.cloudinaryFolder || "Unknown"}`,
+    `Social media usage: ${socialConsent}`,
     "Preview URLs:",
     formatMultiline(metadata.uploadedPreviewUrls),
     "",
@@ -82,6 +91,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
     <p><strong>Photo count:</strong> ${metadata.photoCount || "Unknown"}</p>
     <p><strong>Photo names:</strong> ${metadata.photoNames || "Unknown"}</p>
     <p><strong>Cloudinary folder:</strong> ${metadata.cloudinaryFolder || "Unknown"}</p>
+    <p><strong>Social media usage:</strong> ${socialConsent}</p>
     <p><strong>Preview URLs:</strong></p>
     <ul>${uploadedPreview}</ul>
     <p><strong>Edit notes:</strong> ${metadata.editNotes || "None"}</p>
@@ -126,22 +136,21 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
   const photoCount = parseInt(metadata.photoCount || "0", 10);
   const amountTotal = session.amount_total || 0;
   const amountFormatted = `$${(amountTotal / 100).toFixed(2)}`;
+  const socialConsent = formatSocialConsent(metadata.socialMediaConsent);
   const orderDate = new Date(session.created * 1000).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
-  // Determine pricing tier description
+  // Determine pricing description
   let priceDescription = "";
-  if (photoCount <= 9) {
+  const discount = Math.floor(photoCount / 10) * 3;
+  const calculatedTotal = photoCount - discount;
+  if (discount === 0) {
     priceDescription = `${photoCount} photo(s) @ $1.00 each: $${photoCount.toFixed(2)}`;
-  } else if (photoCount <= 19) {
-    priceDescription = `${photoCount} photos (tier: 10-19 photos): $7.00 flat rate`;
-  } else if (photoCount <= 29) {
-    priceDescription = `${photoCount} photos (tier: 20-29 photos): $18.00 flat rate`;
   } else {
-    priceDescription = `${photoCount} photos (tier: 30+ photos): $25.00 flat rate`;
+    priceDescription = `${photoCount} photos @ $1.00 each minus $${discount.toFixed(2)} bundle discount: $${calculatedTotal.toFixed(2)}`;
   }
 
   const subject = `Order Confirmation & Invoice - RAW ARCHIVE #${orderId}`;
@@ -156,10 +165,12 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
     `Photo Editing Service - ${priceDescription}`,
     "",
     `Total Amount Paid: ${amountFormatted}`,
+    `Social media usage: ${socialConsent}`,
     "",
     metadata.editNotes ? `Your notes for editing:\n${metadata.editNotes}\n` : "",
     "Thank you for your order!",
     "We'll get your photos edited and send them to you soon.",
+    "We do not use or support AI editing workflows. Every image is edited by hand.",
     "",
     `Questions? Email us at indoleanandrei5@gmail.com or visit ${siteUrl}/contact`,
   ].join("\n");
@@ -175,6 +186,7 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
         <p><strong>Order ID:</strong> #${orderId}</p>
         <p><strong>Date:</strong> ${orderDate}</p>
         <p><strong>Email:</strong> ${clientEmail}</p>
+        <p><strong>Social media usage:</strong> ${socialConsent}</p>
       </div>
 
       <div style="margin-bottom: 20px;">
@@ -205,6 +217,7 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
       <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
         <h3 style="margin-top: 0; color: #050507;">What's Next?</h3>
         <p>Your payment has been received and confirmed. We're now working on editing your photos with care and precision. You'll receive your edited photos via email as soon as they're ready.</p>
+        <p style="margin-top: 10px; color: #333;">We do not use or support AI editing workflows. Every image is edited by hand.</p>
         <p style="color: #666; font-size: 14px;">Typical turnaround time is 2-3 business days depending on the volume and complexity of your edits.</p>
       </div>
 

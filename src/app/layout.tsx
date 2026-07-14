@@ -1,29 +1,22 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import { brandHandle, brandName, defaultKeywords, defaultOgImage, siteUrl } from "@/lib/seo";
 import "./globals.css";
-
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://rawarchive.vercel.app").replace(/\/$/, "");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "RAW ARCHIVE PHOTOS",
+    default: "Professional Photo Editing | RAW ARCHIVE PHOTOS",
     template: "%s | RAW ARCHIVE PHOTOS",
   },
-  description: "Professional photo editing with hand-refined, cinematic results for photographers and brands.",
-  applicationName: "RAW ARCHIVE PHOTOS",
+  description:
+    "Professional hand-edited photo retouching and color refinement for portraits, brands, and creators. Fast delivery, consistent tone, and cinematic quality.",
+  applicationName: brandName,
   category: "photography",
-  creator: "RAW ARCHIVE PHOTOS",
-  publisher: "RAW ARCHIVE PHOTOS",
+  creator: brandName,
+  publisher: brandName,
   manifest: "/manifest.webmanifest",
-  keywords: [
-    "photo editing",
-    "professional photo retouching",
-    "raw photo editing",
-    "portrait editing",
-    "color grading",
-    "RAW ARCHIVE PHOTOS",
-  ],
+  keywords: defaultKeywords,
   alternates: {
     canonical: "/",
   },
@@ -39,27 +32,31 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: "RAW ARCHIVE PHOTOS",
-    description: "Professional photo editing with hand-refined, cinematic results for photographers and brands.",
-    siteName: "RAW ARCHIVE PHOTOS",
+    title: "Professional Photo Editing | RAW ARCHIVE PHOTOS",
+    description:
+      "Professional hand-edited photo retouching and color refinement with natural skin tones, clean contrast, and cinematic consistency.",
+    siteName: brandName,
+    locale: "en_US",
     images: [
       {
-        url: "/images/image1.jpg",
+        url: defaultOgImage,
         width: 1200,
         height: 630,
-        alt: "RAW ARCHIVE PHOTOS showcase image",
+        alt: "RAW ARCHIVE PHOTOS cinematic photo editing showcase",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RAW ARCHIVE PHOTOS",
-    description: "Professional photo editing with hand-refined, cinematic results for photographers and brands.",
-    images: ["/images/image1.jpg"],
+    title: "Professional Photo Editing | RAW ARCHIVE PHOTOS",
+    description:
+      "Professional hand-edited retouching for portraits and creative work. Fast turnaround and consistent cinematic results.",
+    creator: brandHandle,
+    images: [defaultOgImage],
   },
   other: {
-    "instagram:site": "@rawarchivephotos",
-    "tiktok:site": "@rawarchivephotos",
+    "instagram:site": brandHandle,
+    "tiktok:site": brandHandle,
   },
   robots: {
     index: true,

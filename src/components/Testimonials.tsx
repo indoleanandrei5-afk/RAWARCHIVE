@@ -1,16 +1,34 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Testimonials() {
   return (
-    <section className="py-24">
+    <section className="bg-black py-24 text-white">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl font-semibold sm:text-4xl">Testimonials</h2>
-        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-8">
-          <p className="text-lg text-gray-300">
+        <motion.h2
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="text-3xl font-medium sm:text-4xl"
+        >
+          Testimonials
+        </motion.h2>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+          className="pro-shell mt-10 p-8"
+        >
+          <p className="pro-subtitle text-lg">
             “The edits felt effortless, refined, and true to our brand.”
           </p>
-          <p className="mt-4 text-sm uppercase tracking-[0.3em] text-gray-500">
+          <p className="mt-4 text-sm uppercase tracking-[0.3em] text-white/55">
             — Maya, Portrait Photographer
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

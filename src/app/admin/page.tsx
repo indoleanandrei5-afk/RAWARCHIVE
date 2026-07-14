@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getStoredOrders, updateOrderStatus, Order, OrderStatus } from "@/lib/orders";
 
 const statusStyles: Record<OrderStatus, string> = {
@@ -9,17 +9,19 @@ const statusStyles: Record<OrderStatus, string> = {
   canceled: "bg-amber-500/20 text-amber-100",
 };
 
+function formatSocialMediaConsent(value: Order["socialMediaConsent"]) {
+  if (value === "allow") return "Approved for social media use";
+  if (value === "deny") return "Not approved (private only)";
+  return "Not specified";
+}
+
 export default function Admin() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<Order[]>(() => getStoredOrders());
   const [editedPhotosUrl, setEditedPhotosUrl] = useState("");
   const [editedUrlForOrder, setEditedUrlForOrder] = useState<string | null>(null);
   const [sendingEmail, setSendingEmail] = useState<string | null>(null);
   const [sendStatus, setSendStatus] = useState<{ orderId: string; message: string; type: "success" | "error" } | null>(null);
   const [sendingDirectLink, setSendingDirectLink] = useState<string | null>(null);
-
-  useEffect(() => {
-    setOrders(getStoredOrders());
-  }, []);
 
   const setStatus = (orderId: string, status: OrderStatus) => {
     updateOrderStatus(orderId, status);
@@ -115,8 +117,9 @@ export default function Admin() {
   };
 
   return (
-    <main className="min-h-screen bg-black p-10 text-white">
-      <div className="mx-auto max-w-6xl">
+    <main className="page-wrap relative overflow-hidden p-10 text-white">
+      <div className="page-overlay" />
+      <div className="page-container">
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-6xl font-bold">Admin Panel</h1>
@@ -168,6 +171,11 @@ export default function Admin() {
                     <p className="mt-2 text-sm text-gray-200">{order.clientEmail}</p>
                   </div>
                 )}
+
+                <div className="mt-6 rounded-3xl border border-white/10 bg-black/30 p-4">
+                  <p className="text-sm uppercase tracking-[0.4em] text-gray-400">Social Media Permission</p>
+                  <p className="mt-2 text-sm text-gray-200">{formatSocialMediaConsent(order.socialMediaConsent)}</p>
+                </div>
 
                 {order.editNotes && (
                   <div className="mt-6 rounded-3xl border border-blue-500/20 bg-blue-500/10 p-4">
