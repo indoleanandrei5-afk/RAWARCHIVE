@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { trackEvent } from "@/lib/analytics";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Hero() {
@@ -95,6 +96,11 @@ export default function Hero() {
             <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 250, damping: 22 }}>
               <Link
                 href="/upload"
+                onClick={() =>
+                  trackEvent("upload_click", {
+                    button_location: "hero",
+                  })
+                }
                 className="btn-primary cta-sheen inline-flex w-full px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] transition-all duration-550 ease-out max-[390px]:px-5 max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.16em]"
               >
                 Upload Photos
