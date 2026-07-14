@@ -21,7 +21,7 @@ export default function PricingSection() {
           <p className="eyebrow max-[390px]:text-[10px] max-[390px]:tracking-[0.14em] sm:text-sm sm:tracking-[0.3em]">Pricing</p>
           <h2 className="mt-4 text-3xl font-medium sm:text-4xl md:text-5xl">Simple pricing, good taste included.</h2>
           <p className="pro-subtitle mx-auto mt-5 max-w-2xl text-base sm:text-lg">
-            $1 per photo to start, with automatic bundle discounts every 10 images. Clear numbers, no hidden acrobatics.
+            $1 per photo, with discounted bundles at 10, 20, and 30 images. Clear numbers, no hidden fees.
           </p>
         </motion.div>
 
