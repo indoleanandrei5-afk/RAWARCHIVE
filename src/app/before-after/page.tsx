@@ -17,22 +17,22 @@ const randomScore = (id: number) => {
 };
 
 const beforeAfterImages: ImageItem[] = [
-  { num: 1, src: "/images/image1.jpg", width: 721, height: 1088 },
-  { num: 2, src: "/images/image2.jpg", width: 721, height: 1088 },
-  { num: 3, src: "/images/image3.jpg", width: 1444, height: 2178 },
-  { num: 4, src: "/images/image4.jpg", width: 2178, height: 1444 },
-  { num: 5, src: "/images/image5.jpg", width: 2178, height: 1444 },
-  { num: 6, src: "/images/image6.jpg", width: 722, height: 1088 },
-  { num: 7, src: "/images/image7.jpg", width: 2075, height: 3130 },
-  { num: 8, src: "/images/image8.jpg", width: 722, height: 1088 },
-  { num: 9, src: "/images/image9.jpg", width: 722, height: 1088 },
-  { num: 10, src: "/images/image10.jpg", width: 1444, height: 2178 },
-  { num: 11, src: "/images/image11.jpg", width: 721, height: 1088 },
-  { num: 12, src: "/images/image12.jpg", width: 2075, height: 3129 },
-  { num: 13, src: "/images/image13.jpg", width: 1444, height: 2178 },
-  { num: 14, src: "/images/image14.png", width: 2075, height: 3129 },
-  { num: 15, src: "/images/image15.jpg", width: 3339, height: 5035 },
-  { num: 16, src: "/images/image16.jpg", width: 3130, height: 2075 },
+  { num: 1, src: "/images/image1.webp", width: 721, height: 1088 },
+  { num: 2, src: "/images/image2.webp", width: 721, height: 1088 },
+  { num: 3, src: "/images/image3.webp", width: 1444, height: 2178 },
+  { num: 4, src: "/images/image4.webp", width: 2178, height: 1444 },
+  { num: 5, src: "/images/image5.webp", width: 2178, height: 1444 },
+  { num: 6, src: "/images/image6.webp", width: 722, height: 1088 },
+  { num: 7, src: "/images/image7.webp", width: 2075, height: 3130 },
+  { num: 8, src: "/images/image8.webp", width: 722, height: 1088 },
+  { num: 9, src: "/images/image9.webp", width: 722, height: 1088 },
+  { num: 10, src: "/images/image10.webp", width: 1444, height: 2178 },
+  { num: 11, src: "/images/image11.webp", width: 721, height: 1088 },
+  { num: 12, src: "/images/image12.webp", width: 2075, height: 3129 },
+  { num: 13, src: "/images/image13.webp", width: 1444, height: 2178 },
+  { num: 14, src: "/images/image14.webp", width: 2075, height: 3129 },
+  { num: 15, src: "/images/image15.webp", width: 3339, height: 5035 },
+  { num: 16, src: "/images/image16.webp", width: 3130, height: 2075 },
 ];
 
 export default function BeforeAfter() {

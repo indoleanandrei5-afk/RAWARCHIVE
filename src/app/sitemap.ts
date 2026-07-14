@@ -25,9 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
       images: [
-        `${siteUrl}/images/image1.jpg`,
-        `${siteUrl}/images/image6.jpg`,
-        `${siteUrl}/images/image13.jpg`,
+        `${siteUrl}/images/image1.webp`,
+        `${siteUrl}/images/image6.webp`,
+        `${siteUrl}/images/image13.webp`,
       ],
     },
     {

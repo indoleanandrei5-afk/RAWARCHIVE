@@ -4,11 +4,11 @@ import ImageGallery from "@/components/ImageGallery";
 import { motion } from "framer-motion";
 
 const featuredImages = [
-  { src: "/images/image6.jpg", alt: "Featured photo 6" },
-  { src: "/images/image8.jpg", alt: "Featured photo 8" },
-  { src: "/images/image3.jpg", alt: "Featured photo 3" },
-  { src: "/images/image14.png", alt: "Featured photo 14" },
-  { src: "/images/image13.jpg", alt: "Featured photo 13" },
+  { src: "/images/image6.webp", alt: "Featured photo 6" },
+  { src: "/images/image8.webp", alt: "Featured photo 8" },
+  { src: "/images/image3.webp", alt: "Featured photo 3" },
+  { src: "/images/image14.webp", alt: "Featured photo 14" },
+  { src: "/images/image13.webp", alt: "Featured photo 13" },
 ];
 
 export default function FeaturedWork() {

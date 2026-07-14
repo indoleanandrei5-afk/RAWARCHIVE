@@ -2,7 +2,7 @@ export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rawarch
 
 export const brandName = "RAW ARCHIVE PHOTOS";
 export const brandHandle = "@rawarchivephotos";
-export const defaultOgImage = `${siteUrl}/images/image1.jpg`;
+export const defaultOgImage = `${siteUrl}/images/image1.webp`;
 
 export const defaultKeywords = [
   "professional photo editing",

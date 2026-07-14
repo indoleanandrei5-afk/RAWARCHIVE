@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [
-  "/images/image1.jpg",
-  "/images/image2.jpg",
-  "/images/image3.jpg",
-  "/images/image4.jpg",
+  "/images/image1.webp",
+  "/images/image2.webp",
+  "/images/image3.webp",
+  "/images/image4.webp",
 ];
 
 export default function HomeGallery() {
