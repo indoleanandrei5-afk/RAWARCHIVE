@@ -46,10 +46,10 @@ export default function PricingSection() {
             whileHover={{ y: -5, scale: 1.008 }}
             className="pro-panel p-6 text-left transition-all duration-550 ease-out hover:border-white/24 hover:bg-white/8 sm:p-8"
           >
-            <p className="tone-faint text-sm uppercase tracking-[0.24em] sm:tracking-[0.35em]">1 Photo</p>
-            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">For one image worth getting right</p>
-            <p className="mt-6 text-4xl font-semibold sm:text-5xl">$1</p>
-            <p className="tone-soft mt-3">Per edited image</p>
+            <p className="tone-faint text-sm uppercase tracking-[0.24em] sm:tracking-[0.35em]">20 Photos</p>
+            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">A clean starter bundle</p>
+            <p className="mt-6 text-4xl font-semibold sm:text-5xl">$7</p>
+            <p className="tone-soft mt-3">Total package price</p>
             <div className="tone-soft mt-8 space-y-3">
               <p>Clean color grade</p>
               <p>Subtle retouch</p>
@@ -67,8 +67,8 @@ export default function PricingSection() {
               Most Popular
             </span>
             <p className="tone-faint text-sm uppercase tracking-[0.24em] sm:tracking-[0.35em]">10 Photos</p>
-            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">Best place to start a proper set</p>
-            <p className="mt-6 text-4xl font-semibold text-white sm:text-5xl">$7</p>
+            <p className="tone-faint mt-3 text-xs uppercase tracking-[0.2em] sm:tracking-[0.35em]">The most popular balanced bundle</p>
+            <p className="mt-6 text-4xl font-semibold text-white sm:text-5xl">$14</p>
             <p className="tone-soft mt-3">Total package price</p>
             <div className="tone-soft mt-8 space-y-3">
               <p>Cohesive batch finish</p>
