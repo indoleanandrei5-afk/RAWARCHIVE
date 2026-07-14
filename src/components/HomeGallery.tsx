@@ -54,7 +54,7 @@ export default function HomeGallery() {
           <div className="overflow-hidden rounded-3xl">
             <img
               src={IMAGES[index]}
-              alt={`Featured ${index + 1}`}
+              alt={`Professional photo editing portfolio image ${index + 1}`}
               onClick={() => {
                 setLightIndex(index);
                 setIsOpen(true);
@@ -101,7 +101,7 @@ export default function HomeGallery() {
                   i === index ? "border-white" : "border-white/10"
                 }`}
               >
-                <img src={src} alt={`thumb ${i + 1}`} className="h-full w-full object-cover" />
+                <img src={src} alt={`Portfolio thumbnail ${i + 1}`} className="h-full w-full object-cover" />
               </button>
             ))}
           </div>
@@ -123,7 +123,7 @@ export default function HomeGallery() {
               >
                 ‹
               </button>
-              <img src={IMAGES[lightIndex]} alt={`Light ${lightIndex + 1}`} className="max-h-[90vh] max-w-[90vw] object-contain" />
+              <img src={IMAGES[lightIndex]} alt={`Photo editing example ${lightIndex + 1}`} className="max-h-[90vh] max-w-[90vw] object-contain" />
               <button
                 aria-label="Next"
                 onClick={() => setLightIndex((i) => (i + 1) % length)}

@@ -35,7 +35,7 @@ export default function Hero() {
     <section className="relative flex min-h-screen items-start justify-center overflow-hidden bg-black pb-14 pt-24 text-white max-[390px]:pb-12 max-[390px]:pt-22 sm:pb-20 sm:pt-30">
       <motion.img
         src="/images/image1.jpg"
-        alt="Hero background"
+        alt="Professional portrait photo editing by RAW ARCHIVE PHOTOS"
         style={{ y: bgY, scale: bgScale }}
         className="absolute inset-0 -z-10 h-full w-full object-cover brightness-70"
       />
