@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { servicePages } from "@/lib/servicePages";
 
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://rawarchive.vercel.app").replace(/\/$/, "");
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rawarchivephotos.com").replace(/\/$/, "");
 const now = new Date();
 
 const portfolioImages = Array.from({ length: 16 }, (_, i) => {

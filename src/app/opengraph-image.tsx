@@ -52,7 +52,7 @@ export default function OpenGraphImage() {
             opacity: 0.8,
           }}
         >
-          <div>rawarchive.vercel.app</div>
+          <div>https://www.rawarchivephotos.com</div>
           <div style={{ letterSpacing: "0.12em", textTransform: "uppercase" }}>No AI editing</div>
         </div>
       </div>

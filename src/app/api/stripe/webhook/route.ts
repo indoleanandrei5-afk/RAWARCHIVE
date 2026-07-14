@@ -41,7 +41,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const notifyTo = process.env.NOTIFY_TO_EMAIL;
   const notifyFrom = process.env.NOTIFY_FROM_EMAIL || "onboarding@resend.dev";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rawarchive.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.rawarchivephotos.com";
 
   if (!resendApiKey || !notifyTo) {
     console.warn("Skipping order email notification: RESEND_API_KEY or NOTIFY_TO_EMAIL missing.");
@@ -123,7 +123,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
 async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const notifyFrom = process.env.NOTIFY_FROM_EMAIL || "onboarding@resend.dev";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rawarchive.vercel.app";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.rawarchivephotos.com";
 
   const clientEmail = session.customer_details?.email;
   if (!resendApiKey || !clientEmail) {

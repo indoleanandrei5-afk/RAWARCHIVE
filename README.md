@@ -77,12 +77,12 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 RESEND_API_KEY=re_...
 NOTIFY_TO_EMAIL=you@yourdomain.com
 NOTIFY_FROM_EMAIL=orders@yourdomain.com
-NEXT_PUBLIC_SITE_URL=https://rawarchive.vercel.app
+NEXT_PUBLIC_SITE_URL=https://www.rawarchivephotos.com
 ```
 
 Configure Stripe webhook endpoint:
 
-- Endpoint URL: `https://rawarchive.vercel.app/api/stripe/webhook`
+- Endpoint URL: `https://www.rawarchivephotos.com/api/stripe/webhook`
 - Event to send: `checkout.session.completed`
 
 Notes:
