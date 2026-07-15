@@ -53,7 +53,7 @@ export default function OpenGraphImage() {
           }}
         >
           <div>https://www.rawarchivephotos.com</div>
-          <div style={{ letterSpacing: "0.12em", textTransform: "uppercase" }}>No AI editing</div>
+          <div style={{ letterSpacing: "0.12em", textTransform: "uppercase" }}>Edited one frame at a time</div>
         </div>
       </div>
     ),

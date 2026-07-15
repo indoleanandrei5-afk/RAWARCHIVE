@@ -52,17 +52,17 @@ export default function ServicesHubPage() {
 
       <div className="page-container">
         <div className="pro-shell p-7 text-center sm:p-10">
-          <p className="eyebrow">What I Edit</p>
-          <h1 className="pro-title mt-5">Specialized Photo Editing Services</h1>
+          <p className="eyebrow">What I edit</p>
+          <h1 className="pro-title mt-5">Three kinds of chaos I know how to fix.</h1>
           <p className="pro-subtitle mx-auto mt-4 max-w-3xl text-base sm:text-lg">
-            Different shoots need different handling. Pick the one that fits, and I will take it from there.
+            Portraits, landscapes, events. Different problems, same goal: make them look better without making them look fake.
           </p>
         </div>
 
         <section className="mt-8 grid gap-4 lg:grid-cols-2 lg:gap-5">
           {servicePages.map((service) => (
             <article key={service.slug} className="section-shell rounded-3xl p-6 sm:p-7">
-              <p className="tone-faint text-[11px] uppercase tracking-[0.2em]">Focus</p>
+              <p className="tone-faint text-[11px] uppercase tracking-[0.2em]">This one is for</p>
               <h2 className="mt-3 text-2xl font-medium text-white">{service.shortTitle}</h2>
               <p className="pro-subtitle mt-3 text-sm sm:text-base">{service.description}</p>
               <ul className="tone-soft mt-4 space-y-2 text-sm">
@@ -75,13 +75,13 @@ export default function ServicesHubPage() {
                   href={`/services/${service.slug}`}
                   className="btn-secondary inline-flex px-5 py-2.5 text-xs uppercase tracking-[0.12em] transition hover:bg-white/12"
                 >
-                  Read service page
+                  See how I handle it
                 </Link>
                 <Link
                   href="/upload"
                   className="btn-primary inline-flex px-5 py-2.5 text-xs uppercase tracking-[0.12em] transition"
                 >
-                  Start upload
+                  Send a set
                 </Link>
               </div>
             </article>

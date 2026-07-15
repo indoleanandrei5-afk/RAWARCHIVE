@@ -1,233 +1,128 @@
 "use client";
 
-// @ts-ignore -- local TS server intermittently reports a stale alias-resolution error for this import.
-import BeforeAfterSlider from "../../components/BeforeAfterSlider";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 
-type ImageItem = {
-  num: number;
-  src: string;
+type Comparison = {
+  id: number;
+  category: string;
+  alt: string;
   width: number;
   height: number;
 };
 
-const randomScore = (id: number) => {
-  const value = Math.sin(id * 9283.341 + 41.19) * 10000;
-  return value - Math.floor(value);
-};
-
-const beforeAfterImages: ImageItem[] = [
-  { num: 1, src: "/images/image1.webp", width: 721, height: 1088 },
-  { num: 2, src: "/images/image2.webp", width: 721, height: 1088 },
-  { num: 3, src: "/images/image3.webp", width: 1444, height: 2178 },
-  { num: 4, src: "/images/image4.webp", width: 2178, height: 1444 },
-  { num: 5, src: "/images/image5.webp", width: 2178, height: 1444 },
-  { num: 6, src: "/images/image6.webp", width: 722, height: 1088 },
-  { num: 7, src: "/images/image7.webp", width: 2075, height: 3130 },
-  { num: 8, src: "/images/image8.webp", width: 722, height: 1088 },
-  { num: 9, src: "/images/image9.webp", width: 722, height: 1088 },
-  { num: 10, src: "/images/image10.webp", width: 1444, height: 2178 },
-  { num: 11, src: "/images/image11.webp", width: 721, height: 1088 },
-  { num: 12, src: "/images/image12.webp", width: 2075, height: 3129 },
-  { num: 13, src: "/images/image13.webp", width: 1444, height: 2178 },
-  { num: 14, src: "/images/image14.webp", width: 2075, height: 3129 },
-  { num: 15, src: "/images/image15.webp", width: 3339, height: 5035 },
-  { num: 16, src: "/images/image16.webp", width: 3130, height: 2075 },
+const comparisons: Comparison[] = [
+  {
+    id: 3,
+    category: "Portrait",
+    alt: "Portrait of two people beside a car",
+    width: 1444,
+    height: 2178,
+  },
+  {
+    id: 7,
+    category: "Portrait",
+    alt: "Low-light portrait comparison",
+    width: 2075,
+    height: 3130,
+  },
+  {
+    id: 10,
+    category: "Portrait",
+    alt: "Natural-light portrait comparison",
+    width: 1444,
+    height: 2178,
+  },
+  {
+    id: 13,
+    category: "Editorial",
+    alt: "Editorial portrait comparison",
+    width: 1444,
+    height: 2178,
+  },
+  {
+    id: 4,
+    category: "Architecture",
+    alt: "Landscape-format architectural comparison",
+    width: 2178,
+    height: 1444,
+  },
+  {
+    id: 16,
+    category: "Editorial",
+    alt: "Wide coastal editorial comparison",
+    width: 3130,
+    height: 2075,
+  },
 ];
 
+const imageProps = (item: Comparison) => ({
+  beforeSrc: `/images/before/image${item.id}.webp`,
+  afterSrc: `/images/image${item.id}.webp`,
+  alt: item.alt,
+});
+
 export default function BeforeAfter() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Can I compare before and after edits interactively?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Each gallery card includes an interactive slider so you can inspect every transformation.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What changes are made in these before and after examples?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Edits include tonal balancing, color refinement, contrast control, and detailed manual retouching.",
-        },
-      },
-    ],
-  };
-
-  const randomizedImages = [...beforeAfterImages].sort(
-    (a, b) => randomScore(a.num) - randomScore(b.num),
-  );
-
-  const portraits = randomizedImages.filter((item) => item.height >= item.width);
-  const landscapes = randomizedImages.filter((item) => item.width > item.height);
-  const sourceForLeft = portraits.length > 0 ? portraits : randomizedImages;
-
-  const sortedTall = [...sourceForLeft].sort(
-    (a, b) => a.width / a.height - b.width / b.height,
-  );
-
-  const featuredTall = sortedTall[0];
-  const preferredLandscapes = landscapes
-    .filter((item) => item.num !== featuredTall.num)
-    .slice(0, 2);
-
-  const featuredRightItems =
-    preferredLandscapes.length === 2
-      ? preferredLandscapes
-      : randomizedImages
-          .filter((item) => item.num !== featuredTall.num)
-          .slice(0, 2);
-
-  const featuredIds = new Set<number>([
-    featuredTall.num,
-    ...featuredRightItems.map((item) => item.num),
-  ]);
-
-  const remaining = randomizedImages.filter((item) => !featuredIds.has(item.num));
-
   return (
     <main className="page-wrap relative min-h-screen overflow-hidden">
       <div className="page-overlay" />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <motion.div
-        className="ambient-orb right-[8%] top-[14%] h-36 w-36 bg-[radial-gradient(circle,rgba(221,214,201,0.5),transparent_70%)]"
-        animate={{ y: [0, -10, 0], x: [0, 6, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="ambient-orb left-[7%] top-[48%] h-32 w-32 bg-[radial-gradient(circle,rgba(187,178,162,0.48),transparent_70%)]"
-        animate={{ y: [0, 12, 0], x: [0, -5, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <section className="relative z-10 pt-12 pb-8 md:pt-16 md:pb-10">
-        <div className="page-container">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="pro-shell rounded-3xl px-6 py-8 text-center sm:px-10 md:py-10"
-            whileHover={{ scale: 1.006 }}
-          >
-            <p className="mb-4 text-[11px] font-medium tracking-[0.08em] sm:tracking-[0.35em] text-white/55 uppercase">
-              Photography
+
+      <section className="relative z-10 px-4 pb-12 pt-16 sm:px-6 sm:pb-18 sm:pt-24">
+        <div className="mx-auto max-w-6xl border-b border-white/12 pb-12 sm:pb-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow">Before &amp; After</p>
+            <h1 className="pro-title mx-auto mt-8 max-w-3xl">Same photograph. Better decisions.</h1>
+            <p className="pro-subtitle mx-auto mt-6 max-w-xl text-base sm:text-lg">
+              Six real edits, shown without tricks. Move the line and look at the small decisions.
             </p>
-            <h1 className="mb-5 text-5xl font-light leading-none tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Before & After
-            </h1>
-            <p className="pro-subtitle mx-auto mb-7 max-w-2xl text-base font-light sm:text-lg">
-              Real edits, real restraint, real improvement. Drag the divider and see exactly what changed.
-            </p>
-            <div className="tone-faint mx-auto flex max-w-md flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] tracking-[0.06em] sm:tracking-[0.22em] uppercase">
-              <span>Natural Tones</span>
-              <span className="h-px w-8 bg-white/25" />
-              <span>Balanced Contrast</span>
-              <span className="h-px w-8 bg-white/25" />
-              <span>Hand Retouching</span>
-            </div>
-            <p className="tone-faint mx-auto mt-5 max-w-xl text-[11px] uppercase tracking-[0.05em] sm:tracking-[0.2em]">
-              Drag slowly, or use the arrow keys if you are in a meticulous mood
-            </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      <section className="relative z-10 pb-8 md:pb-10">
-        <div className="page-container">
-          <div className="hidden items-start gap-4 md:grid md:grid-cols-12">
-            <motion.div
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.004 }}
-              className="pro-panel md:col-span-5 rounded-[20px] p-1.5 shadow-[0_20px_50px_-42px_rgba(0,0,0,0.85)]"
-            >
-              <div className="px-3 pb-2 pt-2 text-[11px] uppercase tracking-[0.04em] sm:tracking-[0.18em] text-white/44">Featured Comparison</div>
-              <BeforeAfterSlider
-                src={featuredTall.src}
-                alt={`Photo ${featuredTall.num} - Before After Comparison`}
-              />
-            </motion.div>
-
-            <div className="grid grid-cols-1 gap-4 md:col-span-7">
-              {featuredRightItems.map((item, index) => (
-                <motion.div
-                  key={item.num}
-                  initial={{ opacity: 0, y: 26 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.75, delay: 0.06 + index * 0.04, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -4, scale: 1.004 }}
-                  className="pro-panel rounded-[20px] p-1.5 shadow-[0_20px_50px_-42px_rgba(0,0,0,0.85)]"
-                >
-                  <BeforeAfterSlider
-                    src={item.src}
-                    alt={`Photo ${item.num} - Before After Comparison`}
-                  />
-                </motion.div>
-              ))}
-            </div>
+      <section className="relative z-10 px-4 pb-20 sm:px-6 sm:pb-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex items-end justify-between border-b border-white/10 pb-4 sm:mb-12">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/56">Six frames</p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-white/28">01—06</p>
           </div>
 
-          <div className="space-y-4 md:hidden">
-            {[featuredTall, ...featuredRightItems].map((item, index) => (
-              <motion.div
-                key={item.num}
-                initial={{ opacity: 0, y: 24 }}
+          <div className="grid gap-x-6 gap-y-12 md:grid-cols-2 md:gap-y-16 lg:gap-x-8 lg:gap-y-20">
+            {comparisons.map((item, index) => (
+              <motion.article
+                key={item.id}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.75, delay: index * 0.03, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -4, scale: 1.004 }}
-                className="pro-panel rounded-[20px] p-1.5 shadow-[0_20px_50px_-42px_rgba(0,0,0,0.85)]"
+                viewport={{ once: true, amount: 0.12 }}
+                transition={{ duration: 0.66, delay: (index % 2) * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                className="min-w-0"
               >
-                <BeforeAfterSlider
-                  src={item.src}
-                  alt={`Photo ${item.num} - Before After Comparison`}
-                />
-              </motion.div>
+                <div className="mb-3 flex items-center justify-between border-t border-white/12 pt-3">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-[10px] tracking-[0.12em] text-white/28">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.18em] text-white/58">{item.category}</span>
+                  </div>
+                  <span className="text-[9px] uppercase tracking-[0.18em] text-white/32">Drag</span>
+                </div>
+                <BeforeAfterSlider {...imageProps(item)} />
+              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative z-10 pb-24">
-        <div className="page-container">
-          <div className="section-shell mb-6 flex items-end justify-between rounded-3xl px-5 py-4">
-            <p className="tone-faint text-xs font-medium tracking-[0.06em] sm:tracking-[0.24em] uppercase">Full Set</p>
-            <p className="tone-faint text-[11px] font-light tracking-[0.04em] sm:tracking-[0.18em] uppercase">Drag To Compare</p>
-          </div>
-
-          <div className="columns-1 gap-5 md:columns-2 lg:columns-3 [column-fill:balance]">
-            {remaining.map((item, index) => (
-              <motion.div
-                key={item.num}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.75, delay: index * 0.025, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -4, scale: 1.004 }}
-                className="pro-panel mb-5 break-inside-avoid rounded-[20px] p-1.5 shadow-[0_20px_50px_-42px_rgba(0,0,0,0.85)]"
-              >
-                <BeforeAfterSlider
-                  src={item.src}
-                  alt={`Photo ${item.num} - Before After Comparison`}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative z-10 border-t border-white/5 py-20">
-        <div className="page-container text-center">
-          <p className="tone-muted mx-auto max-w-2xl text-sm font-light leading-relaxed tracking-wide">
-            Every frame is adjusted with intention, not guesswork, so the final result feels polished without feeling overcooked.
+      <section className="relative z-10 border-t border-white/10 px-4 py-20 sm:px-6 sm:py-28">
+        <div className="mx-auto flex max-w-4xl flex-col items-center border-y border-white/10 py-10 text-center sm:py-14">
+          <p className="eyebrow">Keep what made you take it</p>
+          <h2 className="mt-6 text-3xl font-medium sm:text-5xl">Lose the weird color cast. Keep the photograph.</h2>
+          <p className="pro-subtitle mt-5 max-w-2xl text-base sm:text-lg">
+            Tell me what is bothering you—or just send the set and let me find it. I edit every frame myself and keep the full gallery speaking the same language.
           </p>
+          <Link href="/upload" className="btn-primary cta-sheen mt-8 px-8 py-4 text-sm font-semibold uppercase tracking-[0.15em]">
+            Send me the stubborn ones
+          </Link>
         </div>
       </section>
     </main>

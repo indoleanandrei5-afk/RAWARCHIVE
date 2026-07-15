@@ -36,19 +36,19 @@ export default function PricingPage() {
   const faqItems = [
     {
       question: "How much is professional photo editing per image?",
-      answer: "It starts at $1 per photo. Once you hit 10 images, the bundle discount kicks in automatically: 10 = $7, 20 = $14, 30 = $21. If you are between tiers, the total follows the normal count.",
+      answer: "One photo is $1. At 10, the total becomes $7; at 20, $14; at 30, $21. The discount appears automatically, so there is no code to hunt for.",
     },
     {
       question: "What editing style do you deliver?",
-      answer: "Clean tone, balanced contrast, natural skin, and a cinematic finish that still feels like your work.",
+      answer: "Believable color, controlled contrast, natural skin, and enough mood to feel intentional—not enough to announce that someone discovered presets yesterday.",
     },
     {
       question: "How do I send my photos for editing?",
-      answer: "Head to the upload page, add your files, leave your notes, and complete checkout securely.",
+      answer: "Upload the files, leave me a note, and check out securely. If your entire brief is ‘the lighting feels weird,’ that is still useful.",
     },
     {
-      question: "Do you use AI for photo editing?",
-      answer: "No. Everything is adjusted manually so the final result feels considered, consistent, and actually yours.",
+      question: "Is every photograph edited by hand?",
+      answer: "Yes. I edit every frame myself. The photograph stays real; it simply comes back with better manners.",
     },
   ];
 
@@ -78,19 +78,19 @@ export default function PricingPage() {
         <section className="px-5 pb-20 sm:px-6 sm:pb-24">
           <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <div className="section-shell rounded-3xl p-6 sm:p-8 lg:sticky lg:top-28">
-              <p className="eyebrow">Pricing Notes</p>
+              <p className="eyebrow">No fine print gymnastics</p>
               <h2 className="mt-5 text-3xl font-medium text-white sm:text-4xl">The useful questions</h2>
               <p className="pro-subtitle mt-4 text-sm sm:text-base">
-                The short version: clear pricing, automatic bundle discounts, and no surprise line items waiting at checkout.
+                The short version: the number you see is the number you pay. Refreshing, I know.
               </p>
               <div className="mt-8 space-y-3">
                 <div className="pro-panel p-4 sm:p-5">
                   <p className="tone-faint text-[11px] uppercase tracking-[0.18em]">At a glance</p>
-                  <p className="tone-soft mt-3 text-sm sm:text-base">$1 per photo to start. Every 10 images automatically removes $3 from the total.</p>
+                  <p className="tone-soft mt-3 text-sm sm:text-base">$1 per photo to start. Every group of 10 quietly removes $3 from the total.</p>
                 </div>
                 <div className="pro-panel p-4 sm:p-5">
                   <p className="tone-faint text-[11px] uppercase tracking-[0.18em]">Who this fits</p>
-                  <p className="tone-soft mt-3 text-sm sm:text-base">Portrait sets, event galleries, and anyone who wants clear pricing without unnecessary complexity.</p>
+                  <p className="tone-soft mt-3 text-sm sm:text-base">Portrait sessions, event galleries, travel sets, and camera rolls with too many ‘almost perfect’ frames.</p>
                 </div>
               </div>
             </div>

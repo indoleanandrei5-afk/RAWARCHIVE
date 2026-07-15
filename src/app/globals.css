@@ -19,8 +19,6 @@
   --motion-fast: 180ms;
   --motion-base: 360ms;
   --motion-slow: 680ms;
-  --hover-lift: -1.5px;
-  --hover-scale: 1.012;
 }
 
 @theme inline {
@@ -69,7 +67,6 @@ body::after {
 }
 
 main,
-header,
 footer {
   position: relative;
   z-index: 2;
@@ -117,11 +114,11 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display), "Times New Roman", serif;
-  letter-spacing: 0.006em;
-  line-height: 1.12;
+  font-family: var(--font-display), "Iowan Old Style", Baskerville, "Times New Roman", serif;
+  letter-spacing: -0.018em;
+  line-height: 1.08;
   text-wrap: balance;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 
 p {
@@ -133,7 +130,7 @@ span,
 a,
 button,
 label {
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 
 button,
@@ -155,49 +152,14 @@ a {
     background-color var(--motion-base) var(--motion-ease),
     border-color var(--motion-base) var(--motion-ease),
     color var(--motion-fast) var(--motion-ease),
-    box-shadow var(--motion-base) var(--motion-ease),
-    transform var(--motion-base) var(--motion-ease);
+    box-shadow var(--motion-base) var(--motion-ease);
 }
 
 button,
 a {
-  transform: translateZ(0);
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   max-width: 100%;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  a,
-  button {
-    will-change: transform, filter, box-shadow;
-  }
-
-  a:hover,
-  button:hover {
-    transform: translateY(var(--hover-lift)) scale(var(--hover-scale));
-    filter: brightness(1.04);
-    box-shadow: 0 14px 30px -24px rgba(198, 194, 186, 0.36);
-  }
-}
-
-a:active,
-button:active {
-  transform: scale(0.985);
-}
-
-@media (pointer: coarse) {
-  a:active,
-  button:active {
-    transform: scale(0.993);
-  }
-
-  a:hover,
-  button:hover {
-    transform: none;
-    filter: none;
-    box-shadow: none;
-  }
 }
 
 button:focus-visible,
@@ -277,34 +239,15 @@ a {
 }
 
 .motion-float {
-  animation: ambient-drift 16s ease-in-out infinite;
+  transform: translateZ(0);
 }
 
 .ambient-orb {
   position: absolute;
   border-radius: 999px;
   filter: blur(40px);
-  opacity: 0.22;
+  opacity: 0.16;
   pointer-events: none;
-  animation: ambient-drift 14s ease-in-out infinite;
-}
-
-@keyframes sheen-pass {
-  0% {
-    transform: translateX(-120%);
-    opacity: 0;
-  }
-  18% {
-    opacity: 0.28;
-  }
-  50% {
-    opacity: 0;
-    transform: translateX(130%);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(130%);
-  }
 }
 
 .cta-sheen {
@@ -319,8 +262,16 @@ a {
   width: 34%;
   transform: skewX(-16deg) translateX(-130%);
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: sheen-pass 5.6s ease-in-out infinite;
+  opacity: 0;
+  transition: transform 900ms var(--motion-ease), opacity 300ms var(--motion-ease);
   pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cta-sheen:hover::after {
+    transform: skewX(-16deg) translateX(420%);
+    opacity: 0.22;
+  }
 }
 
 .page-wrap {
@@ -394,8 +345,8 @@ a {
 
 .pro-title {
   font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 1.08;
-  letter-spacing: 0.01em;
+  line-height: 1.04;
+  letter-spacing: -0.026em;
 }
 
 .pro-subtitle {
@@ -505,8 +456,8 @@ a {
 
 @media (max-width: 768px) {
   .pro-title {
-    letter-spacing: 0.004em;
-    line-height: 1.12;
+    letter-spacing: -0.018em;
+    line-height: 1.08;
   }
 
   .eyebrow {
@@ -521,20 +472,8 @@ a {
   }
 }
 
-@keyframes ambient-drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(0, -10px, 0) scale(1.02);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
 .ambient-drift {
-  animation: ambient-drift 14s ease-in-out infinite;
+  transform: translateZ(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -559,18 +498,7 @@ a {
     animation: none !important;
   }
 
-  .motion-float,
-  .ambient-orb,
   .cta-sheen::after {
-    animation: none !important;
-  }
-
-  a:hover,
-  button:hover,
-  a:active,
-  button:active {
-    transform: none !important;
-    filter: none !important;
-    box-shadow: none !important;
+    transition: none !important;
   }
 }

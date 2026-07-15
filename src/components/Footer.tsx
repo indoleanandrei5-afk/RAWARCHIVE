@@ -11,19 +11,17 @@ export default function Footer() {
     <footer className="border-t border-white/8 bg-[linear-gradient(180deg,rgba(8,8,8,0.96),rgba(4,4,4,1))] py-14 text-sm tone-muted">
       <motion.div
         className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6"
-        initial={{ opacity: 0, y: 18 }}
+        initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
       >
         <motion.div
           className="pro-shell grid grid-cols-1 gap-8 p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-[1.35fr_1fr_1fr]"
-          whileHover={{ scale: 1.004 }}
         >
           <div>
             <p className="font-medium tracking-[0.18em] text-white">RAW ARCHIVE PHOTOS</p>
-            <p className="pro-subtitle mt-2 text-sm leading-relaxed">Refined finishing for photographers and creators who want their work to feel polished, cinematic, and unmistakably theirs.</p>
-            <p className="tone-faint mt-4 text-xs uppercase tracking-[0.18em]">Portraits, landscapes, events. No AI shortcuts.</p>
+            <p className="pro-subtitle mt-2 text-sm leading-relaxed">I fix awkward color, unruly highlights, and the little distractions your eye keeps finding at 1 a.m.</p>
           </div>
           <div>
             <p className="font-medium tracking-[0.18em] text-white">Navigation</p>

@@ -4,19 +4,20 @@ import ImageGallery from "@/components/ImageGallery";
 import { motion } from "framer-motion";
 
 const featuredImages = [
-  { src: "/images/image6.webp", alt: "Featured photo 6" },
-  { src: "/images/image8.webp", alt: "Featured photo 8" },
-  { src: "/images/image3.webp", alt: "Featured photo 3" },
-  { src: "/images/image14.webp", alt: "Featured photo 14" },
-  { src: "/images/image13.webp", alt: "Featured photo 13" },
+  { src: "/images/portfolio/film-portrait-street.jpeg", alt: "Portrait in warm evening light on a city street", width: 721, height: 1088 },
+  { src: "/images/image1.webp", alt: "Candid flash portrait of a couple at dinner", width: 721, height: 1088 },
+  { src: "/images/portfolio/film-portrait-dinner.jpeg", alt: "Flash portrait at a dinner table", width: 1444, height: 2178 },
+  { src: "/images/image3.webp", alt: "Portrait of two people beside a car", width: 1444, height: 2178 },
+  { src: "/images/image7.webp", alt: "Editorial portrait outdoors with restrained color", width: 2075, height: 3130 },
+  { src: "/images/portfolio/film-travel-beach.jpeg", alt: "Woman in a sunhat facing the sea", width: 721, height: 1088 },
 ];
 
 export default function FeaturedWork() {
   const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
-  const REVEAL_DURATION = 0.82;
+  const REVEAL_DURATION = 0.72;
 
   return (
-    <section className="relative bg-black px-4 py-18 text-white sm:px-6 sm:py-24">
+    <section className="relative bg-black px-4 py-24 text-white sm:px-6 sm:py-32">
       <motion.div
         className="pointer-events-none absolute inset-0 bg-linear-to-b from-white/3 via-transparent to-transparent"
         initial={{ opacity: 0 }}
@@ -26,45 +27,35 @@ export default function FeaturedWork() {
       />
       <div className="mx-auto max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
-          className="section-shell mb-10 rounded-3xl px-5 py-8 sm:mb-14 sm:px-8 sm:py-10"
-          whileHover={{ y: -2, scale: 1.007 }}
+          className="mb-12 border-y border-white/10 py-8 sm:mb-16 sm:py-10"
         >
-          <div className="grid gap-6 text-left md:grid-cols-[1.25fr_1fr] md:items-end">
+          <div className="grid gap-7 text-left md:grid-cols-[1.35fr_1fr] md:items-end md:gap-14">
             <div>
               <p className="eyebrow max-[390px]:text-[10px] max-[390px]:tracking-[0.16em] sm:text-sm sm:tracking-[0.3em]">Selected Work</p>
               <motion.h2
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.55 }}
                 transition={{ duration: REVEAL_DURATION, delay: 0.08, ease: MOTION_EASE }}
-                className="mt-4 text-3xl font-medium max-[390px]:text-[1.75rem] md:text-6xl"
+                className="mt-5 max-w-2xl text-3xl font-medium tracking-[-0.015em] max-[390px]:text-[1.75rem] md:text-6xl"
               >
-                Work with a steady hand.
+                A few frames I&apos;m proud of.
               </motion.h2>
             </div>
 
             <div>
               <motion.p
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: REVEAL_DURATION, delay: 0.12, ease: MOTION_EASE }}
-                className="text-[15px] leading-relaxed text-gray-200 max-[390px]:text-sm sm:text-lg"
+                className="max-w-xl text-[15px] leading-7 text-gray-200 max-[390px]:text-sm sm:text-lg sm:leading-8"
               >
-                Portrait and landscape frames refined with clean tone, measured contrast, and just enough mood to feel memorable.
-              </motion.p>
-              <motion.p
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ duration: REVEAL_DURATION, delay: 0.18, ease: MOTION_EASE }}
-                className="mt-4 text-[11px] uppercase tracking-[0.22em] text-white/48"
-              >
-                Curated Highlights
+                Some needed a light touch. Some needed rescuing. All of them still look like the photograph they started as.
               </motion.p>
             </div>
           </div>
@@ -72,13 +63,8 @@ export default function FeaturedWork() {
 
         <ImageGallery
           images={featuredImages}
-          columns="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-6"
-          itemClassName={(index, total) => {
-            const base = "lg:col-span-2";
-            if (total === 5 && index === 3) return `${base} lg:col-start-2`;
-            if (total === 5 && index === 4) return `${base} lg:col-start-4`;
-            return base;
-          }}
+          columns="columns-1 gap-4 sm:columns-2 lg:columns-3 lg:gap-5"
+          itemClassName={() => "mb-4 w-full break-inside-avoid lg:mb-5"}
         />
       </div>
     </section>

@@ -114,7 +114,7 @@ export default async function ServicePage({ params }: PageProps) {
       <div className="page-container">
         <div className="max-w-5xl">
         <section className="pro-shell p-7 sm:p-10">
-          <p className="eyebrow">Edit Focus</p>
+          <p className="eyebrow">The honest version</p>
           <h1 className="pro-title mt-5">{service.title}</h1>
           <p className="pro-subtitle mt-5 text-base sm:text-lg">{service.intro}</p>
 
@@ -131,19 +131,19 @@ export default async function ServicePage({ params }: PageProps) {
               href="/upload"
               className="btn-primary inline-flex px-6 py-3 text-xs uppercase tracking-[0.12em] transition"
             >
-              Start your upload
+              Send me a set
             </Link>
             <Link
               href="/pricing"
               className="btn-secondary inline-flex px-6 py-3 text-xs uppercase tracking-[0.12em] transition"
             >
-              See pricing
+              Check the price
             </Link>
           </div>
         </section>
 
         <section className="section-shell mt-6 rounded-3xl p-7 sm:p-10">
-          <h2 className="text-2xl font-medium text-white sm:text-3xl">A Few Useful Questions</h2>
+          <h2 className="text-2xl font-medium text-white sm:text-3xl">A few useful questions</h2>
           <div className="mt-6 space-y-4">
             {service.faqs.map((item) => (
               <article key={item.question} className="pro-panel p-5 sm:p-6">

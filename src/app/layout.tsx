@@ -91,7 +91,7 @@ export default function RootLayout({
         style={
           {
             "--font-body": '"Avenir Next", "Segoe UI", sans-serif',
-            "--font-display": '"Times New Roman", serif',
+            "--font-display": '"Iowan Old Style", Baskerville, "Times New Roman", serif',
           } as React.CSSProperties
         }
       >

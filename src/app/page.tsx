@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import FeaturedWork from "@/components/FeaturedWork";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import EditingBoundaries from "@/components/EditingBoundaries";
+import HowItWorks from "@/components/HowItWorks";
 import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
 import SoftDivider from "@/components/SoftDivider";
@@ -98,7 +100,11 @@ export default function Home() {
       <SoftDivider />
       <WhyChooseUs />
       <SoftDivider />
-      <PricingSection />
+      <EditingBoundaries />
+      <SoftDivider />
+      <HowItWorks />
+      <SoftDivider />
+      <PricingSection variant="home" />
       <Footer />
     </main>
   );

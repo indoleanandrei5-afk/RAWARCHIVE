@@ -6,25 +6,25 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Hero() {
   const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
-  const REVEAL_DURATION = 0.82;
+  const REVEAL_DURATION = 0.72;
 
   const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 500], [0, 36]);
-  const bgScale = useTransform(scrollY, [0, 500], [1, 1.04]);
+  const bgY = useTransform(scrollY, [0, 500], [0, 16]);
+  const bgScale = useTransform(scrollY, [0, 500], [1, 1.015]);
 
   const heroStagger = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.12,
+        staggerChildren: 0.07,
+        delayChildren: 0.08,
       },
     },
   };
 
   const heroItem = {
-    hidden: { opacity: 0, y: 18 },
+    hidden: { opacity: 0, y: 12 },
     show: {
       opacity: 1,
       y: 0,
@@ -33,67 +33,60 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative flex min-h-screen items-start justify-center overflow-hidden bg-black pb-14 pt-24 text-white max-[390px]:pb-12 max-[390px]:pt-22 sm:pb-20 sm:pt-30">
+    <section className="relative flex min-h-[calc(100svh-4.25rem)] items-center justify-center overflow-hidden bg-black px-4 py-16 text-white sm:min-h-[calc(100svh-5rem)] sm:px-6 sm:py-20">
       <motion.img
         src="/images/image1.webp"
         alt="Professional portrait photo editing by RAW ARCHIVE PHOTOS"
         style={{ y: bgY, scale: bgScale }}
-        className="absolute inset-0 -z-10 h-full w-full object-cover brightness-70"
+        className="absolute inset-0 -z-10 h-full w-full object-cover object-[52%_36%] brightness-[0.76] contrast-[1.04] saturate-[0.86]"
       />
-      <div className="absolute inset-0 bg-linear-to-br from-black/40 via-black/68 to-black/90" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_24%,rgba(221,214,201,0.14),transparent_40%)]" />
-      <motion.div
+      <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/58 to-black/90" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_24%,rgba(221,214,201,0.16),transparent_42%)]" />
+      <div
         className="ambient-orb right-[8%] top-[20%] h-44 w-44 bg-[radial-gradient(circle,rgba(221,214,201,0.65),transparent_70%)]"
-        animate={{ y: [0, -10, 0], x: [0, 4, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
+      <div
         className="ambient-orb left-[10%] top-[46%] h-36 w-36 bg-[radial-gradient(circle,rgba(187,178,162,0.55),transparent_70%)]"
-        animate={{ y: [0, 12, 0], x: [0, -4, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <motion.div
         variants={heroStagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center max-[390px]:px-3 sm:px-6"
+        className="relative z-10 mx-auto w-full max-w-6xl text-center"
       >
-        <motion.p variants={heroItem} className="eyebrow mb-6 max-[390px]:px-3 max-[390px]:text-[10px] max-[390px]:tracking-[0.16em] sm:text-xs sm:tracking-[0.36em]">
-          Professional photo editing
+        <motion.p variants={heroItem} className="eyebrow mb-7 max-[390px]:text-[10px] sm:mb-8 sm:text-xs sm:tracking-[0.32em]">
+          One-person photo editing studio
         </motion.p>
 
-        <motion.h1 variants={heroItem} className="text-3xl font-medium leading-[1.03] tracking-tight text-white max-[390px]:text-[1.78rem] sm:text-5xl md:text-7xl">
+        <motion.h1 variants={heroItem} className="mx-auto max-w-5xl text-[clamp(2.15rem,6vw,5.35rem)] font-medium leading-[0.98] tracking-[-0.025em] text-white">
           Transform raw photos
-          <span className="block text-[0.98em] font-light text-white/92">into clean, elevated visuals.</span>
+          <span className="mt-2 block text-[0.92em] font-light text-white/90 sm:mt-3">into clean, elevated visuals.</span>
         </motion.h1>
 
-        <motion.p variants={heroItem} className="tone-soft mx-auto mt-6 max-w-2xl text-[15px] max-[390px]:text-sm sm:mt-8 sm:text-lg md:text-xl">
-          Clean, natural edits that still feel like your work on its best day.
+        <motion.p variants={heroItem} className="tone-soft mx-auto mt-7 max-w-2xl text-[15px] leading-7 sm:mt-9 sm:text-lg md:text-xl">
+          I fix the color, tame the highlights, keep skin looking like skin, and leave the personality alone.
         </motion.p>
 
-        <motion.p variants={heroItem} className="tone-muted mx-auto mt-4 max-w-2xl text-sm uppercase tracking-[0.14em] max-[390px]:text-xs max-[390px]:tracking-[0.12em] sm:text-base">
-          I do not use AI editing, and I do not support AI-generated retouching workflows. Every image is refined by hand.
+        <motion.p variants={heroItem} className="tone-muted mx-auto mt-4 max-w-3xl text-xs leading-6 tracking-[0.035em] sm:text-sm sm:leading-7">
+          I do not use AI editing, and I do not support AI-generated retouching. Every image is edited by me, by hand.
         </motion.p>
 
-        <motion.div variants={heroItem} className="tone-faint mx-auto mt-5 flex max-w-xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.16em] max-[390px]:gap-x-2 max-[390px]:text-[10px] max-[390px]:tracking-[0.06em] sm:text-sm sm:tracking-[0.28em]">
+        <motion.div variants={heroItem} className="tone-faint mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-2 border-y border-white/10 py-3 text-[10px] uppercase tracking-[0.12em] sm:mt-7 sm:gap-x-4 sm:text-xs sm:tracking-[0.22em]">
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
-          <span>Careful retouching</span>
+          <span>Skin stays skin</span>
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
-          <span>Clear communication</span>
+          <span>Skies stay believable</span>
           <span className="inline-flex h-1.5 w-1.5 rounded-full bg-(--accent)" />
-          <span>Steady finish</span>
+          <span>No mystery fees</span>
         </motion.div>
 
         <motion.div
           variants={heroItem}
-          className="section-shell mx-auto mt-10 w-full max-w-2xl rounded-3xl p-3 sm:mt-14 sm:p-4"
-          animate={{ y: [0, -2, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          whileHover={{ scale: 1.008, y: -1 }}
+          className="mx-auto mt-9 w-full max-w-xl sm:mt-11"
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-3">
-            <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 250, damping: 22 }}>
+            <div>
               <Link
                 href="/upload"
                 onClick={() =>
@@ -101,30 +94,27 @@ export default function Hero() {
                     button_location: "hero",
                   })
                 }
-                className="btn-primary cta-sheen inline-flex w-full px-6 py-3 text-sm font-semibold uppercase tracking-[0.14em] transition-all duration-550 ease-out max-[390px]:px-5 max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.16em]"
+                className="btn-primary cta-sheen inline-flex min-h-12 w-full px-7 py-3 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-550 ease-out sm:w-auto sm:min-w-52 sm:text-sm"
               >
                 Upload Photos
               </Link>
-            </motion.div>
-            <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 250, damping: 22 }}>
+            </div>
+            <div>
               <Link
                 href="/portfolio"
-                className="btn-secondary inline-flex w-full px-6 py-3 text-sm uppercase tracking-[0.14em] transition-all duration-550 ease-out max-[390px]:px-5 max-[390px]:text-[12px] sm:w-auto sm:px-7 sm:tracking-[0.16em]"
+                className="btn-secondary inline-flex min-h-12 w-full px-7 py-3 text-xs uppercase tracking-[0.16em] transition-all duration-550 ease-out sm:w-auto sm:min-w-52 sm:text-sm"
               >
                 View Portfolio
               </Link>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
 
-        <motion.p
-          variants={heroItem}
-          className="tone-faint mx-auto mt-8 text-[11px] uppercase tracking-[0.24em]"
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          Scroll To Explore
-        </motion.p>
+        <motion.div variants={heroItem} className="tone-faint mx-auto mt-9 flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.24em] sm:mt-11 sm:text-[11px]">
+          <span className="h-px w-7 bg-white/18" aria-hidden="true" />
+          <span>There&apos;s more below</span>
+          <span aria-hidden="true">↓</span>
+        </motion.div>
       </motion.div>
     </section>
   );

@@ -163,6 +163,31 @@ export default function Contact() {
             </a>
           </div>
           </div>
+
+          <section className="mt-14 border-y border-white/10 py-10 sm:mt-18 sm:py-12">
+            <p className="eyebrow">Before you send a brief</p>
+            <h2 className="mt-6 text-3xl font-medium sm:text-4xl">A clear starting point.</h2>
+            <div className="mt-8 grid gap-7 sm:grid-cols-3">
+              <div className="border-t border-white/14 pt-5">
+                <p className="field-label">Turnaround</p>
+                <p className="pro-subtitle mt-3 text-sm">Typical delivery is 2–3 business days, depending on volume and complexity.</p>
+              </div>
+              <div className="border-t border-white/14 pt-5">
+                <p className="field-label">Privacy</p>
+                <p className="pro-subtitle mt-3 text-sm">Your files stay private unless you explicitly approve portfolio or social sharing.</p>
+              </div>
+              <div className="border-t border-white/14 pt-5">
+                <p className="field-label">What to include</p>
+                <p className="pro-subtitle mt-3 text-sm">Photo count, deadline, intended use, and one clear reference for the finish you want.</p>
+              </div>
+            </div>
+            <a
+              href="mailto:indoleanandrei5@gmail.com?subject=Project%20brief%20for%20RAW%20ARCHIVE%20PHOTOS"
+              className="btn-secondary mt-9 inline-flex px-7 py-4 text-sm uppercase tracking-[0.14em]"
+            >
+              Email a project brief
+            </a>
+          </section>
         </div>
       </div>
     </main>

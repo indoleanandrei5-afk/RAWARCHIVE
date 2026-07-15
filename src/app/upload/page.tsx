@@ -19,6 +19,16 @@ type UploadedAsset = {
   originalFilename: string;
 };
 
+const editDirections = [
+  "Natural",
+  "Clean & Bright",
+  "Dark & Moody",
+  "Match a Reference",
+  "Surprise Me",
+] as const;
+
+type EditDirection = (typeof editDirections)[number];
+
 async function uploadFilesToCloudinaryRaw(
   orderId: string,
   filesToUpload: File[],
@@ -121,6 +131,7 @@ export default function Upload() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [editNotes, setEditNotes] = useState("");
+  const [editDirection, setEditDirection] = useState<EditDirection>("Natural");
   const [clientEmail, setClientEmail] = useState("");
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
   const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
@@ -198,6 +209,10 @@ export default function Upload() {
     setUploadStatus(null);
 
     const orderId = crypto.randomUUID();
+    const combinedEditNotes = [
+      `Creative direction: ${editDirection}`,
+      editNotes.trim(),
+    ].filter(Boolean).join("\n\n");
 
     try {
       // Store files for upload after payment
@@ -212,7 +227,7 @@ export default function Upload() {
         status: "pending",
         photoNames: files.map((file) => file.name).join(", "),
         clientEmail,
-        editNotes,
+        editNotes: combinedEditNotes,
         socialMediaConsent,
       };
 
@@ -228,7 +243,7 @@ export default function Upload() {
             name: file.name,
           })),
           uploadedPreviewUrls: [],
-          editNotes,
+          editNotes: combinedEditNotes,
           socialMediaConsent,
         }),
       });
@@ -259,20 +274,27 @@ export default function Upload() {
       <div className="page-container">
         <div className="mb-12 text-center sm:mb-14">
           <p className="eyebrow">
-            Upload your photos
+            Send the photos over
           </p>
-          <h1 className="pro-title mt-5 sm:mt-6">Start your edit.</h1>
+          <h1 className="pro-title mt-5 sm:mt-6">Send me the stubborn ones.</h1>
           <p className="pro-subtitle mx-auto mt-4 max-w-2xl text-base sm:text-lg">
-            Upload your photos, glance at the total, and you are ready to go. It starts at $1 per photo, with $3 automatically knocked off every 10 images.
+            Pick a set, drop in the photos, and tell me what is bothering you. I will handle the color, skin, contrast, and tiny visual crimes.
           </p>
+          <div className="tone-faint mx-auto mt-7 flex max-w-2xl items-center justify-center gap-3 text-[10px] uppercase tracking-[0.15em] sm:text-xs sm:tracking-[0.2em]">
+            <span className="text-white/86">01 Pick</span>
+            <span className="h-px flex-1 bg-white/12" />
+            <span>02 Tell me</span>
+            <span className="h-px flex-1 bg-white/12" />
+            <span>03 Pay securely</span>
+          </div>
         </div>
 
         {checkoutStatus === "success" && (
           <div className="pro-shell mb-10 border-emerald-300/30 bg-emerald-300/10 p-6 text-center text-white sm:p-8">
             <p className="text-xs uppercase tracking-[0.28em] text-emerald-200 sm:text-sm sm:tracking-[0.4em]">Order Confirmed</p>
-            <h2 className="mt-4 text-2xl font-bold sm:text-3xl">Thanks — your upload order is being processed.</h2>
+            <h2 className="mt-4 text-2xl font-bold sm:text-3xl">Thank you — the photos are on their way to me.</h2>
             <p className="mt-3 text-gray-100">
-              Payment completed successfully. We’ll handle your files and send you a confirmation email soon.
+              Payment went through. I will take it from here and send a confirmation email shortly.
             </p>
           </div>
         )}
@@ -311,7 +333,7 @@ export default function Upload() {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png,.webp,.heic,.tif,.tiff,image/*"
             multiple
             className="hidden"
             onChange={(event) => {
@@ -319,8 +341,8 @@ export default function Upload() {
               event.target.value = "";
             }}
           />
-          <p className="text-xl font-semibold sm:text-2xl">Drag & Drop Photos Here</p>
-          <p className="tone-soft mt-4">Tap anywhere in this box, or drag your files in to get started.</p>
+          <p className="text-xl font-semibold sm:text-2xl">Drop the photos here</p>
+          <p className="tone-soft mt-4">Tap the box or drag them in. Neat filenames are appreciated, never required.</p>
 
           <button
             type="button"
@@ -330,12 +352,41 @@ export default function Upload() {
             }}
             className="btn-primary mt-8 inline-flex w-full cursor-pointer px-8 py-4 font-medium transition sm:w-auto"
           >
-            Select Photos
+            Choose photos
           </button>
         </div>
 
+        <div className="tone-faint mt-4 grid gap-3 text-[10px] uppercase tracking-[0.14em] sm:grid-cols-3 sm:text-xs">
+          <p className="border-l border-white/12 pl-3">JPG, PNG, WebP, HEIC, TIFF</p>
+          <p className="border-l border-white/12 pl-3">Private unless you say otherwise</p>
+          <p className="border-l border-white/12 pl-3">Full-resolution delivery</p>
+        </div>
+
         <div className="section-shell mt-6 rounded-3xl p-6 sm:mt-8 sm:p-8">
-          <p className="eyebrow">Pick Your Set</p>
+          <p className="eyebrow">The brief</p>
+          <h2 className="mt-4 text-2xl font-medium text-white sm:text-3xl">How should it feel?</h2>
+          <p className="pro-subtitle mt-3 text-sm sm:text-base">Pick a starting point. You can add specifics later.</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {editDirections.map((direction) => (
+              <button
+                key={direction}
+                type="button"
+                onClick={() => setEditDirection(direction)}
+                aria-pressed={editDirection === direction}
+                className={`rounded-full border px-4 py-2 text-xs transition-colors duration-300 ${
+                  editDirection === direction
+                    ? "border-white/34 bg-white text-black"
+                    : "border-white/14 bg-white/4 text-white/68 hover:border-white/28 hover:text-white"
+                }`}
+              >
+                {direction}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="section-shell mt-6 rounded-3xl p-6 sm:mt-8 sm:p-8">
+          <p className="eyebrow">How many are misbehaving?</p>
           <motion.div
             initial="hidden"
             whileInView="show"
@@ -344,7 +395,7 @@ export default function Upload() {
               hidden: {},
               show: {
                 transition: {
-                  staggerChildren: 0.13,
+                  staggerChildren: 0.08,
                   delayChildren: 0.06,
                 },
               },
@@ -363,9 +414,9 @@ export default function Upload() {
                   key={tier}
                   onClick={() => handleTierSelect(tier)}
                   aria-pressed={isSelected}
-                  variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+                  variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
                   transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={{ y: -6, scale: 1.008 }}
+                  whileHover={{ y: -1, scale: 1.001 }}
                   whileTap={{ scale: 0.98 }}
                   className={`lux-card relative rounded-3xl p-5 text-left transition sm:p-6 ${
                     isSelected
@@ -375,27 +426,27 @@ export default function Upload() {
                         : "border-white/16 bg-white/5"
                   }`}
                 >
-                  {tier === 10 && (
+                  {tier === 20 && (
                     <span className="absolute right-4 top-4 rounded-full border border-white/16 bg-white/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/75">
-                      Popular
+                      Sweet spot
                     </span>
                   )}
                   <p className="tone-faint text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em]">{tier} Photos</p>
                   <p className="mt-4 text-3xl font-semibold text-white sm:text-4xl">${tierPrice}</p>
-                  <p className="tone-soft mt-2 text-sm">Price for this set</p>
+                  <p className="tone-soft mt-2 text-sm">Everything included</p>
                   <p className="tone-faint mt-3 text-xs uppercase tracking-[0.14em] sm:tracking-[0.24em]">Savings ${tierDiscountAmount}</p>
                 </motion.button>
               );
             })}
           </motion.div>
           <p className="tone-soft mt-4 text-sm">
-            Quick preview: {selectedTierPreview} photos comes to ${calculateTieredPrice(selectedTierPreview)}, with ${Math.floor(selectedTierPreview / 10) * 3} off built in.
+            The useful bit: {selectedTierPreview} photos comes to ${calculateTieredPrice(selectedTierPreview)}. The ${Math.floor(selectedTierPreview / 10) * 3} discount is already doing its job.
           </p>
           <p className="tone-muted mt-2 text-sm">
             Selected {Math.min(files.length, selectedTierPreview)} of {selectedTierPreview} photos for this tier.
           </p>
           <p className="tone-faint mt-4 text-xs sm:text-sm">
-            Pick 10, 20, or 30 to lock in your tier, then start dropping files straight in.
+            Pick a set, then fill it up. No coupon code, no calculator, no tiny asterisk.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <motion.div whileTap={{ scale: 0.98 }}>
@@ -404,7 +455,7 @@ export default function Upload() {
                 onClick={() => handleTierSelect(selectedTierPreview)}
                 className="btn-secondary inline-flex px-6 py-3 text-sm uppercase tracking-[0.12em] transition"
               >
-                Choose {selectedTierPreview} Photos
+                Add {selectedTierPreview} photos
               </button>
             </motion.div>
             <motion.div whileTap={{ scale: 0.98 }}>
@@ -414,7 +465,7 @@ export default function Upload() {
                 onClick={() => setIsCheckoutOpen(true)}
                 className="btn-primary cta-sheen inline-flex px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition disabled:cursor-not-allowed disabled:opacity-45"
               >
-                Continue With {selectedTierPreview}
+                Review these {selectedTierPreview}
               </button>
             </motion.div>
           </div>
@@ -422,10 +473,10 @@ export default function Upload() {
 
         <div className="mt-10 grid gap-6 sm:mt-12 sm:gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div>
-            <div className="section-shell rounded-3xl p-6 sm:p-8">
+            <div className="section-shell rounded-3xl p-6 sm:p-8 lg:sticky lg:top-28" aria-live="polite">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">Order Summary</p>
+                  <p className="text-xs uppercase tracking-[0.28em] text-gray-500 sm:text-sm sm:tracking-[0.4em]">The numbers</p>
                   <h2 className="mt-4 text-2xl font-bold sm:text-3xl">{files.length} Photos</h2>
                 </div>
                 <p className="text-2xl font-semibold sm:text-3xl">${totalPrice}</p>
@@ -434,14 +485,14 @@ export default function Upload() {
               <div className="mt-8 space-y-3 text-gray-200">
                 <p>
                   {files.length === 0
-                    ? "Add photos to see your total"
+                    ? "Add a photo and the total appears here"
                     : `$${files.length} base, $${tierDiscount} discount, $${totalPrice} final total`}
                 </p>
                 {files.length > 0 && files.length % 10 !== 0 && (
                   <p className="text-white/65">Hit {nextTierAt} photos and another $3 drops off automatically.</p>
                 )}
-                <p>Secure upload</p>
-                <p>High-resolution delivery</p>
+                <p>Files kept private</p>
+                <p>Full-resolution delivery</p>
               </div>
 
               <button
@@ -450,15 +501,15 @@ export default function Upload() {
                 onClick={() => setIsCheckoutOpen(true)}
                 className="mt-10 w-full rounded-full border border-white/20 bg-(--accent-strong) px-8 py-4 font-semibold text-black/90 transition hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Continue to Payment
+                Review and pay
               </button>
             </div>
 
             {isCheckoutOpen && (
               <div className="section-shell mt-8 rounded-3xl p-6 sm:p-8">
                 <p className="eyebrow">Checkout</p>
-                <h3 className="mt-4 text-2xl font-medium sm:text-3xl">Review Your Order</h3>
-                <p className="pro-subtitle mt-3">One last look before checkout. Count, price, notes, all in one place.</p>
+                <h3 className="mt-4 text-2xl font-medium sm:text-3xl">One last look</h3>
+                <p className="pro-subtitle mt-3">Count, price, notes—all here before your photos become my problem, in the best way.</p>
 
                 <div className="pro-panel mt-8 grid gap-4 p-6">
                   <div className="flex items-center justify-between text-lg">
@@ -492,18 +543,18 @@ export default function Upload() {
                     className="field-input mt-3 text-sm"
                     required
                   />
-                  <p className="mt-2 text-xs text-white/56">We&apos;ll send your edited photos to this email.</p>
+                  <p className="mt-2 text-xs text-white/56">This is where I will send the finished files. Choose an inbox you actually check.</p>
                 </div>
 
                 <div className="mt-6">
                   <label htmlFor="edit-notes" className="field-label">
-                    Edit Notes For Your Photos
+                    What should I know?
                   </label>
                   <textarea
                     id="edit-notes"
                     value={editNotes}
                     onChange={(event) => setEditNotes(event.target.value)}
-                    placeholder="Tell me the look you want: clean and bright, cinematic and moody, soft and natural, or anything in between."
+                    placeholder="Tell me the look you want—or what currently looks wrong. ‘Too yellow and a bit sad’ is a perfectly good brief."
                     rows={5}
                     className="field-input mt-3 text-sm"
                   />
@@ -512,7 +563,7 @@ export default function Upload() {
                 <div className="mt-6">
                   <p className="field-label">Social Media Permission</p>
                   <p className="mt-2 text-xs text-white/56">
-                    Can we feature your edited photos on RAW ARCHIVE social media and portfolio channels?
+                    May I feature the finished photos on RAW ARCHIVE social media or in the portfolio?
                   </p>
                   <div className="mt-3 grid gap-3 sm:grid-cols-2">
                     <button
@@ -595,11 +646,11 @@ export default function Upload() {
 
                     return (
                     <div key={`${file.name}-${index}`} className="pro-panel flex items-center gap-4 p-4">
-                      <div className="h-16 w-16 overflow-hidden rounded-2xl bg-white/10">
+                      <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white/10">
                         <img
                           src={previewUrl}
                           alt={file.name}
-                          className="h-full w-full object-cover object-center"
+                          className="max-h-full max-w-full object-contain"
                         />
                       </div>
                       <div className="min-w-0 flex-1">

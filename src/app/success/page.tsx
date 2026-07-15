@@ -13,24 +13,23 @@ export default function SuccessPage() {
         <p className="eyebrow">PAYMENT SUCCESSFUL</p>
 
         <h1 className="mt-5 text-5xl font-bold">
-          Thank you for your order.
+          Got them. Thank you.
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-          Your payment has been received successfully.
-          Your photos are now in our workflow and will be edited by hand.
+          Payment went through and your photos are with me now. You can close this tab and stop thinking about color temperature for a while.
         </p>
 
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8 text-left">
           <h2 className="mb-4 text-2xl font-semibold">
-            What happens next?
+            What happens next
           </h2>
 
           <ul className="space-y-4 text-white/80">
-            <li>✓ We review your uploaded photos.</li>
-            <li>✓ Every image is edited manually.</li>
-            <li>✓ Quality is checked before delivery.</li>
-            <li>✓ You'll receive an email as soon as your order is ready.</li>
+            <li>✓ I check your files and read every note.</li>
+            <li>✓ I edit the photographs one by one.</li>
+            <li>✓ I review the full set before it leaves.</li>
+            <li>✓ You get an email the moment everything is ready.</li>
           </ul>
         </div>
 

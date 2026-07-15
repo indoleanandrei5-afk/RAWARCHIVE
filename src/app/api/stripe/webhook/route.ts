@@ -1,5 +1,8 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import Stripe from "stripe";
+
+export const runtime = "nodejs";
+export const maxDuration = 30;
 
 function getStripe() {
   const secretKey = process.env.STRIPE_SECRET_KEY;
@@ -37,7 +40,7 @@ function formatMultiline(value: string | undefined) {
     .join("\n");
 }
 
-async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
+async function sendOrderNotificationEmail(session: Stripe.Checkout.Session, idempotencyKey: string) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const notifyTo = process.env.NOTIFY_TO_EMAIL;
   const notifyFrom = process.env.NOTIFY_FROM_EMAIL || "onboarding@resend.dev";
@@ -104,6 +107,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${resendApiKey}`,
+      "Idempotency-Key": idempotencyKey,
     },
     body: JSON.stringify({
       from: notifyFrom,
@@ -120,7 +124,7 @@ async function sendOrderNotificationEmail(session: Stripe.Checkout.Session) {
   }
 }
 
-async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
+async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session, idempotencyKey: string) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const notifyFrom = process.env.NOTIFY_FROM_EMAIL || "onboarding@resend.dev";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.rawarchivephotos.com";
@@ -234,6 +238,7 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session) {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${resendApiKey}`,
+      "Idempotency-Key": idempotencyKey,
     },
     body: JSON.stringify({
       from: notifyFrom,
@@ -282,15 +287,49 @@ async function sendSmsNotification(orderId: string, amount: number) {
   }
 }
 
+async function sendCheckoutNotifications(eventId: string, session: Stripe.Checkout.Session) {
+  const orderId = session.metadata?.orderId || "unknown";
+  const amountTotal = session.amount_total || 0;
+  const jobs = [
+    {
+      label: "admin email",
+      run: () => sendOrderNotificationEmail(session, `stripe-${eventId}-admin-email`),
+    },
+    {
+      label: "SMS",
+      run: () => sendSmsNotification(orderId, amountTotal),
+    },
+    {
+      label: "customer invoice",
+      run: () => sendOrderConfirmationInvoice(session, `stripe-${eventId}-customer-invoice`),
+    },
+  ];
+
+  const results = await Promise.allSettled(jobs.map((job) => job.run()));
+  results.forEach((result, index) => {
+    if (result.status === "rejected") {
+      console.error(`Stripe post-payment ${jobs[index].label} failed`, {
+        eventId,
+        orderId,
+        error: result.reason,
+      });
+    }
+  });
+}
+
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!process.env.STRIPE_SECRET_KEY || !webhookSecret || !signature) {
+  if (!process.env.STRIPE_SECRET_KEY || !webhookSecret) {
     return NextResponse.json(
-      { message: "Webhook not configured. Missing STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, or signature." },
-      { status: 400 },
+      { message: "Webhook not configured." },
+      { status: 503 },
     );
+  }
+
+  if (!signature) {
+    return NextResponse.json({ message: "Missing Stripe signature." }, { status: 400 });
   }
 
   const rawBody = await request.text();
@@ -304,23 +343,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ message }, { status: 400 });
   }
 
-  try {
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object as Stripe.Checkout.Session;
-      const orderId = session.metadata?.orderId || "unknown";
-      const amountTotal = session.amount_total || 0;
-      
-      // Send notifications to admin
-      await sendOrderNotificationEmail(session);
-      await sendSmsNotification(orderId, amountTotal);
-      
-      // Send invoice to client
-      await sendOrderConfirmationInvoice(session);
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+
+    if (session.payment_status === "paid") {
+      after(() => sendCheckoutNotifications(event.id, session));
+    } else {
+      console.warn("Checkout completed before payment was confirmed", {
+        eventId: event.id,
+        sessionId: session.id,
+        paymentStatus: session.payment_status,
+      });
     }
-  } catch (error) {
-    console.error("Stripe webhook handler failed", error);
-    return NextResponse.json({ message: "Webhook handler failed." }, { status: 500 });
   }
 
-  return NextResponse.json({ received: true });
+  return NextResponse.json({ received: true, eventId: event.id });
 }
