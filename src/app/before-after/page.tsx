@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import { brandName, siteUrl } from "@/lib/seo";
 
 type Comparison = {
   id: number;
@@ -64,9 +65,53 @@ const imageProps = (item: Comparison) => ({
 });
 
 export default function BeforeAfter() {
+  const comparisonSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${siteUrl}/before-after/#collection`,
+    name: `Before and After Photo Editing by ${brandName}`,
+    url: `${siteUrl}/before-after`,
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: comparisons.length,
+      itemListElement: comparisons.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "ImageObject",
+          name: item.alt,
+          caption: `${item.category} photo editing comparison`,
+          contentUrl: `${siteUrl}/images/image${item.id}.webp`,
+          thumbnailUrl: `${siteUrl}/images/before/image${item.id}.webp`,
+          width: item.width,
+          height: item.height,
+          creator: { "@id": `${siteUrl}/#organization` },
+        },
+      })),
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Before & After",
+        item: `${siteUrl}/before-after`,
+      },
+    ],
+  };
+
   return (
     <main className="page-wrap relative min-h-screen overflow-hidden">
       <div className="page-overlay" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(comparisonSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <section className="relative z-10 px-4 pb-12 pt-16 sm:px-6 sm:pb-18 sm:pt-24">
         <div className="mx-auto max-w-6xl border-b border-white/12 pb-12 sm:pb-16">

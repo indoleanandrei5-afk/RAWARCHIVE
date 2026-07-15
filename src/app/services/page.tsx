@@ -45,10 +45,20 @@ export default function ServicesHubPage() {
     })),
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${siteUrl}/services` },
+    ],
+  };
+
   return (
     <main className="page-wrap relative overflow-hidden px-4 py-16 text-white sm:px-6 sm:py-20">
       <div className="page-overlay" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <div className="page-container">
         <div className="pro-shell p-7 text-center sm:p-10">

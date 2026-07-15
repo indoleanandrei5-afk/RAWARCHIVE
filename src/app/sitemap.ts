@@ -2,18 +2,36 @@ import type { MetadataRoute } from "next";
 import { servicePages } from "@/lib/servicePages";
 
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rawarchivephotos.com").replace(/\/$/, "");
-const now = new Date();
+// Content publication dates should only change when the page itself changes.
+// Using the build time here makes every URL look newly updated on every deploy.
+const contentUpdatedAt = new Date("2026-07-16T00:00:00.000Z");
 
-const portfolioImages = Array.from({ length: 16 }, (_, i) => {
-  const imageNum = i + 1;
-  const ext = imageNum === 14 ? "png" : "jpg";
-  return `${siteUrl}/images/image${imageNum}.${ext}`;
-});
+const portfolioImages = [
+  "portfolio/film-portrait-street.jpeg",
+  "image16.webp",
+  "portfolio/film-portrait-dinner.jpeg",
+  "portfolio/film-travel-coast.jpeg",
+  "portfolio/film-portrait-motion.jpeg",
+  "image6.webp",
+  "image3.webp",
+  "portfolio/film-travel-beach.jpeg",
+  "image13.webp",
+  "image4.webp",
+  "image7.webp",
+  "image8.webp",
+  "image14.webp",
+  "image10.webp",
+].map((path) => `${siteUrl}/images/${path}`);
+
+const comparisonImages = [3, 4, 7, 10, 13, 16].flatMap((imageNum) => [
+  `${siteUrl}/images/before/image${imageNum}.webp`,
+  `${siteUrl}/images/image${imageNum}.webp`,
+]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const serviceRoutes: MetadataRoute.Sitemap = servicePages.map((service) => ({
     url: `${siteUrl}/services/${service.slug}`,
-    lastModified: now,
+    lastModified: contentUpdatedAt,
     changeFrequency: "monthly",
     priority: 0.82,
   }));
@@ -21,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: `${siteUrl}`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "weekly",
       priority: 1,
       images: [
@@ -32,51 +50,51 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/before-after`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "weekly",
       priority: 0.92,
-      images: portfolioImages,
+      images: comparisonImages,
     },
     {
       url: `${siteUrl}/portfolio`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "weekly",
       priority: 0.95,
       images: portfolioImages,
     },
     {
       url: `${siteUrl}/pricing`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${siteUrl}/services`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "weekly",
       priority: 0.88,
     },
     {
       url: `${siteUrl}/upload`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "monthly",
       priority: 0.85,
     },
     {
       url: `${siteUrl}/about`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "monthly",
       priority: 0.75,
     },
     {
       url: `${siteUrl}/contact`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "monthly",
       priority: 0.75,
     },
     ...["privacy", "terms", "refunds"].map((route) => ({
       url: `${siteUrl}/${route}`,
-      lastModified: now,
+      lastModified: contentUpdatedAt,
       changeFrequency: "yearly" as const,
       priority: 0.35,
     })),

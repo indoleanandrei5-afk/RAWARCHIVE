@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ImageGallery from "@/components/ImageGallery";
-import { defaultOgImage } from "@/lib/seo";
+import { brandName, defaultOgImage, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -83,10 +83,41 @@ export default function Portfolio() {
     })),
   };
 
+  const gallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "@id": `${siteUrl}/portfolio/#gallery`,
+    name: `${brandName} Photo Editing Portfolio`,
+    url: `${siteUrl}/portfolio`,
+    inLanguage: "en-US",
+    associatedMedia: portfolioImages.map((image) => ({
+      "@type": "ImageObject",
+      contentUrl: `${siteUrl}${image.src}`,
+      url: `${siteUrl}${image.src}`,
+      caption: image.alt,
+      width: image.width,
+      height: image.height,
+      creditText: brandName,
+      creator: { "@id": `${siteUrl}/#organization` },
+      representativeOfPage: true,
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Portfolio", item: `${siteUrl}/portfolio` },
+    ],
+  };
+
   return (
     <main className="page-wrap relative overflow-hidden px-4 py-20 text-white sm:px-6 sm:py-28">
       <div className="page-overlay" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(gallerySchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <div className="page-container">
         <div className="mb-14 border-y border-white/10 py-10 sm:mb-16 sm:py-14">

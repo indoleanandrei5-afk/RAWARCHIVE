@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PricingSection from "@/components/PricingSection";
-import { defaultOgImage } from "@/lib/seo";
+import { brandName, defaultOgImage, siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -65,12 +65,41 @@ export default function PricingPage() {
     })),
   };
 
+  const pricingSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${siteUrl}/pricing/#service`,
+    name: "Professional Photo Editing",
+    description: metadata.description,
+    serviceType: "Photo Editing Service",
+    areaServed: "Worldwide",
+    provider: { "@id": `${siteUrl}/#organization`, name: brandName },
+    url: `${siteUrl}/pricing`,
+    offers: [
+      { "@type": "Offer", name: "1 Photo", price: "1", priceCurrency: "USD", url: `${siteUrl}/upload` },
+      { "@type": "Offer", name: "10 Photos", price: "7", priceCurrency: "USD", url: `${siteUrl}/upload` },
+      { "@type": "Offer", name: "20 Photos", price: "14", priceCurrency: "USD", url: `${siteUrl}/upload` },
+      { "@type": "Offer", name: "30 Photos", price: "21", priceCurrency: "USD", url: `${siteUrl}/upload` },
+    ],
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Pricing", item: `${siteUrl}/pricing` },
+    ],
+  };
+
   return (
     <main className="page-wrap relative overflow-hidden text-white">
       <div className="page-overlay" />
       <div className="ambient-orb right-[10%] top-[16%] h-40 w-40 bg-[radial-gradient(circle,rgba(221,214,201,0.28),transparent_70%)]" />
       <div className="ambient-orb left-[8%] top-[58%] h-32 w-32 bg-[radial-gradient(circle,rgba(187,178,162,0.22),transparent_70%)]" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="relative z-10">
         <div className="pt-24">
           <PricingSection />
