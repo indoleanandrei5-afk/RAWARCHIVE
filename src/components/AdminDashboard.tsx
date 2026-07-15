@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import type { AdminAsset, AdminOrder, AdminOrdersResponse, AdminOrderStatus } from "@/lib/adminTypes";
+import AdminAnalyticsPanel from "@/components/AdminAnalyticsPanel";
 
 type StatusFilter = "all" | AdminOrderStatus;
 type Notice = { orderId: string; tone: "success" | "error"; message: string } | null;
@@ -90,6 +91,7 @@ export default function AdminDashboard() {
   const [deliveryFor, setDeliveryFor] = useState<string | null>(null);
   const [deliveryText, setDeliveryText] = useState<Record<string, string>>({});
   const [pendingEdited, setPendingEdited] = useState<Record<string, AdminAsset[]>>({});
+  const [section, setSection] = useState<"orders" | "analytics">("orders");
 
   const loadOrders = useCallback(async () => {
     setLoading(true);
@@ -257,12 +259,19 @@ export default function AdminDashboard() {
           </div>
         </header>
 
+        <nav className="my-8 flex w-fit rounded-full border border-white/10 bg-white/5 p-1" aria-label="Admin sections">
+          <button type="button" onClick={() => setSection("orders")} className={`rounded-full px-5 py-2.5 text-sm transition ${section === "orders" ? "bg-white text-black" : "text-white/52 hover:text-white"}`}>Orders</button>
+          <button type="button" onClick={() => setSection("analytics")} className={`rounded-full px-5 py-2.5 text-sm transition ${section === "analytics" ? "bg-white text-black" : "text-white/52 hover:text-white"}`}>Analytics</button>
+        </nav>
+
+        {section === "analytics" ? <AdminAnalyticsPanel /> : <>
+
         {data?.warnings.map((warning) => (
           <p key={warning} className="mt-4 rounded-2xl border border-amber-300/18 bg-amber-300/8 px-4 py-3 text-sm text-amber-100">{warning}</p>
         ))}
         {error ? <div className="mt-6 rounded-3xl border border-red-300/20 bg-red-300/8 p-6 text-red-100">{error}</div> : null}
 
-        <div className="my-8 flex flex-col gap-3 rounded-3xl border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-center">
+        <div className="mb-8 flex flex-col gap-3 rounded-3xl border border-white/10 bg-white/5 p-3 sm:flex-row sm:items-center">
           <div className="flex flex-wrap gap-1.5">
             {filters.map((item) => (
               <button key={item.value} type="button" onClick={() => setFilter(item.value)} className={`rounded-full px-4 py-2 text-sm transition ${filter === item.value ? "bg-white text-black" : "text-white/60 hover:bg-white/8 hover:text-white"}`}>{item.label}</button>
@@ -344,6 +353,7 @@ export default function AdminDashboard() {
             })}
           </div>
         )}
+        </>}
       </div>
     </main>
   );
