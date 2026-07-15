@@ -225,10 +225,6 @@ export async function getAdminOrders(): Promise<AdminOrdersResponse> {
     warnings.push("STRIPE_SECRET_KEY is missing, so paid orders cannot be loaded yet.");
     return { orders: [], configuration, warnings };
   }
-  if (!configuration.cloudinary) {
-    warnings.push("Cloudinary server credentials are missing. New orders still show every photograph; older orders may show previews only.");
-  }
-
   const sessions = await stripe.checkout.sessions.list({ limit: 100, status: "complete" });
   const paidOrders = sessions.data.filter(
     (session) => session.payment_status === "paid" && Boolean(session.metadata?.orderId),
@@ -238,6 +234,10 @@ export async function getAdminOrders(): Promise<AdminOrdersResponse> {
   for (let index = 0; index < paidOrders.length; index += 4) {
     const batch = paidOrders.slice(index, index + 4);
     orders.push(...(await Promise.all(batch.map((session) => mapSessionToOrder(session)))));
+  }
+
+  if (!configuration.cloudinary && orders.some((order) => order.originals.length < order.photoCount)) {
+    warnings.push("Some older orders only include the cloud previews saved at checkout.");
   }
 
   return { orders, configuration, warnings };
