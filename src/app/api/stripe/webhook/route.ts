@@ -24,6 +24,16 @@ type SessionMetadata = {
   socialMediaConsent?: string;
 };
 
+function escapeHtml(value: string) {
+  return value.replace(
+    /[&<>'"]/g,
+    (character) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#039;", '"': "&quot;" })[
+        character
+      ] ?? character,
+  );
+}
+
 function formatSocialConsent(value: string | undefined) {
   if (value === "allow") return "Approved for social media and portfolio use";
   if (value === "deny") return "Not approved (private delivery only)";
@@ -157,78 +167,85 @@ async function sendOrderConfirmationInvoice(session: Stripe.Checkout.Session, id
     priceDescription = `${photoCount} photos @ $1.00 each minus $${discount.toFixed(2)} bundle discount: $${calculatedTotal.toFixed(2)}`;
   }
 
-  const subject = `Order Confirmation & Invoice - RAW ARCHIVE #${orderId}`;
+  const subject = `You’re booked — RAW ARCHIVE #${orderId}`;
 
   const textBody = [
-    "Order Confirmation",
+    "Payment made it.",
+    "The photos are officially my problem now—the good kind.",
     "",
     `Order ID: ${orderId}`,
     `Date: ${orderDate}`,
     "",
-    "Items:",
-    `Photo Editing Service - ${priceDescription}`,
+    "Receipt:",
+    `Photo editing — ${priceDescription}`,
     "",
     `Total Amount Paid: ${amountFormatted}`,
     `Social media usage: ${socialConsent}`,
     "",
     metadata.editNotes ? `Your notes for editing:\n${metadata.editNotes}\n` : "",
-    "Thank you for your order!",
-    "We'll get your photos edited and send them to you soon.",
-    "We do not use or support AI editing workflows. Every image is edited by hand.",
+    "I’ll read your notes, edit every photograph by hand, and give the full set one last pass before it leaves.",
+    "Most orders are ready in 2–3 business days. I’ll email you the moment yours is done.",
+    "No AI, no generated details, no strange surprises.",
     "",
     `Questions? Email us at indoleanandrei5@gmail.com or visit ${siteUrl}/contact`,
   ].join("\n");
 
   const htmlBody = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
-      <div style="background: #050507; color: white; padding: 30px; text-align: center; border-radius: 10px; margin-bottom: 30px;">
-        <h1 style="margin: 0; font-size: 28px;">Order Confirmation</h1>
-        <p style="margin: 10px 0 0 0; color: #999;">RAW ARCHIVE PHOTOS</p>
+    <div style="margin:0;background:#f3f1ec;padding:32px 14px;color:#171717;font-family:Arial,Helvetica,sans-serif;">
+      <div style="max-width:620px;margin:0 auto;overflow:hidden;border:1px solid #dedbd4;border-radius:24px;background:#fff;">
+      <div style="background:#090909;color:white;padding:22px 28px;font-size:12px;letter-spacing:2px;">
+        RAW ARCHIVE PHOTOS
       </div>
 
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-        <p><strong>Order ID:</strong> #${orderId}</p>
+      <div style="padding:36px 28px;">
+      <p style="margin:0 0 12px;color:#777;font-size:12px;letter-spacing:1.8px;text-transform:uppercase;">Order #${escapeHtml(orderId)}</p>
+      <h1 style="margin:0;font-family:Georgia,serif;font-size:36px;font-weight:400;line-height:1.12;">Payment made it.</h1>
+      <p style="margin:16px 0 28px;color:#444;font-size:16px;line-height:1.7;">The photos are officially my problem now—the good kind.</p>
+
+      <div style="background:#f5f3ef;padding:18px;border-radius:16px;margin-bottom:24px;font-size:14px;line-height:1.65;">
         <p><strong>Date:</strong> ${orderDate}</p>
-        <p><strong>Email:</strong> ${clientEmail}</p>
+        <p><strong>Email:</strong> ${escapeHtml(clientEmail)}</p>
         <p><strong>Social media usage:</strong> ${socialConsent}</p>
       </div>
 
-      <div style="margin-bottom: 20px;">
-        <h3 style="margin-top: 0; color: #050507;">Invoice Details</h3>
+      <div style="margin-bottom:24px;">
+        <h2 style="margin:0 0 8px;font-family:Georgia,serif;font-size:24px;font-weight:400;">Receipt</h2>
         <table style="width: 100%; border-collapse: collapse;">
           <tr style="border-bottom: 2px solid #eee;">
             <td style="padding: 12px 0;"><strong>Description</strong></td>
             <td style="padding: 12px 0; text-align: right;"><strong>Amount</strong></td>
           </tr>
           <tr style="border-bottom: 1px solid #eee;">
-            <td style="padding: 12px 0;">Photo Editing Service - ${priceDescription}</td>
+            <td style="padding: 12px 0;">Photo editing — ${priceDescription}</td>
             <td style="padding: 12px 0; text-align: right;">${amountFormatted}</td>
           </tr>
-          <tr style="background: #050507; color: white;">
-            <td style="padding: 12px 0;"><strong>Total</strong></td>
-            <td style="padding: 12px 0; text-align: right;"><strong>${amountFormatted}</strong></td>
+          <tr style="border-top:2px solid #111;">
+            <td style="padding:14px 0;"><strong>Total paid</strong></td>
+            <td style="padding:14px 0;text-align:right;"><strong>${amountFormatted}</strong></td>
           </tr>
         </table>
       </div>
 
       ${metadata.editNotes ? `
-      <div style="background: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin-bottom: 20px; border-radius: 4px;">
-        <p style="margin: 0 0 10px 0;"><strong style="color: #0066cc;">Your Editing Notes:</strong></p>
-        <p style="margin: 0; white-space: pre-wrap; color: #333;">${metadata.editNotes}</p>
+      <div style="background:#f5f3ef;padding:18px;margin-bottom:24px;border-radius:16px;">
+        <p style="margin:0 0 8px;"><strong>Your note</strong></p>
+        <p style="margin:0;white-space:pre-wrap;color:#444;line-height:1.65;">${escapeHtml(metadata.editNotes)}</p>
       </div>
       ` : ""}
 
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0; color: #050507;">What's Next?</h3>
-        <p>Your payment has been received and confirmed. We're now working on editing your photos with care and precision. You'll receive your edited photos via email as soon as they're ready.</p>
-        <p style="margin-top: 10px; color: #333;">We do not use or support AI editing workflows. Every image is edited by hand.</p>
-        <p style="color: #666; font-size: 14px;">Typical turnaround time is 2-3 business days depending on the volume and complexity of your edits.</p>
+      <div style="margin-bottom:24px;">
+        <h2 style="margin:0 0 10px;font-family:Georgia,serif;font-size:24px;font-weight:400;">What happens now</h2>
+        <p style="margin:0;color:#444;line-height:1.7;">I’ll read your notes, edit every photograph by hand, and give the full set one last pass before it leaves.</p>
+        <p style="margin:12px 0 0;color:#444;line-height:1.7;">Most orders are ready in 2–3 business days. I’ll email you the moment yours is done.</p>
+        <p style="margin:12px 0 0;color:#444;line-height:1.7;">No AI, no generated details, no strange surprises.</p>
       </div>
 
-      <div style="border-top: 2px solid #eee; padding-top: 20px; margin-top: 30px; color: #666; font-size: 12px;">
-        <p style="margin: 0;">© 2026 RAW ARCHIVE PHOTOS. All rights reserved.</p>
-        <p style="margin: 10px 0 0 0;">Questions? <a href="mailto:indoleanandrei5@gmail.com" style="color: #0066cc; text-decoration: none;">Email us</a> or visit <a href="${siteUrl}/contact" style="color: #0066cc; text-decoration: none;">our contact page</a></p>
-        <p style="margin: 10px 0 0 0;">Follow us on <a href="https://instagram.com/rawarchivephotos" style="color: #0066cc; text-decoration: none;">Instagram @rawarchivephotos</a> or <a href="https://tiktok.com/@rawarchivephotos" style="color: #0066cc; text-decoration: none;">TikTok @rawarchivephotos</a></p>
+      <div style="border-top:1px solid #dedbd4;padding-top:20px;margin-top:28px;color:#666;font-size:13px;line-height:1.6;">
+        <p style="margin:0;">Questions? <a href="mailto:indoleanandrei5@gmail.com" style="color:#111;">Email me</a> or visit <a href="${siteUrl}/contact" style="color:#111;">the contact page</a>.</p>
+        <p style="margin:16px 0 0;color:#111;"><strong>— Andrei</strong><br>RAW ARCHIVE PHOTOS</p>
+      </div>
+      </div>
       </div>
     </div>
   `;

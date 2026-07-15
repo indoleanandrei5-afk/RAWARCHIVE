@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const PRICE_PER_PHOTO_CENTS = 100;
 const MAX_PHOTOS_PER_ORDER = 100;
 
 // Pricing rule: total equals photo count, except every 10th photo threshold gets
@@ -28,6 +27,14 @@ function sanitizeUrlList(value: unknown) {
     .map((item) => String(item).trim())
     .filter(Boolean)
     .join("\n")
+    .slice(0, 500);
+}
+
+function sanitizeFormatList(value: unknown) {
+  if (!Array.isArray(value)) return "";
+  return value
+    .flatMap((item) => typeof item === "string" && /^[a-z0-9]{2,8}$/i.test(item) ? [item.toLowerCase()] : [])
+    .join(",")
     .slice(0, 500);
 }
 
@@ -64,7 +71,9 @@ export async function POST(request: Request) {
     orderId?: unknown;
     cloudinaryFolder?: unknown;
     uploadedPreviewUrls?: unknown;
+    uploadedFormats?: unknown;
     socialMediaConsent?: unknown;
+    clientEmail?: unknown;
   };
   try {
     body = await request.json();
@@ -82,10 +91,12 @@ export async function POST(request: Request) {
   const orderId = sanitizeMetadataValue(body.orderId, 80);
   const cloudinaryFolder = sanitizeMetadataValue(body.cloudinaryFolder, 180);
   const uploadedPreviewUrls = sanitizeUrlList(body.uploadedPreviewUrls);
+  const uploadedFormats = sanitizeFormatList(body.uploadedFormats);
   const socialMediaConsentRaw = sanitizeMetadataValue(body.socialMediaConsent, 20).toLowerCase();
   const socialMediaConsent = socialMediaConsentRaw === "allow" || socialMediaConsentRaw === "deny"
     ? socialMediaConsentRaw
     : "";
+  const clientEmail = sanitizeMetadataValue(body.clientEmail, 254).toLowerCase();
 
   if (photoCount === 0) {
     return NextResponse.json({ message: "No items provided for checkout." }, { status: 400 });
@@ -98,7 +109,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const origin = request.headers.get("origin") || "http://localhost:3000";
+  if (!orderId || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) {
+    return NextResponse.json({ message: "A valid order ID and email are required." }, { status: 400 });
+  }
+
+  let origin = new URL(request.url).origin;
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    try {
+      origin = new URL(process.env.NEXT_PUBLIC_SITE_URL).origin;
+    } catch {
+      return NextResponse.json({ message: "NEXT_PUBLIC_SITE_URL is invalid." }, { status: 500 });
+    }
+  }
   const tieredPrice = calculateTieredPrice(photoCount);
 
   try {
@@ -106,6 +128,8 @@ export async function POST(request: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
+      customer_email: clientEmail,
+      client_reference_id: orderId,
       line_items: [
         {
           price_data: {
@@ -124,10 +148,15 @@ export async function POST(request: Request) {
         photoNames: photoNames.join(", ").slice(0, 500),
         ...(cloudinaryFolder ? { cloudinaryFolder } : {}),
         ...(uploadedPreviewUrls ? { uploadedPreviewUrls } : {}),
+        ...(uploadedFormats ? { uploadedFormats, assetNamingVersion: "v1" } : {}),
         ...(editNotes ? { editNotes } : {}),
         ...(socialMediaConsent ? { socialMediaConsent } : {}),
+        workflowStatus: "received",
       },
-      success_url: `/success`,
+      payment_intent_data: {
+        metadata: { orderId },
+      },
+      success_url: `${origin}/success?order_id=${encodeURIComponent(orderId)}`,
       cancel_url: `${origin}/upload?canceled=true`,
     });
 

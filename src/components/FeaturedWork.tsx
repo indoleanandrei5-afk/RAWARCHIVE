@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const featuredImages = [
   { src: "/images/portfolio/film-portrait-street.jpeg", alt: "Portrait in warm evening light on a city street", width: 721, height: 1088 },
-  { src: "/images/image1.webp", alt: "Candid flash portrait of a couple at dinner", width: 721, height: 1088 },
+  { src: "/images/portfolio/film-portrait-motion.jpeg", alt: "Candid flash portrait with deliberate motion", width: 721, height: 1088 },
   { src: "/images/portfolio/film-portrait-dinner.jpeg", alt: "Flash portrait at a dinner table", width: 1444, height: 2178 },
   { src: "/images/image3.webp", alt: "Portrait of two people beside a car", width: 1444, height: 2178 },
   { src: "/images/image7.webp", alt: "Editorial portrait outdoors with restrained color", width: 2075, height: 3130 },

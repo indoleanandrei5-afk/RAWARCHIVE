@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element -- this gallery preserves the authored image files and their natural presentation. */
+
 import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { trackEvent } from "@/lib/analytics";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -34,12 +35,20 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[calc(100svh-4.25rem)] items-center justify-center overflow-hidden bg-black px-4 py-16 text-white sm:min-h-[calc(100svh-5rem)] sm:px-6 sm:py-20">
-      <motion.img
-        src="/images/image1.webp"
-        alt="Professional portrait photo editing by RAW ARCHIVE PHOTOS"
+      <motion.div
         style={{ y: bgY, scale: bgScale }}
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-[52%_36%] brightness-[0.76] contrast-[1.04] saturate-[0.86]"
-      />
+        className="absolute inset-0 -z-10"
+      >
+        <Image
+          src="/images/image1.webp"
+          alt="Portrait edited by RAW ARCHIVE PHOTOS"
+          fill
+          loading="eager"
+          quality={92}
+          sizes="100vw"
+          className="object-cover object-[52%_36%] brightness-[0.76] contrast-[1.04] saturate-[0.86]"
+        />
+      </motion.div>
       <div className="absolute inset-0 bg-linear-to-b from-black/52 via-black/58 to-black/90" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_24%,rgba(221,214,201,0.16),transparent_42%)]" />
       <div
@@ -60,16 +69,16 @@ export default function Hero() {
         </motion.p>
 
         <motion.h1 variants={heroItem} className="mx-auto max-w-5xl text-[clamp(2.15rem,6vw,5.35rem)] font-medium leading-[0.98] tracking-[-0.025em] text-white">
-          Transform raw photos
-          <span className="mt-2 block text-[0.92em] font-light text-white/90 sm:mt-3">into clean, elevated visuals.</span>
+          Your photos,
+          <span className="mt-2 block text-[0.92em] font-light text-white/90 sm:mt-3">on a very good day.</span>
         </motion.h1>
 
         <motion.p variants={heroItem} className="tone-soft mx-auto mt-7 max-w-2xl text-[15px] leading-7 sm:mt-9 sm:text-lg md:text-xl">
-          I fix the color, tame the highlights, keep skin looking like skin, and leave the personality alone.
+          I sort the colour, light, and little distractions. You still look like you. The photograph still feels like yours.
         </motion.p>
 
         <motion.p variants={heroItem} className="tone-muted mx-auto mt-4 max-w-3xl text-xs leading-6 tracking-[0.035em] sm:text-sm sm:leading-7">
-          I do not use AI editing, and I do not support AI-generated retouching. Every image is edited by me, by hand.
+          No AI. No generated details. Every frame is edited by me, by hand.
         </motion.p>
 
         <motion.div variants={heroItem} className="tone-faint mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-2 border-y border-white/10 py-3 text-[10px] uppercase tracking-[0.12em] sm:mt-7 sm:gap-x-4 sm:text-xs sm:tracking-[0.22em]">
@@ -96,7 +105,7 @@ export default function Hero() {
                 }
                 className="btn-primary cta-sheen inline-flex min-h-12 w-full px-7 py-3 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-550 ease-out sm:w-auto sm:min-w-52 sm:text-sm"
               >
-                Upload Photos
+                Send Photos
               </Link>
             </div>
             <div>
@@ -104,7 +113,7 @@ export default function Hero() {
                 href="/portfolio"
                 className="btn-secondary inline-flex min-h-12 w-full px-7 py-3 text-xs uppercase tracking-[0.16em] transition-all duration-550 ease-out sm:w-auto sm:min-w-52 sm:text-sm"
               >
-                View Portfolio
+                See the Work
               </Link>
             </div>
           </div>

@@ -6,9 +6,11 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const [menuState, setMenuState] = useState({ open: false, pathname });
+  const [isScrolled, setIsScrolled] = useState(false);
+  const isOpen = menuState.open && menuState.pathname === pathname;
+  const closeMenu = () => setMenuState({ open: false, pathname });
   const ease = [0.22, 1, 0.36, 1] as const;
 
   useEffect(() => {
@@ -30,16 +32,11 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (!isOpen) return;
-    setIsOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpen(false);
+      if (event.key === "Escape") setMenuState({ open: false, pathname });
     };
     const onResize = () => {
-      if (window.innerWidth >= 1280) setIsOpen(false);
+      if (window.innerWidth >= 1280) setMenuState({ open: false, pathname });
     };
 
     window.addEventListener("keydown", onKeyDown);
@@ -48,7 +45,7 @@ export default function Navbar() {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -85,6 +82,7 @@ export default function Navbar() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.55, ease }} className="shrink-0">
           <Link
             href="/"
+            onClick={closeMenu}
             className="whitespace-nowrap break-keep text-[11px] font-medium uppercase tracking-[0.18em] text-white max-[390px]:text-[10px] max-[390px]:tracking-[0.08em] sm:text-sm sm:tracking-[0.28em]"
           >
           <span className="max-[390px]:hidden">RAW ARCHIVE PHOTOS</span>
@@ -95,7 +93,7 @@ export default function Navbar() {
         <div className="ml-auto xl:hidden">
           <motion.button
             type="button"
-            onClick={() => setIsOpen((open) => !open)}
+            onClick={() => setMenuState({ open: !isOpen, pathname })}
             whileTap={{ scale: 0.98 }}
             className="inline-flex min-h-11 items-center gap-3 px-1 text-[10px] uppercase tracking-[0.18em] text-white/72 transition-colors hover:text-white"
             aria-expanded={isOpen}
@@ -146,7 +144,7 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     aria-current={pathname === link.href ? "page" : undefined}
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeMenu}
                     className={`group flex min-h-14 items-center justify-between border-b px-0 py-4 whitespace-nowrap break-keep transition-colors duration-300 ${
                       pathname === link.href
                         ? "border-white/28 text-white"

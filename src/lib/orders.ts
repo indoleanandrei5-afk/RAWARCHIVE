@@ -1,8 +1,14 @@
-export type OrderStatus = "pending" | "success" | "canceled";
+export type OrderStatus =
+  | "pending"
+  | "success"
+  | "editing"
+  | "ready"
+  | "canceled";
 
 export type Order = {
   id: string;
   createdAt: string;
+  updatedAt?: string;
   photoCount: number;
   total: number;
   status: OrderStatus;
@@ -49,7 +55,9 @@ export function removeOrderById(orderId: string) {
 export function updateOrderStatus(orderId: string, status: OrderStatus) {
   const orders = getStoredOrders();
   const next = orders.map((order) =>
-    order.id === orderId ? { ...order, status } : order,
+    order.id === orderId
+      ? { ...order, status, updatedAt: new Date().toISOString() }
+      : order,
   );
   saveStoredOrders(next);
 }
@@ -61,6 +69,29 @@ export function updateOrderUploadedUrls(orderId: string, uploadedUrls: string[])
   );
   saveStoredOrders(next);
 }
+
+export function updateOrderEditedUrls(orderId: string, editedUrls: string[]) {
+  const orders = getStoredOrders();
+  const next = orders.map((order) =>
+    order.id === orderId
+      ? {
+          ...order,
+          editedUrls,
+          status: "ready" as const,
+          updatedAt: new Date().toISOString(),
+        }
+      : order,
+  );
+  saveStoredOrders(next);
+}
+
+export const orderStatusLabels: Record<OrderStatus, string> = {
+  pending: "Awaiting payment",
+  success: "Received",
+  editing: "Editing",
+  ready: "Ready",
+  canceled: "Canceled",
+};
 
 export function getLatestPendingOrder(): Order | undefined {
   return getStoredOrders().find((order) => order.status === "pending");

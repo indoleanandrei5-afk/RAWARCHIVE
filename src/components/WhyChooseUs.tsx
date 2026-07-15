@@ -74,6 +74,17 @@ export default function WhyChooseUs() {
             </motion.div>
           ))}
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={{ duration: REVEAL_DURATION, ease: MOTION_EASE }}
+          className="mt-14 flex flex-col gap-3 border-y border-white/10 py-6 text-sm leading-6 text-gray-300 sm:mt-20 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <p>One person edits the photographs. One person answers your email.</p>
+          <p className="text-white">Conveniently, both are me.</p>
+        </motion.div>
       </div>
     </section>
   );

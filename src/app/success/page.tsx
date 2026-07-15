@@ -1,8 +1,10 @@
 import Link from "next/link";
+import SuccessOrderMarker from "@/components/SuccessOrderMarker";
 
 export default function SuccessPage() {
   return (
     <main className="page-wrap relative overflow-hidden px-6 py-24 text-white">
+      <SuccessOrderMarker />
       <div className="page-overlay" />
 
       <div className="page-container mx-auto max-w-3xl text-center">
@@ -12,8 +14,8 @@ export default function SuccessPage() {
 
         <p className="eyebrow">PAYMENT SUCCESSFUL</p>
 
-        <h1 className="mt-5 text-5xl font-bold">
-          Got them. Thank you.
+        <h1 className="mt-5 text-5xl font-semibold tracking-[-0.04em]">
+          Good. I&apos;ll take it from here.
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
@@ -38,14 +40,14 @@ export default function SuccessPage() {
             href="/"
             className="btn-primary px-8 py-3"
           >
-            Back to Home
+            Back home
           </Link>
 
           <Link
-            href="/contact"
+            href="/dashboard"
             className="rounded-xl border border-white/20 px-8 py-3 transition hover:bg-white hover:text-black"
           >
-            Contact
+            Track the order
           </Link>
         </div>
       </div>

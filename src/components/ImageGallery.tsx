@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { trackEvent } from "@/lib/analytics";
 
 type GalleryImage = {
   src: string;
@@ -106,6 +108,7 @@ export default function ImageGallery({
                   onClick={() => {
                     setSelectedIndex(null);
                     setActiveCategory(category);
+                    trackEvent("portfolio_filter_selected", { category });
                   }}
                   aria-pressed={activeCategory === category}
                   className={`group/filter relative flex items-baseline gap-2 py-1 text-[11px] uppercase tracking-[0.16em] transition-colors duration-300 sm:text-xs ${
@@ -141,7 +144,13 @@ export default function ImageGallery({
           <motion.button
             key={image.src}
             type="button"
-            onClick={() => setSelectedIndex(index)}
+            onClick={() => {
+              setSelectedIndex(index);
+              trackEvent("portfolio_image_opened", {
+                category: image.category ?? "Archive",
+                image_position: index + 1,
+              });
+            }}
             variants={{
               hidden: { opacity: 0, y: 12 },
               show: { opacity: 1, y: 0, transition: { duration: 0.58, ease } },
@@ -156,13 +165,14 @@ export default function ImageGallery({
                 (mediaClassName ? mediaClassName(index, visibleImages.length) : "")
               }`}
             >
-              <img
+              <Image
                 src={image.src}
                 alt={image.alt}
                 width={image.width}
                 height={image.height}
                 loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
+                quality={92}
+                sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
                 className="block h-auto w-full transition-[filter,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:brightness-[0.94] group-hover:scale-[1.008]"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

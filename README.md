@@ -64,7 +64,23 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
 
 After setup, uploaded files can be found in your Cloudinary Media Library under folders:
 
-`raw-archive-orders/<order-id>`
+`raw-archive-orders/<order-id>/temp`
+
+## Private admin dashboard
+
+The private studio lives at `/admin/login`. It uses Stripe as the paid-order register and Cloudinary as the photograph library, so the same data is visible from a phone, tablet, or another computer.
+
+Add these private server variables locally and in Vercel:
+
+```bash
+ADMIN_PASSWORD=choose-a-long-private-password
+ADMIN_SESSION_SECRET=at-least-32-random-characters
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+STRIPE_SECRET_KEY=sk_...
+```
+
+The public Cloudinary variables from the upload section are also used to add finished photographs from the dashboard. Never expose `ADMIN_SESSION_SECRET`, `CLOUDINARY_API_SECRET`, or `STRIPE_SECRET_KEY` as `NEXT_PUBLIC_` variables.
 
 ## Payment success email notifications
 

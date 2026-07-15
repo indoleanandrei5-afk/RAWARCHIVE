@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element -- the comparison must render both source files identically, without separate optimization. */
+
 import { useEffect, useRef, useState } from "react";
 
 interface BeforeAfterSliderProps {

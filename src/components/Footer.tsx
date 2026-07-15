@@ -191,8 +191,14 @@ export default function Footer() {
             </div>
           </div>
         </motion.div>
-        <div className="tone-faint border-t border-white/10 pt-6 text-center text-xs uppercase tracking-[0.12em]">
-          <p>© 2026 RAW ARCHIVE PHOTOS. All rights reserved.</p>
+        <div className="tone-faint flex flex-col gap-4 border-t border-white/10 pt-6 text-center text-xs sm:flex-row sm:items-center sm:justify-between sm:text-left">
+          <p className="uppercase tracking-[0.12em]">© 2026 RAW ARCHIVE PHOTOS. All rights reserved.</p>
+          <nav aria-label="Legal and order links" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:justify-end">
+            <Link href="/dashboard" className="transition hover:text-white">Order status</Link>
+            <Link href="/privacy" className="transition hover:text-white">Privacy</Link>
+            <Link href="/terms" className="transition hover:text-white">Terms</Link>
+            <Link href="/refunds" className="transition hover:text-white">Refunds</Link>
+          </nav>
         </div>
       </motion.div>
     </footer>

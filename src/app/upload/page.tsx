@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, updateOrderUploadedUrls, Order } from "@/lib/orders";
+import Link from "next/link";
+import Image from "next/image";
+import { addOrder, getLatestPendingOrder, removeOrderById, updateOrderStatus, Order } from "@/lib/orders";
 import { trackEvent } from "@/lib/analytics";
 
 // Pricing rule: total equals photo count, except every 10th photo threshold gets
@@ -17,7 +19,27 @@ type UploadedAsset = {
   secureUrl: string;
   publicId: string;
   originalFilename: string;
+  format: string;
 };
+
+function SelectedFilePreview({ file }: { file: File }) {
+  const previewUrl = useMemo(() => URL.createObjectURL(file), [file]);
+
+  useEffect(() => {
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
+
+  return (
+    <Image
+      src={previewUrl}
+      alt={file.name}
+      width={64}
+      height={64}
+      unoptimized
+      className="h-full w-full object-contain"
+    />
+  );
+}
 
 const editDirections = [
   "Natural",
@@ -32,7 +54,7 @@ type EditDirection = (typeof editDirections)[number];
 async function uploadFilesToCloudinaryRaw(
   orderId: string,
   filesToUpload: File[],
-  isTemporary: boolean = false,
+  onProgress?: (completed: number, total: number) => void,
 ): Promise<UploadedAsset[]> {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
@@ -42,7 +64,7 @@ async function uploadFilesToCloudinaryRaw(
   }
 
   const uploadedAssets: UploadedAsset[] = [];
-  const folderPath = isTemporary ? `raw-archive-orders/${orderId}/temp` : `raw-archive-orders/${orderId}`;
+  const folderPath = `raw-archive-orders/${orderId}/temp`;
 
   for (let index = 0; index < filesToUpload.length; index += 1) {
     const file = filesToUpload[index];
@@ -51,7 +73,9 @@ async function uploadFilesToCloudinaryRaw(
     formData.append("file", file);
     formData.append("upload_preset", uploadPreset);
     formData.append("folder", folderPath);
-    formData.append("tags", isTemporary ? "raw-archive,temp-upload" : "raw-archive,paid-upload");
+    formData.append("public_id", `original-${String(index + 1).padStart(3, "0")}`);
+    formData.append("tags", "raw-archive,order-original");
+    formData.append("context", `order_id=${orderId}|asset_kind=original`);
 
     const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
       method: "POST",
@@ -68,7 +92,9 @@ async function uploadFilesToCloudinaryRaw(
       secureUrl: data.secure_url,
       publicId: data.public_id,
       originalFilename: file.name,
+      format: typeof data.format === "string" ? data.format : "jpg",
     });
+    onProgress?.(index + 1, filesToUpload.length);
   }
 
   return uploadedAssets;
@@ -91,6 +117,7 @@ export default function Upload() {
     if (!selectedFiles) return;
 
     const incomingFiles = Array.from(selectedFiles);
+    trackEvent("photos_selected", { selected_count: incomingFiles.length });
     setFiles((current) => {
       const merged = [...current, ...incomingFiles];
       if (!selectedTierPreview) return merged;
@@ -110,6 +137,7 @@ export default function Upload() {
   };
 
   const handleTierSelect = (tier: number) => {
+    trackEvent("tier_selected", { tier });
     setSelectedTierPreview(tier);
     setFiles((current) => current.slice(0, tier));
     setIsCheckoutOpen(false);
@@ -134,9 +162,18 @@ export default function Upload() {
   const [editDirection, setEditDirection] = useState<EditDirection>("Natural");
   const [clientEmail, setClientEmail] = useState("");
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
-  const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
   const [selectedTierPreview, setSelectedTierPreview] = useState(10);
   const [socialMediaConsent, setSocialMediaConsent] = useState<"allow" | "deny" | null>(null);
+  const checkoutStatusTrackedRef = useRef<string | null>(null);
+
+  const openCheckout = (buttonLocation: string) => {
+    trackEvent("checkout_review_opened", {
+      button_location: buttonLocation,
+      photo_count: files.length,
+      total: totalPrice,
+    });
+    setIsCheckoutOpen(true);
+  };
 
   const checkoutStatus: "success" | "canceled" | null =
     typeof window === "undefined"
@@ -160,47 +197,37 @@ export default function Upload() {
   }, [files.length]);
 
   useEffect(() => {
-    if (checkoutStatus === "success") {
-      const pending = getLatestPendingOrder();
-      if (pending && filesToUpload.length > 0) {
-        // Upload files after payment confirmation
-        uploadFilesToCloudinaryRaw(pending.id, filesToUpload, false)
-          .then((uploadedAssets) => {
-            // Update order with uploaded URLs
-            updateOrderUploadedUrls(pending.id, uploadedAssets.map((a) => a.secureUrl));
-            updateOrderStatus(pending.id, "success");
-          })
-          .catch((error) => {
-            console.error("Failed to upload files after payment:", error);
-            updateOrderStatus(pending.id, "success");
-          });
-      } else if (pending) {
-        updateOrderStatus(pending.id, "success");
-      }
-    } else if (checkoutStatus === "canceled") {
+    if (checkoutStatus && checkoutStatusTrackedRef.current !== checkoutStatus) {
+      trackEvent(`checkout_${checkoutStatus}`);
+      checkoutStatusTrackedRef.current = checkoutStatus;
+    }
+  }, [checkoutStatus]);
+
+  useEffect(() => {
+    if (checkoutStatus === "canceled") {
       const pending = getLatestPendingOrder();
       if (pending) {
         updateOrderStatus(pending.id, "canceled");
       }
     }
-  }, [checkoutStatus, filesToUpload]);
+  }, [checkoutStatus]);
 
   const handleCheckout = async () => {
     if (files.length === 0) return;
     
     if (!clientEmail.trim()) {
-      setCheckoutError("Please enter your email address");
+      setCheckoutError("I need an email address so the finished files know where to go.");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(clientEmail)) {
-      setCheckoutError("Please enter a valid email address");
+      setCheckoutError("That email address looks incomplete. Give it one more look.");
       return;
     }
 
     if (!socialMediaConsent) {
-      setCheckoutError("Please choose your social media usage preference before checkout.");
+      setCheckoutError("Choose whether the finished photographs may be shared. Private is always perfectly fine.");
       return;
     }
 
@@ -215,10 +242,16 @@ export default function Upload() {
     ].filter(Boolean).join("\n\n");
 
     try {
-      // Store files for upload after payment
-      setFilesToUpload(files);
+      trackEvent("checkout_started", {
+        photo_count: files.length,
+        total: totalPrice,
+        creative_direction: editDirection,
+      });
+      setUploadStatus(`Uploading 0 of ${files.length} photos securely…`);
+      const uploadedAssets = await uploadFilesToCloudinaryRaw(orderId, files, (completed, total) => {
+        setUploadStatus(`Uploading ${completed} of ${total} photos securely…`);
+      });
 
-      // Create order WITHOUT uploading files yet
       const pendingOrder: Order = {
         id: orderId,
         createdAt: new Date().toISOString(),
@@ -229,6 +262,7 @@ export default function Upload() {
         clientEmail,
         editNotes: combinedEditNotes,
         socialMediaConsent,
+        uploadedUrls: uploadedAssets.map((asset) => asset.secureUrl),
       };
 
       addOrder(pendingOrder);
@@ -238,11 +272,13 @@ export default function Upload() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           orderId,
-          cloudinaryFolder: `raw-archive-orders/${orderId}`,
+          cloudinaryFolder: `raw-archive-orders/${orderId}/temp`,
           items: files.map((file) => ({
             name: file.name,
           })),
-          uploadedPreviewUrls: [],
+          uploadedPreviewUrls: uploadedAssets.slice(0, 3).map((asset) => asset.secureUrl),
+          uploadedFormats: uploadedAssets.map((asset) => asset.format),
+          clientEmail: clientEmail.trim(),
           editNotes: combinedEditNotes,
           socialMediaConsent,
         }),
@@ -255,7 +291,8 @@ export default function Upload() {
         throw new Error(data.message || "Unable to create checkout session");
       }
       if (data.url) {
-        setUploadStatus("Redirecting to secure payment...");
+        trackEvent("checkout_redirected", { photo_count: files.length, total: totalPrice });
+        setUploadStatus("Photos are safe. Opening secure payment…");
         window.location.assign(data.url);
       }
     } catch (error) {
@@ -462,7 +499,7 @@ export default function Upload() {
               <button
                 type="button"
                 disabled={files.length !== selectedTierPreview}
-                onClick={() => setIsCheckoutOpen(true)}
+                onClick={() => openCheckout("tier_card")}
                 className="btn-primary cta-sheen inline-flex px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition disabled:cursor-not-allowed disabled:opacity-45"
               >
                 Review these {selectedTierPreview}
@@ -498,7 +535,7 @@ export default function Upload() {
               <button
                 type="button"
                 disabled={files.length === 0}
-                onClick={() => setIsCheckoutOpen(true)}
+                onClick={() => openCheckout("order_summary")}
                 className="mt-10 w-full rounded-full border border-white/20 bg-(--accent-strong) px-8 py-4 font-semibold text-black/90 transition hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Review and pay
@@ -570,6 +607,7 @@ export default function Upload() {
                       type="button"
                       onClick={() => {
                         setSocialMediaConsent("allow");
+                        trackEvent("sharing_preference_selected", { preference: "allow" });
                         if (checkoutError) setCheckoutError(null);
                       }}
                       aria-pressed={socialMediaConsent === "allow"}
@@ -586,6 +624,7 @@ export default function Upload() {
                       type="button"
                       onClick={() => {
                         setSocialMediaConsent("deny");
+                        trackEvent("sharing_preference_selected", { preference: "private" });
                         if (checkoutError) setCheckoutError(null);
                       }}
                       aria-pressed={socialMediaConsent === "deny"}
@@ -612,6 +651,9 @@ export default function Upload() {
                       {checkoutError}
                     </p>
                   )}
+                  <p className="text-xs leading-5 text-white/50">
+                    By paying, you agree to the <Link href="/terms" className="text-white/75 underline underline-offset-4">Terms</Link>, <Link href="/privacy" className="text-white/75 underline underline-offset-4">Privacy Policy</Link>, and <Link href="/refunds" className="text-white/75 underline underline-offset-4">Refund Policy</Link>. Short versions, plain English.
+                  </p>
                   <div className="flex flex-col gap-4 sm:flex-row">
                     <button
                       type="button"
@@ -619,7 +661,7 @@ export default function Upload() {
                       onClick={handleCheckout}
                       className="flex-1 rounded-full border border-white/20 bg-(--accent-strong) px-8 py-4 font-semibold text-black/90 transition hover:bg-(--accent) disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      {checkoutLoading ? "Redirecting…" : `Pay $${totalPrice}`}
+                      {checkoutLoading ? "Preparing everything…" : `Pay $${totalPrice}`}
                     </button>
                     <button
                       type="button"
@@ -641,17 +683,10 @@ export default function Upload() {
                 <p className="pro-subtitle mt-6">No photos selected yet.</p>
               ) : (
                 <div className="mt-6 space-y-4">
-                  {files.map((file, index) => {
-                    const previewUrl = URL.createObjectURL(file);
-
-                    return (
+                  {files.map((file, index) => (
                     <div key={`${file.name}-${index}`} className="pro-panel flex items-center gap-4 p-4">
                       <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white/10">
-                        <img
-                          src={previewUrl}
-                          alt={file.name}
-                          className="max-h-full max-w-full object-contain"
-                        />
+                        <SelectedFilePreview file={file} />
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium">{file.name}</p>
@@ -665,8 +700,7 @@ export default function Upload() {
                         Remove
                       </button>
                     </div>
-                    );
-                  })}
+                  ))}
                 </div>
               )}
             </div>
